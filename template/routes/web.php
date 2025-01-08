@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
+
 Route::get('/', function () {
-    return redirect()->route('index');
+    return view('pokemon.login');
 })->name('/');
+
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {
@@ -358,3 +360,7 @@ Route::get('/clear-cache', function () {
     Artisan::call('route:clear');
     return "Cache is cleared";
 })->name('clear.cache');
+
+Route::get('/pokemon-login', function () {
+    return view('Pokemon.Login');
+});
