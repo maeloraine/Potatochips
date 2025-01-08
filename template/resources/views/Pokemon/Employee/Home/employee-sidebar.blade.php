@@ -17,11 +17,6 @@
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
                                 aria-hidden="true"></i></div>
                     </li>
-                    <!-- <li class="pin-title sidebar-main-title">
-                        <div>
-                            <h6>Pinned</h6>
-                        </div>
-                    </li> -->
                     <li class="sidebar-main-title">
                         <div>
                             <h6 class="lan-1">General</h6>
@@ -29,7 +24,7 @@
                     </li>
                     <!-- Dashboard -->
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-                        <label class="badge badge-light-primary">5</label><a class="sidebar-link sidebar-title"
+                        <label class="badge badge-light-primary"></label><a class="sidebar-link sidebar-title"
                             href="{{ route('employee-dashboard') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-home') }}"></use>
@@ -54,11 +49,11 @@
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                             </svg><span>Guest Information</span></a>
-                        <!-- <ul class="sidebar-submenu">
+                        <ul class="sidebar-submenu">
                             <li><a href="{{ route('user-profile') }}">Users Profile</a></li>
                             <li><a href="{{ route('edit-profile') }}">Users Edit</a></li>
                             <li><a href="{{ route('user-cards') }}">Users Cards</a></li>
-                        </ul> -->
+                        </ul>
                     </li>
                     <!-- Booking Information -->
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
@@ -71,14 +66,26 @@
                             </svg><mation>Booking Information</span></a>
                     </li>
                     <!-- Billing -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('task') }}">
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                            href="#">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"> </use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"></use>
                             </svg><span>Billing</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('product') }}">Product</a></li>
+                            <li><a href="{{ route('product-page') }}">Product page</a></li>
+                            <li><a href="{{ route('list-products') }}">Product list</a></li>
+                            <li><a href="{{ route('payment-details') }}">Payment Details</a></li>
+                            <li><a href="{{ route('order-history') }}">Order History</a></li>
+                            <li><a href="{{ route('invoice-template') }}">Invoice</a></li>
+                            <li><a href="{{ route('cart') }}">Cart</a></li>
+                            <li><a href="{{ route('list-wish') }}">Wishlist</a></li>
+                            <li><a href="{{ route('checkout') }}">Checkout</a></li>
+                            <li><a href="{{ route('pricing') }}">Pricing </a></li>
+                        </ul>
                     </li>
                     <!-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                             href="#">
@@ -134,7 +141,21 @@
                         </ul>
                     </li>
                     <!-- User Management -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                            href="#">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-learning') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-learning') }}"></use>
+                            </svg><span>User Management</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('user-profile') }}">Users Profile</a></li>
+                            <li><a href="{{ route('edit-profile') }}">Users Edit</a></li>
+                            <li><a href="{{ route('user-cards') }}">Users Cards</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-learning') }}"></use>
                             </svg>
@@ -145,7 +166,7 @@
                             <li><a href="{{ route('learning-list-view') }}">Learning List</a></li>
                             <li><a href="{{ route('learning-detailed') }}">Detailed Course</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li class="sidebar-main-title">
                         <div>
                             <h6 class="lan-8">Applications</h6>
