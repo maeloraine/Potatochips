@@ -18,6 +18,17 @@
                <div class="login-main">
                   <form class="theme-form">
                      <h4>Create your account</h4>
+                     <!-- Role Selection -->
+                     <div class="form-group">
+                        <div class="mb-3">
+                           <select class="form-select" id="role" required>
+                              <option value="" selected disabled>Select your role</option>
+                              <option value="receptionist">Receptionist</option>
+                              <option value="manager">Manager</option>
+                              <option value="admin">Admin</option>
+                           </select>
+                        </div>                  
+                     </div>
                      <p>Enter your personal details to create account</p>
                      <div class="form-group">
                         <label class="col-form-label pt-0">Your Name</label>
