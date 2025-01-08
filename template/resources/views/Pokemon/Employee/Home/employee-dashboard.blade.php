@@ -11,7 +11,7 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Default</h3>
+    <h3>Dashboard</h3>
 @endsection
 
 @section('breadcrumb-items')
@@ -28,13 +28,13 @@
 			<div class="media">
 			  <div class="media-body"> 
 				<div class="greeting-user">
-				  <h4 class="f-w-600">Welcome to cuba</h4>
-				  <p>Here whats happing in your account today</p>
-				  <div class="whatsnew-btn"><a class="btn btn-outline-white">Whats New !</a></div>
+				  <h4 class="f-w-600">Welcome to Hacienda Jenson</h4>
+				  <p>Here what's happening in your resort</p>
+				  <!-- <div class="whatsnew-btn"><a class="btn btn-outline-white">Whats New !</a></div> -->
 				</div>
 			  </div>
 			  <div>  
-				<div class="clockbox">
+				<!-- <div class="clockbox">
 				  <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
 					<g id="face">
 					  <circle class="circle" cx="300" cy="300" r="253.9"></circle>
@@ -54,11 +54,11 @@
 					  <circle class="sizing-box" cx="300" cy="300" r="253.9">   </circle>
 					</g>
 				  </svg>
-				</div>
+				</div> -->
 				<div class="badge f-10 p-0" id="txt"></div>
 			  </div>
 			</div>
-			<div class="cartoon"><img class="img-fluid" src="{{ asset('assets/images/dashboard/cartoon.svg') }}" alt="vector women with leptop"></div>
+			<!-- <div class="cartoon"><img class="img-fluid" src="{{ asset('assets/images/dashboard/cartoon.svg') }}" alt="vector women with leptop"></div> -->
 		  </div>
 		</div>
 	  </div>
