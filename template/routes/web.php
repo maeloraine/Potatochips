@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 
 
 Route::get('/', function () {
-    return view('pokemon.login');
+    return view('pokemon.employee.authentication.login');
 })->name('/');
 
 
@@ -361,6 +361,32 @@ Route::get('/clear-cache', function () {
     return "Cache is cleared";
 })->name('clear.cache');
 
-Route::get('/pokemon-login', function () {
-    return view('Pokemon.Login');
-});
+// Admin and Employee Side
+Route::get('employee/sign-up', function () {
+    return view('Pokemon.Employee.Authentication.sign-up');
+})->name('sign-up');
+
+Route::get('/employee-login', function () {
+    return view('Pokemon.Employee.Authentication.login');
+})->name('login');
+
+Route::get('/employee/forgot-password', function () {
+    return view('Pokemon.Employee.Authentication.forgot-password');
+})->name('forgot-password');
+
+Route::get('/employee/home/dashboard', function () {
+    return view('Pokemon.Employee.Home.employee-dashboard');
+})->name('employee-dashboard');
+
+// Customer Side
+Route::get('customer/sign-up', function () {
+    return view('Pokemon.Customer.Authentication.customer-sign-up');
+})->name('customer-sign-up');
+
+Route::get('/customer-login', function () {
+    return view('Pokemon.Customer.Authentication.customer-login');
+})->name('customer-login');
+
+Route::get('/customer/forgot-password', function () {
+    return view('Pokemon.Customer.Authentication.customer-forgot-password');
+})->name('customer-forgot-password');
