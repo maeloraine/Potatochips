@@ -8,7 +8,7 @@
 
 -----------------------------------------------------------------------------------
  */
-:root {
+ :root {
   --theme-deafult: #7366ff;
   --theme-secondary: #f73164;
   --light-background: rgba(242, 243, 247, 0.7);
@@ -57,6 +57,13 @@ body[class=dark-only] {
 /**=====================
      Reset css start
 ==========================**/
+
+.customer-img img {
+  width: 100%; /* Makes the image fill the container */
+  height: 100%; /* Ensures the image fits the container */
+  object-fit: cover; /* Ensures the image scales properly and stays centered */
+}
+
 .font-roboto {
   font-family: Roboto, sans-serif;
 }
@@ -17925,6 +17932,8 @@ footer.blockquote-footer {
 .gallery .hover-11:hover img {
   opacity: 0.5;
 }
+
+
 @-webkit-keyframes flash {
   0% {
     opacity: 0.4;
@@ -19279,12 +19288,15 @@ footer {
   background: #FFFAFA;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   border-radius: 100%;
-  display: flex;
+  display: inline-block;
   align-items: center;
   justify-content: center;
   position: absolute;
   bottom: -25px;
+  overflow: hidden;
 }
+
+/* */
 .testimonial-box p {
   margin-bottom: 0;
 }
@@ -20542,6 +20554,74 @@ footer {
   margin-left: 0;
   color: #fff;
 }
+.footer-bg img {
+  max-width: 100%; /* Ensures the image does not exceed the container's width */
+  height: auto; /* Maintains the aspect ratio */
+  width: 200px; /* Set a specific width for the images */
+  display: block; /* Ensures the image behaves predictably inside containers */
+  margin: 0 auto; /* Centers the image horizontally if needed */
+}
+
+.footer-bg ul {
+  list-style: none; /* Removes default bullet points */
+  padding: 0; /* Removes default padding */
+  margin: 0; /* Removes default margin */
+  display: flex; /* Aligns list items horizontally */
+  justify-content: space-around; /* Distributes items with equal spacing */
+  flex-wrap: wrap; /* Allows wrapping if there isn't enough space */
+  width: 90%;
+}
+
+.footer-bg ul li {
+  text-align: center; /* Centers the content inside each list item */
+  margin-bottom: 20px; /* Adds spacing between rows */
+  width: 30%; /* Ensures a consistent width for each list item */
+  min-width: 150px; /* Ensures a minimum width for small screens */
+}
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 20px; /* Space between items */
+  padding: 20px; /* Add padding around the gallery */
+  align-items: center;
+}
+
+.gallery-item {
+  position: relative; /* So we can position the image within it */
+  overflow: hidden; /* Prevents the image from overflowing the container */
+  border-radius: 12px; /* Softens the corners of the container */
+  transition: transform 0.3s ease; /* Smooth zoom effect */
+}
+
+.gallery-item img {
+  width: 100%; /* Makes the image fill the container */
+  height: 200px; /* Fixes the height of the image */
+  object-fit: cover; /* Ensures the image covers the container without distorting */
+  border-radius: 12px; /* Softens the corners of the images */
+}
+
+.gallery-item:hover {
+  transform: scale(1.1); /* Enlarges the container on hover */
+}
+
+.landing-title {
+  grid-column: span 3; /* Makes the title span across all 3 columns */
+  text-align: center; /* Centers the text */
+  margin: 10px 0; /* Adds some space above and below the title */
+}
+
+.landing-title h2 {
+  font-size: 1.5rem;
+  color: #333; /* Customize as needed */
+}
+
+.gradient-13 {
+  color: #ff7e5f; /* Add a gradient-like color */
+  font-weight: bold;
+}
+
+
 @media (max-width: 575px) {
   .footer-bg {
     background-position: center;
