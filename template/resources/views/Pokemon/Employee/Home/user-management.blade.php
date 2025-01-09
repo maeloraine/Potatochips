@@ -11,11 +11,11 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Guest Information</h3>
+    <h3>User Management</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Guest Information</li>
+    <li class="breadcrumb-item">User Management</li>
     <!-- <li class="breadcrumb-item active">Default</li> -->
 @endsection
 

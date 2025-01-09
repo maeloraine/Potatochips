@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-<div class="container-fluid">
+<!-- <div class="container-fluid">
 	<div class="row widget-grid">
 	  <div class="col-xxl-4 col-sm-6 box-col-6">
 		<div class="card profile-box">
@@ -54,11 +54,11 @@
 					  <circle class="sizing-box" cx="300" cy="300" r="253.9">   </circle>
 					</g>
 				  </svg>
-				</div> -->
+				</div>
 				<div class="badge f-10 p-0" id="txt"></div>
 			  </div>
 			</div>
-			<!-- <div class="cartoon"><img class="img-fluid" src="{{ asset('assets/images/dashboard/cartoon.svg') }}" alt="vector women with leptop"></div> -->
+			<!-- <div class="cartoon"><img class="img-fluid" src="{{ asset('assets/images/dashboard/cartoon.svg') }}" alt="vector women with leptop"></div>
 		  </div>
 		</div>
 	  </div>
@@ -541,7 +541,7 @@
   </div>
     <script type="text/javascript">
         var session_layout = '{{ session()->get('layout') }}';
-    </script>
+    </script> -->
 @endsection
 
 @section('script')

@@ -62,4 +62,28 @@
 @endsection
 
 @section('script')
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('.theme-form');
+      
+      form.addEventListener('submit', function (event) {
+         event.preventDefault(); // Prevent form submission
+
+         window.location.href = "{{ route('customer-dashboard') }}";
+
+         // Get form input values
+         const email = form.querySelector('input[type="email"]').value;
+         const password = form.querySelector('input[type="password"]').value;
+
+         // Check credentials
+         if (email === 'guest@gmail.com' && password === 'guest') {
+            // Redirect to customer-dashboard
+            window.location.href = "{{ route('customer-dashboard') }}";
+         } else {
+            // Show an error message
+            alert('Invalid email or password');
+         }
+      });
+   });
+</script>
 @endsection

@@ -42,22 +42,22 @@
                     </li>
                     <!-- Guest Information -->
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
+                            href="guest-information">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-user') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                             </svg><span>Guest Information</span></a>
-                        <ul class="sidebar-submenu">
+                        <!-- <ul class="sidebar-submenu">
                             <li><a href="{{ route('user-profile') }}">Users Profile</a></li>
                             <li><a href="{{ route('edit-profile') }}">Users Edit</a></li>
                             <li><a href="{{ route('user-cards') }}">Users Cards</a></li>
-                        </ul>
+                        </ul> -->
                     </li>
                     <!-- Booking Information -->
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('calendar-basic') }}">
+                            class="sidebar-link sidebar-title link-nav" href="booking-information">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
@@ -67,14 +67,14 @@
                     </li>
                     <!-- Billing -->
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
+                            href="billing">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"></use>
                             </svg><span>Billing</span></a>
-                        <ul class="sidebar-submenu">
+                        <!-- <ul class="sidebar-submenu">
                             <li><a href="{{ route('product') }}">Product</a></li>
                             <li><a href="{{ route('product-page') }}">Product page</a></li>
                             <li><a href="{{ route('list-products') }}">Product list</a></li>
@@ -85,7 +85,7 @@
                             <li><a href="{{ route('list-wish') }}">Wishlist</a></li>
                             <li><a href="{{ route('checkout') }}">Checkout</a></li>
                             <li><a href="{{ route('pricing') }}">Pricing </a></li>
-                        </ul>
+                        </ul> -->
                     </li>
                     <!-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                             href="#">
@@ -120,14 +120,14 @@
                     </li> -->
                     <!-- Reports and Analytics -->
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
+                            href="reports-analytics">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-charts') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-charts') }}"></use>
                             </svg><span>Reports and Analytics</span></a>
-                        <ul class="sidebar-submenu">
+                        <!-- <ul class="sidebar-submenu">
                             <li><a href="{{ route('echarts') }}">Echarts</a></li>
                             <li><a href="{{ route('chart-apex') }}">Apex Chart</a></li>
                             <li><a href="{{ route('chart-google') }}">Google Chart</a></li>
@@ -138,7 +138,7 @@
                             <li><a href="{{ route('chartjs') }}">Chatjs Chart</a></li>
                             <li><a href="{{ route('chartist') }}">Chartist Chart</a></li>
                             <li><a href="{{ route('chart-peity') }}">Peity Chart</a></li>
-                        </ul>
+                        </ul> -->
                     </li>
                     <li class="sidebar-main-title">
                         <div>
@@ -147,18 +147,18 @@
                     </li>
                     <!-- User Management -->
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
+                            href="user-management">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-learning') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-learning') }}"></use>
                             </svg><span>User Management</span></a>
-                        <ul class="sidebar-submenu">
+                        <!-- <ul class="sidebar-submenu">
                             <li><a href="{{ route('user-profile') }}">Users Profile</a></li>
                             <li><a href="{{ route('edit-profile') }}">Users Edit</a></li>
                             <li><a href="{{ route('user-cards') }}">Users Cards</a></li>
-                        </ul>
+                        </ul> -->
                     </li>
                     <!-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
                             <svg class="stroke-icon">

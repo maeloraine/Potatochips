@@ -378,6 +378,26 @@ Route::get('/employee/home/dashboard', function () {
     return view('Pokemon.Employee.Home.employee-dashboard');
 })->name('employee-dashboard');
 
+Route::get('/employee/home/guest-information', function () {
+    return view('Pokemon.Employee.Home.guest-information');
+})->name('guest-information');
+
+Route::get('/employee/home/booking-information', function () {
+    return view('Pokemon.Employee.Home.booking-information');
+})->name('booking-information');
+
+Route::get('/employee/home/billing', function () {
+    return view('Pokemon.Employee.Home.billing');
+})->name('billing');
+
+Route::get('/employee/home/reports-analytics', function () {
+    return view('Pokemon.Employee.Home.reports-analytics');
+})->name('guest-information');
+
+Route::get('/employee/home/user-management', function () {
+    return view('Pokemon.Employee.Home.user-management');
+})->name('user-management');
+
 // Customer Side
 Route::get('customer/sign-up', function () {
     return view('Pokemon.Customer.Authentication.customer-sign-up');
@@ -390,3 +410,7 @@ Route::get('/customer-login', function () {
 Route::get('/customer/forgot-password', function () {
     return view('Pokemon.Customer.Authentication.customer-forgot-password');
 })->name('customer-forgot-password');
+
+Route::get('/customer/home/dashboard', function () {
+    return view('Pokemon.Customer.Home.customer-dashboard');
+})->name('customer-dashboard');
