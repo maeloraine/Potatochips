@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 
 
 Route::get('/', function () {
-    return view('pokemon.employee.authentication.login');
+    return view('pokemon.customer.authentication.landing-page'); //replace to landing page
 })->name('/');
 
 

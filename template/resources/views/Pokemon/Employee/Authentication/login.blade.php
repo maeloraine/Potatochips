@@ -58,7 +58,7 @@
                         <!-- <p>Enter your email & password to login</p> -->
                         <div class="form-group">
                            <label class="col-form-label">Email Address</label>
-                           <input class="form-control" type="email" required placeholder="Test@gmail.com">
+                           <input class="form-control" type="email" required placeholder="test@gmail.com">
                         </div>
                         <div class="form-group">
                            <label class="col-form-label">Password</label>
@@ -71,7 +71,7 @@
                               <label class="text-muted" for="checkbox1">Remember password</label>
                            </div>
                            <a class="link" href="{{ route('forgot-password') }}">Forgot password?</a>
-                           <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+                           <button class="btn btn-primary btn-block" type="submit" id="sign-in-button">Sign in</button>
                         </div>
                         <!-- <h6 class="text-muted mt-4 or">Or Sign in with</h6>
                         <div class="social mt-4">
@@ -103,13 +103,40 @@
    document.addEventListener('DOMContentLoaded', function () {
       const roleSelect = document.getElementById('role');
       const loginForm = document.getElementById('login-form');
+      const signInButton = document.getElementById('sign-in-button');
+      const emailField = document.querySelector('input[type="email"]');
+      const passwordField = document.querySelector('input[type="password"]');
 
       roleSelect.addEventListener('change', function () {
          if (this.value) {
-            // Show the login form with an animation
             loginForm.style.display = 'block';
+         }
+      });
+
+      // Sign in condition based on chosen roles
+      signInButton.addEventListener('click', function (event) {
+         event.preventDefault(); // Prevent default form submission
+         const role = roleSelect.value;
+         const email = emailField.value;
+         const password = passwordField.value;
+
+         if (role === 'receptionist') {
+            window.location.href = "{{ route('employee-dashboard') }}";
+         } else if (role === 'manager') {
+            window.location.href = "{{ route('employee-dashboard') }}";
+         } else if (role === 'admin') {
+            // Admin credentials
+            // if (email === 'admin@gmail.com' && password === '123') {
+            //    window.location.href = "{{ route('employee-dashboard') }}";
+            // } else {
+            //    alert('Invalid admin credentials!');
+            // }
+            window.location.href = "{{ route('employee-dashboard') }}";
+         } else {
+            alert('Please select a valid role and fill in your credentials.');
          }
       });
    });
 </script>
 @endsection
+
