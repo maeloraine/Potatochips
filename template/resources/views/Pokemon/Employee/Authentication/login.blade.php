@@ -126,11 +126,12 @@
             window.location.href = "{{ route('employee-dashboard') }}";
          } else if (role === 'admin') {
             // Admin credentials
-            if (email === 'admin@gmail.com' && password === '123') {
-               window.location.href = "{{ route('employee-dashboard') }}";
-            } else {
-               alert('Invalid admin credentials!');
-            }
+            // if (email === 'admin@gmail.com' && password === '123') {
+            //    window.location.href = "{{ route('employee-dashboard') }}";
+            // } else {
+            //    alert('Invalid admin credentials!');
+            // }
+            window.location.href = "{{ route('employee-dashboard') }}";
          } else {
             alert('Please select a valid role and fill in your credentials.');
          }
