@@ -3,12 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Auth0Controller;
 
 
 Route::get('/', function () {
     return view('pokemon.employee.authentication.login');
 })->name('/');
 
+Route:: get('auth0',[Auth0Controller::class,'auth0']);
+Route:: get('callback',[Auth0Controller::class,'callback']);
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {
