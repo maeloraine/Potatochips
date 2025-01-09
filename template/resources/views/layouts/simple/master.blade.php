@@ -65,7 +65,7 @@
           <!-- Container-fluid Ends-->
         </div>
         <!-- footer start-->
-        @include('layouts.simple.footer') 
+        @include('pokemon.employee.home.employee-footer') 
         
       </div>
     </div>
