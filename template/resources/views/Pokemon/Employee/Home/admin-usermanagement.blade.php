@@ -211,8 +211,8 @@
         <table id="userTable">
             <thead>
                 <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
+                    <th>Employee Number</th>
+                    <th>Full Name</th>
                     <th>Password</th>
                     <th>Account Type</th>
                     <th>Actions</th>
@@ -220,17 +220,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>adminUser</td>
+                    <td>efdert3</td>
+                    <td>Nonstop Vertigo</td>
                     <td>******</td>
-                    <td>Admin</td>
+                    <td>Manager</td>
                     <td><button class="edit-button">Edit</button></td>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>manager123</td>
+                    <td>ee34123</td>
+                    <td>Curled Plot</td>
                     <td>******</td>
-                    <td>Manager</td>
+                    <td>Receptionist</td>
                     <td><button class="edit-button">Edit</button></td>
                 </tr>
             </tbody>
@@ -244,14 +244,13 @@
             <button class="close-button" id="closeModalButton">&times;</button>
             <h2>Create an Account</h2>
             <form id="createAccountForm">
-                <input type="text" id="username" placeholder="Username" required>
+                <input type="text" id="username" placeholder="Employee Number" required>
                 <input type="password" id="password" placeholder="Password" required>
                 <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
                 <select id="accountType" required>
                     <option value="" disabled selected>Select Account Type</option>
-                    <option value="Admin">Admin</option>
                     <option value="Manager">Manager</option>
-                    <option value="User">User</option>
+                    <option value="Receptionist">Receptionist</option>
                 </select>
                 <button type="submit">Create Account</button>
             </form>
