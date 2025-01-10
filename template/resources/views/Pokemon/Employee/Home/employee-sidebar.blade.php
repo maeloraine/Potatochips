@@ -146,20 +146,17 @@
                         </div>
                     </li>
                     <!-- User Management -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('usermanagement') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-learning') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-learning') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
                             </svg><span>User Management</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('user-profile') }}">Users Profile</a></li>
-                            <li><a href="{{ route('edit-profile') }}">Users Edit</a></li>
-                            <li><a href="{{ route('user-cards') }}">Users Cards</a></li>
-                        </ul>
                     </li>
+
+
                     <!-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-learning') }}"></use>

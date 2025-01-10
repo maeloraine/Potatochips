@@ -378,6 +378,14 @@ Route::get('/employee/home/dashboard', function () {
     return view('Pokemon.Employee.Home.employee-dashboard');
 })->name('employee-dashboard');
 
+Route::get('/employee/home/usermanagement', function () {
+    return view('Pokemon.Employee.Home.admin-usermanagement');
+})->name('usermanagement');
+
+Route::get('/employee/home/addaccount', function () {
+    return view('Pokemon.Employee.Home.admin-addaccount');
+})->name('addaccount');
+
 // Customer Side
 Route::get('customer/sign-up', function () {
     return view('Pokemon.Customer.Authentication.customer-sign-up');

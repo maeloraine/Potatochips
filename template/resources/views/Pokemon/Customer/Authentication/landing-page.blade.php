@@ -20,7 +20,7 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
-    <title>Cuba - Premium Admin Template</title>
+    <title>Hacienda JenSon Farm Resort Booking</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
@@ -61,7 +61,7 @@
                     <li class="nav-item"><a class="nav-link" href="#faqs">FAQs</a></li>
                   </ul>
                 </div>
-                <div class="buy-btn rounded-pill"><a class="nav-link js-scroll" href="{{ route('customer-login') }}"> Log in </a></div>
+                <div class="buy-btn rounded-pill" ><a class="nav-link js-scroll" style="color: white;" target="_blank" href="{{ route('customer-login') }}"> Log in </a></div>
               </nav>
             </header>
           </div>
@@ -74,11 +74,12 @@
                   <p class="mt-3 wow fadeIn">Immerse yourself in the beauty of nature while enjoying our premium amenities and unforgettable experiences. Perfect for families, adventurers, and events of all kinds.</p><br/><br/>
                   <!-- Button container with flexbox centering -->
                     <div class="d-flex justify-content-center mt-4">
-                      <a class="buy-btn rounded-pill" href="{{ route('customer-login') }}" style="padding: 20px 40px; width: 200px; height: 65px; font-size: 18px; text-align: center; color: #ffffff;">
-                        Book Now!
-                      </a>
+                      <a class="buy-btn rounded-pill" href="{{ route('customer-login') }}" target="_blank" 
+                          style="padding: 20px 40px; width: 200px; height: 65px; font-size: 18px; text-align: center;">
+                          Book Now!
+                        </a>
                     </div>
-                  <div class="btn-grp mt-4"><a class="wow pulse" href="{{ route('index')}}" target="_blank" data-bs-placement="top" title="HTML"> <img src="{{ asset('assets/images/landing/icon/html/html.png') }}" alt=""></a><a class="wow pulse" href="https://angular.pixelstrap.com/cuba/" target="_blank" data-bs-placement="top" title="Angular 13"> <img src="{{ asset('assets/images/landing/icon/angular/angular.png') }}" alt=""></a><a class="wow pulse" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank" data-bs-placement="top" title="Vue 2.6.10"> <img src="{{ asset('assets/images/landing/icon/vue/vue.png') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default/Dubai" target="_blank" data-bs-placement="top" title="React Redux"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="https://laravel.pixelstrap.com/cuba/dashboard/index" target="_blank" data-bs-placement="top" title="Laravel 9"> <img src="{{ asset('assets/images/landing/icon/laravel/laravel.png') }}" alt=""></a><a class="wow pulse" href="https://cubadjango.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Django 4.0.4"> <img src="{{ asset('assets/images/landing/icon/django/django.png') }}" alt=""></a><a class="wow pulse" href="http://cubaflask.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Flask 2.2.2"> <img src="{{ asset('assets/images/landing/stroke-icon/7.svg') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba-context/" target="_blank" data-bs-placement="top" title="React Context"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/8.svg') }}" alt=""></a><a class="wow pulse" href="https://codeigniter.pixelstrap.com/cuba/public/" target="_blank" data-bs-placement="top" title="Codeigniter"> <img src="{{ asset('assets/images/landing/icon/codeigniter/codeigniter-icon.png') }}" alt=""></a><a class="wow pulse" href="https://cuba-nodejs-pixelstrap.herokuapp.com/" target="_blank" data-bs-placement="top" title="Node"> <img src="{{ asset('assets/images/landing/stroke-icon/10.svg') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/11.svg') }}" alt=""></a></div>
+                  <div class="btn-grp mt-4"><a class="wow pulse" href="{{ route('index')}}" data-bs-placement="top" title="HTML"> <img src="{{ asset('assets/images/landing/icon/html/html.png') }}" alt=""></a><a class="wow pulse" href="https://angular.pixelstrap.com/cuba/" target="_blank" data-bs-placement="top" title="Angular 13"> <img src="{{ asset('assets/images/landing/icon/angular/angular.png') }}" alt=""></a><a class="wow pulse" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank" data-bs-placement="top" title="Vue 2.6.10"> <img src="{{ asset('assets/images/landing/icon/vue/vue.png') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default/Dubai" target="_blank" data-bs-placement="top" title="React Redux"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="https://laravel.pixelstrap.com/cuba/dashboard/index" target="_blank" data-bs-placement="top" title="Laravel 9"> <img src="{{ asset('assets/images/landing/icon/laravel/laravel.png') }}" alt=""></a><a class="wow pulse" href="https://cubadjango.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Django 4.0.4"> <img src="{{ asset('assets/images/landing/icon/django/django.png') }}" alt=""></a><a class="wow pulse" href="http://cubaflask.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Flask 2.2.2"> <img src="{{ asset('assets/images/landing/stroke-icon/7.svg') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba-context/" target="_blank" data-bs-placement="top" title="React Context"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/8.svg') }}" alt=""></a><a class="wow pulse" href="https://codeigniter.pixelstrap.com/cuba/public/" target="_blank" data-bs-placement="top" title="Codeigniter"> <img src="{{ asset('assets/images/landing/icon/codeigniter/codeigniter-icon.png') }}" alt=""></a><a class="wow pulse" href="https://cuba-nodejs-pixelstrap.herokuapp.com/" target="_blank" data-bs-placement="top" title="Node"> <img src="{{ asset('assets/images/landing/stroke-icon/10.svg') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/11.svg') }}" alt=""></a></div>
                 </div>
               </div>
             </div>
@@ -200,14 +201,15 @@
             <div class="col-sm-12 wow pulse">
               <div class="cuba-demo-content">
                 <div class="couting">
-                  <h2>90+</h2>
+                  <h2>3+</h2>
                 </div>
                 <div class="landing-title">
-                  <h5 class="sub-title">Usable Components</h5>
-                  <h2><span class="gradient-8">UI components </span>is first class</h2>
+                  <h1><span class="gradient-8">Hacienda </span>JenSon</h1>
+                  <h5 class="sub-title">Farm Resort</h5>
                   <p>
-                    The UI components will facilitate you in developing the most user-friendly, 
-                    interactive websites and applications with cutting-edge design features.
+                    At Hacienda JenSon Farm Resort, we bring to life the essence of scenic farm retreats, 
+                    rustic charm, and unforgettable group getaway adventures, offering something special 
+                    for every guest.
                   </p>
                 </div>
               </div>
@@ -709,6 +711,28 @@
             </div>
           </div>
         </section>
+
+        <div id="admin" class="admin-login">
+        <div class="container-fluid">
+          <div class="sticky-header">
+          <div class="row justify-content-center"style="background-image: url('{{ asset('assets/images/jensonheader.jpg') }}'); background-size: cover; background-position: center;">
+            <div class="col-lg-8 col-sm-10">
+              <div class="content text-center">
+                <div>
+                    <div class="d-flex justify-content-center mt-4">
+                      <a class="buy-btn rounded-pill" target="_blank" href="{{ route('login') }}" style="padding: 20px 40px; width: 300px; height: 65px; font-size: 18px; text-align: center; color: #ffffff; margin-top: 50px">
+                        Log in as Admin
+                      </a>
+                    </div>
+                  <div class="btn-grp mt-4"><a class="wow pulse" href="{{ route('index')}}" target="_blank" data-bs-placement="top" title="HTML"> <img src="{{ asset('assets/images/landing/icon/html/html.png') }}" alt=""></a><a class="wow pulse" href="https://angular.pixelstrap.com/cuba/" target="_blank" data-bs-placement="top" title="Angular 13"> <img src="{{ asset('assets/images/landing/icon/angular/angular.png') }}" alt=""></a><a class="wow pulse" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank" data-bs-placement="top" title="Vue 2.6.10"> <img src="{{ asset('assets/images/landing/icon/vue/vue.png') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default/Dubai" target="_blank" data-bs-placement="top" title="React Redux"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="https://laravel.pixelstrap.com/cuba/dashboard/index" target="_blank" data-bs-placement="top" title="Laravel 9"> <img src="{{ asset('assets/images/landing/icon/laravel/laravel.png') }}" alt=""></a><a class="wow pulse" href="https://cubadjango.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Django 4.0.4"> <img src="{{ asset('assets/images/landing/icon/django/django.png') }}" alt=""></a><a class="wow pulse" href="http://cubaflask.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Flask 2.2.2"> <img src="{{ asset('assets/images/landing/stroke-icon/7.svg') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba-context/" target="_blank" data-bs-placement="top" title="React Context"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/8.svg') }}" alt=""></a><a class="wow pulse" href="https://codeigniter.pixelstrap.com/cuba/public/" target="_blank" data-bs-placement="top" title="Codeigniter"> <img src="{{ asset('assets/images/landing/icon/codeigniter/codeigniter-icon.png') }}" alt=""></a><a class="wow pulse" href="https://cuba-nodejs-pixelstrap.herokuapp.com/" target="_blank" data-bs-placement="top" title="Node"> <img src="{{ asset('assets/images/landing/stroke-icon/10.svg') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/11.svg') }}" alt=""></a></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-7 col-lg-8 col-md-10">               
+              <img class="screen1 img-fluid" src="{{ asset('assets/images/landing/screen1.png') }}" alt=""></div>
+          </div>
+        </div>
+      </div>
       </div>
       <!-- <footer class="footer-bg">
         <div class="container">
