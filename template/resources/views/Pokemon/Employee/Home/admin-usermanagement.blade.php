@@ -261,6 +261,7 @@
         const addAccountButton = document.getElementById('addAccountButton');
         const accountModal = document.getElementById('accountModal');
         const closeModalButton = document.getElementById('closeModalButton');
+        
 
         addAccountButton.addEventListener('click', () => {
             accountModal.style.display = 'block';
@@ -292,4 +293,51 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/moment.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
+
+<script> 
+document.getElementById('createAccountForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Get form values
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const accountType = document.getElementById('accountType').value;
+
+    // Basic validation
+    if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+    }
+
+    // Add the new user to the table
+    const userTable = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+    const newRow = userTable.insertRow();
+
+    // Insert new cells
+    const cell1 = newRow.insertCell(0); // Employee Number
+    const cell2 = newRow.insertCell(1); // Full Name
+    const cell3 = newRow.insertCell(2); // Password
+    const cell4 = newRow.insertCell(3); // Account Type
+    const cell5 = newRow.insertCell(4); // Actions
+
+    // Insert the data
+    cell1.textContent = username;
+    cell2.textContent = "Full Name"; // You can modify to allow input for Full Name if needed
+    cell3.textContent = "******"; // Password can be hidden for display purposes
+    cell4.textContent = accountType;
+    const editButton = document.createElement('button');
+    editButton.classList.add('edit-button');
+    editButton.textContent = 'Edit';
+    cell5.appendChild(editButton);
+
+    // Clear form inputs
+    document.getElementById('createAccountForm').reset();
+
+    // Close the modal
+    accountModal.style.display = 'none';
+
+});
+
+</script>
 @endsection
