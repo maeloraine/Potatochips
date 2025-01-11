@@ -29,7 +29,7 @@
                <div class="login-main">
                   <form class="theme-form">
                      <h4>Sign In</h4>
-                     <p>Enter your email & password to login</p>
+                     <p style="text-align: center;">Enter your email & password to login</p>
                      <div class="form-group">
                         <label class="col-form-label">Email Address</label>
                         <input class="form-control" type="email" required="" placeholder="Test@gmail.com">
@@ -37,7 +37,7 @@
                      <div class="form-group">
                         <label class="col-form-label">Password</label>
                         <input class="form-control" type="password" name="login[password]" required="" placeholder="*********">
-                        <div class="show-hide"><span class="show">                         </span></div>
+                        <!-- <div class="show-hide"><span class="show">                         </span></div> -->
                      </div>
                      <div class="form-group mb-0">
                         <div class="checkbox p-0">

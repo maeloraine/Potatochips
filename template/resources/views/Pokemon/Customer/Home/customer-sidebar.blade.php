@@ -31,7 +31,7 @@
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-home') }}"></use>
-                            </svg><span>Dashboard</span></a>
+                            </svg><span>My Reservations</span></a>
                         <!-- <ul class="sidebar-submenu">
                             <li><a class="lan-4" href="{{ route('index') }}">Default</a></li>
                             <li><a class="lan-5" href="{{ route('dashboard-02') }}">Ecommerce</a></li>

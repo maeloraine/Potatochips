@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 
 
 Route::get('/', function () {
-    return view('pokemon.employee.authentication.login');
+    return view('pokemon.customer.authentication.landing-page'); //replace to landing page
 })->name('/');
 
 
@@ -375,8 +375,16 @@ Route::get('/employee/forgot-password', function () {
 })->name('forgot-password');
 
 Route::get('/employee/home/dashboard', function () {
-    return view('Pokemon.Employee.Home.employee-dashboard');
+    return view('Pokemon.Customer.Home.customer-booking');
 })->name('employee-dashboard');
+
+Route::get('/employee/home/usermanagement', function () {
+    return view('Pokemon.Employee.Home.admin-usermanagement');
+})->name('usermanagement');
+
+Route::get('/employee/home/addaccount', function () {
+    return view('Pokemon.Employee.Home.admin-addaccount');
+})->name('addaccount');
 
 // Customer Side
 Route::get('customer/sign-up', function () {
