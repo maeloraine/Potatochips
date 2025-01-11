@@ -61,7 +61,7 @@
                     <li class="nav-item"><a class="nav-link" href="#faqs">FAQs</a></li>
                   </ul>
                 </div>
-                <div class="buy-btn rounded-pill" ><a class="nav-link js-scroll" style="color: white;" target="_blank" href="{{ route('customer-login') }}"> Log in </a></div>
+                <div class="buy-btn rounded-pill"><a class="nav-link js-scroll" style="color: white;" target="_blank" href="{{ route('customer-login') }}"> Log in </a></div>
               </nav>
             </header>
           </div>
