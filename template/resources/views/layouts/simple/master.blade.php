@@ -37,9 +37,10 @@
       @include('pokemon.employee.home.employee-header')
       <!-- Page Header Ends  -->
       <!-- Page Body Start-->
-      <div class="page-body-wrapper">
+      <div class="page-body-wrapper"> 
         <!-- Page Sidebar Start-->
-        @include('pokemon.employee.home.employee-sidebar')
+        @include('pokemon.Employee.Home.employee-sidebar')
+        
         <!-- Page Sidebar Ends-->
         <div class="page-body">
           <div class="container-fluid">        
