@@ -96,6 +96,27 @@
         font-weight: bold;
         font-size: 1.1rem;
     }
+
+    #booking-dates-guests p {
+    margin: 0; /* Remove default margin for paragraphs */
+    }
+
+    #booking-dates-guests .d-flex {
+        margin-bottom: 10px; /* Add spacing between rows */
+    }
+
+    .input-group {
+        width: 100%; /* Ensure the input group takes full width of its container */
+    }
+
+    .input-group .form-control {
+        flex: 1; /* Allow the input to take remaining space */
+        text-align: center; /* Center the text in the input */
+    }
+
+    .input-group .btn {
+        padding: 5px 10px; /* Reduce button padding */
+    }
 </style>
 @endsection
 
@@ -113,8 +134,35 @@
         <!-- Available Offers Section -->
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                     <h5>Available Offers</h5>
+                    <!-- Check-In/Check-Out and Number of Guests Form -->
+                    <div class="d-flex gap-3 flex-wrap">
+                        <div>
+                            <label for="check-in-date" class="form-label">Check-In Date</label>
+                            <input type="date" class="form-control" id="check-in-date" required>
+                        </div>
+                        <div>
+                            <label for="check-out-date" class="form-label">Check-Out Date</label>
+                            <input type="date" class="form-control" id="check-out-date" required>
+                        </div>
+                        <div style="width: 135px;">
+                            <label for="adults" class="form-label">Adults</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary" id="decrease-adults">-</button>
+                                <input type="number" class="form-control text-center" id="adults" value="1" min="1" readonly>
+                                <button type="button" class="btn btn-outline-secondary" id="increase-adults">+</button>
+                            </div>
+                        </div>
+                        <div style="width: 135px;">
+                            <label for="children" class="form-label">Children (under 12)</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary" id="decrease-children">-</button>
+                                <input type="number" class="form-control text-center" id="children" value="0" min="0" readonly>
+                                <button type="button" class="btn btn-outline-secondary" id="increase-children">+</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <!-- Category Buttons -->
@@ -175,9 +223,26 @@
                     <h5>Booking Summary</h5>
                 </div>
                 <div class="card-body booking-summary">
+                    <h6>Details</h6>
+                    <!-- Date and Number of Guests-->
+                    <div id="booking-dates-guests" class="mt-3">
+                    <!-- Check-In and Check-Out Dates-->
+                    <div class="d-flex justify-content-between">
+                        <p><strong>Check-In:</strong> <span id="summary-check-in">Not set</span></p>
+                        <p><strong>Check-Out:</strong> <span id="summary-check-out">Not set</span></p>
+                    </div>
+
+                    <!-- Adults and Children (Below Dates) -->
+                    <div class="d-flex justify-content-between">
+                        <p><strong>Adults:</strong> <span id="summary-adults">1</span></p>
+                        <p><strong>Children:</strong> <span id="summary-children">0</span></p>
+                    </div><hr>
+
+                    <h6>Booked Offers</h6>
                     <div id="booking-details">
                         <p>No offer selected yet.</p>
                     </div>
+                </div><hr>
 
                     <!-- Display the total price -->
                     <div class="total-price-container" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
@@ -315,6 +380,62 @@
             }
         });
 
+        // Get references to the input fields
+        const checkInDateInput = document.getElementById('check-in-date');
+        const checkOutDateInput = document.getElementById('check-out-date');
+        const adultsInput = document.getElementById('adults');
+        const childrenInput = document.getElementById('children');
+        const increaseAdultsBtn = document.getElementById('increase-adults');
+        const decreaseAdultsBtn = document.getElementById('decrease-adults');
+        const increaseChildrenBtn = document.getElementById('increase-children');
+        const decreaseChildrenBtn = document.getElementById('decrease-children');
+
+        // Get references to the summary elements
+        const summaryCheckIn = document.getElementById('summary-check-in');
+        const summaryCheckOut = document.getElementById('summary-check-out');
+        const summaryAdults = document.getElementById('summary-adults');
+        const summaryChildren = document.getElementById('summary-children');
+
+        // Update booking summary when dates or number of guests change
+        function updateBookingSummaryDetails() {
+            summaryCheckIn.textContent = checkInDateInput.value || 'Not set';
+            summaryCheckOut.textContent = checkOutDateInput.value || 'Not set';
+            summaryAdults.textContent = adultsInput.value;
+            summaryChildren.textContent = childrenInput.value;
+        }
+
+        // Add event listeners for date inputs
+        checkInDateInput.addEventListener('change', updateBookingSummaryDetails);
+        checkOutDateInput.addEventListener('change', updateBookingSummaryDetails);
+
+        // Add event listeners for number of guests
+        increaseAdultsBtn.addEventListener('click', function () {
+            adultsInput.value = parseInt(adultsInput.value) + 1;
+            updateBookingSummaryDetails();
+        });
+
+        decreaseAdultsBtn.addEventListener('click', function () {
+            if (parseInt(adultsInput.value) > 1) {
+                adultsInput.value = parseInt(adultsInput.value) - 1;
+                updateBookingSummaryDetails();
+            }
+        });
+
+        increaseChildrenBtn.addEventListener('click', function () {
+            childrenInput.value = parseInt(childrenInput.value) + 1;
+            updateBookingSummaryDetails();
+        });
+
+        decreaseChildrenBtn.addEventListener('click', function () {
+            if (parseInt(childrenInput.value) > 0) {
+                childrenInput.value = parseInt(childrenInput.value) - 1;
+                updateBookingSummaryDetails();
+            }
+        });
+
+        // Initial update of booking summary details
+        updateBookingSummaryDetails();
+
         // Function to update the booking summary
         function updateBookingSummary() {
             if (bookings.length === 0) {
@@ -369,22 +490,61 @@
         
         // Submit Payment button in the payment modal
         document.getElementById('submit-payment').addEventListener('click', function () {
+            const guestForm = document.getElementById('guest-info-form');
             const paymentForm = document.getElementById('payment-form');
-            if (paymentForm.checkValidity()) {
-                // Simulate payment submission (front-end only)
-                alert('Payment successful!');
 
-                // Clear the bookings array and update the summary
-                bookings = [];
-                updateBookingSummary();
-                confirmBookingBtn.disabled = true;
-
-                // Close the payment modal
-                const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
-                paymentModal.hide();
-            } else {
-                paymentForm.reportValidity(); // Show validation errors
+            // Validate Guest Information Form
+            if (!guestForm.checkValidity()) {
+                guestForm.reportValidity(); // Show validation errors
+                return;
             }
+
+            // Validate Payment Form
+            if (!paymentForm.checkValidity()) {
+                paymentForm.reportValidity(); // Show validation errors
+                return;
+            }
+
+            // If both forms are valid, proceed with submission
+            const guestInfo = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                checkInDate: document.getElementById('check-in-date').value,
+                checkOutDate: document.getElementById('check-out-date').value,
+                specialRequests: document.getElementById('special-requests').value,
+            };
+
+            const paymentInfo = {
+                cardNumber: document.getElementById('card-number').value,
+                expiryDate: document.getElementById('expiry-date').value,
+                cvv: document.getElementById('cvv').value,
+                cardholderName: document.getElementById('cardholder-name').value,
+            };
+
+            // Combine guest and payment information
+            const bookingData = {
+                guestInfo,
+                paymentInfo,
+                bookings, // Include the booked items from the booking summary
+            };
+
+            // Simulate submission (replace with actual API call)
+            console.log('Booking Data:', bookingData);
+            alert('Booking submitted successfully!');
+
+            // Clear forms and reset booking summary
+            guestForm.reset();
+            paymentForm.reset();
+            bookings = [];
+            updateBookingSummary();
+            confirmBookingBtn.disabled = true;
+
+            // Close the payment modal
+            const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+            paymentModal.hide();
         });
 
     });

@@ -402,3 +402,7 @@ Route::get('/customer/forgot-password', function () {
 Route::get('/customer/dashboard', function () {
     return view('Pokemon.Customer.Home.customer-booking');
 })->name('customer-booking');
+
+Route::get('/customer/bookings', function () {
+    return view('Pokemon.Customer.Home.customer-reservations');
+})->name('customer-reservations');
