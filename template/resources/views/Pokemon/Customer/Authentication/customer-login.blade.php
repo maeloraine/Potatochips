@@ -62,4 +62,26 @@
 @endsection
 
 @section('script')
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('.theme-form');
+      
+      form.addEventListener('submit', function (event) {
+         event.preventDefault(); // Prevent default form submission behavior
+
+         // Retrieve form input values
+         const email = form.querySelector('input[type="email"]').value.trim();
+         const password = form.querySelector('input[type="password"]').value.trim();
+
+         // Validate email and password
+         if (email === 'guest@gmail.com' && password === 'guest') {
+            // Redirect to customer-booking route
+            window.location.href = "{{ route('customer-booking' , ['role' => 'customer']) }}";
+         } else {
+            // Show an error message
+            alert('Invalid email or password. Please try again.');
+         }
+      });
+   });
+</script>
 @endsection

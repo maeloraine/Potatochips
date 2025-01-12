@@ -34,14 +34,24 @@
     <!-- page-wrapper Start-->
     <div class="page-wrapper compact-wrapper" id="pageWrapper">
       <!-- Page Header Start-->
-      @include('pokemon.employee.home.employee-header')
+
+      @php
+        $role = request()->query('role', '');
+        //dd($role); // This will show the role in the browser
+      @endphp
+
+      @if($role === 'employee')
+        @include('pokemon.employee.home.employee-header') <!-- Employee Header -->
+      @else
+        @include('pokemon.customer.home.customer-header') <!-- Customer Header -->
+      @endif
       <!-- Page Header Ends  -->
-      <!-- Page Body Start-->
-      <div class="page-body-wrapper"> 
-        <!-- Page Sidebar Start-->
-        @include('pokemon.Employee.Home.employee-sidebar')
-        
-        <!-- Page Sidebar Ends-->
+
+      <!-- Page Sidebar Start-->
+      @if($role === 'employee')
+        @include('pokemon.employee.home.employee-sidebar') <!-- Employee Sidebar -->
+      @endif
+      <!-- Page Sidebar Ends-->
         <div class="page-body">
           <div class="container-fluid">        
             <div class="page-title">
@@ -66,7 +76,11 @@
           <!-- Container-fluid Ends-->
         </div>
         <!-- footer start-->
-        @include('pokemon.employee.home.employee-footer') 
+        @if($role === 'employee')
+          @include('pokemon.employee.home.employee-footer') <!-- Employee Footer -->
+        @else
+          @include('pokemon.customer.home.customer-footer') <!-- Customer Footer -->
+        @endif
         
       </div>
     </div>

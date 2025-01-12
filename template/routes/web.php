@@ -375,7 +375,7 @@ Route::get('/employee/forgot-password', function () {
 })->name('forgot-password');
 
 Route::get('/employee/home/dashboard', function () {
-    return view('Pokemon.Customer.Home.customer-booking');
+    return view('Pokemon.Employee.Home.employee-dashboard');
 })->name('employee-dashboard');
 
 Route::get('/employee/home/usermanagement', function () {
@@ -398,3 +398,7 @@ Route::get('/customer-login', function () {
 Route::get('/customer/forgot-password', function () {
     return view('Pokemon.Customer.Authentication.customer-forgot-password');
 })->name('customer-forgot-password');
+
+Route::get('/customer/dashboard', function () {
+    return view('Pokemon.Customer.Home.customer-booking');
+})->name('customer-booking');

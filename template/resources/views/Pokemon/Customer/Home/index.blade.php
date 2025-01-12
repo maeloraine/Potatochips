@@ -55,46 +55,12 @@
         display: none;
     }
     .booking-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
     }
     .booking-item:last-child {
         border-bottom: none;
-    }
-    .booking-item h6 {
-        margin: 0;
-        flex: 1;
-    }
-    .booking-item p {
-        margin: 0;
-        margin-right: 10px;
-    }
-    .delete-booking {
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .delete-booking:hover {
-        background-color: #c82333;
-    }
-
-    .total-price-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    }
-
-    .total-price-container span {
-        font-weight: bold;
-        font-size: 1.1rem;
     }
 </style>
 @endsection
@@ -178,13 +144,6 @@
                     <div id="booking-details">
                         <p>No offer selected yet.</p>
                     </div>
-
-                    <!-- Display the total price -->
-                    <div class="total-price-container" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-                    <span style="font-weight: bold; font-size: 1.1rem;">Total Price:</span>
-                    <span id="total-price" style="font-weight: bold; font-size: 1.1rem;">₱0.00</span>
-                    </div>
-
                     <button id="confirm-booking" class="btn btn-success btn-block mt-3" disabled>Confirm Booking</button>
                 </div>
             </div>
@@ -208,26 +167,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="modal-book-now">Book Now</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Payment Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Payment Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Include the customer-payment.blade.php content here -->
-                @include('Pokemon.Customer.Home.customer-payment')
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submit-payment">Submit Payment</button>
             </div>
         </div>
     </div>
@@ -319,43 +258,21 @@
         function updateBookingSummary() {
             if (bookings.length === 0) {
                 bookingDetails.innerHTML = `<p>No offer selected yet.</p>`;
-                document.getElementById('total-price').textContent = '₱0.00'; // Clear total price
             } else {
-                let summaryHTML = bookings.map((booking, index) => `
+                let summaryHTML = bookings.map(booking => `
                     <div class="booking-item">
-                        <div>
-                            <h6>${booking.name}</h6>
-                            <p>Price: ₱${booking.price}</p>
-                        </div>
-                        <button class="delete-booking" data-index="${index}">Delete</button>
+                        <h6>${booking.name}</h6>
+                        <p>Price: ₱${booking.price}</p>
                     </div>
                 `).join('');
                 bookingDetails.innerHTML = summaryHTML;
-
-                // Calculate the total price
-                const totalPrice = bookings.reduce((sum, booking) => sum + parseFloat(booking.price), 0);
-                document.getElementById('total-price').textContent = `₱${totalPrice.toFixed(2)}`;
-
-                // Add event listeners to delete buttons
-                document.querySelectorAll('.delete-booking').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const index = this.getAttribute('data-index');
-                        bookings.splice(index, 1); // Remove the item from the bookings array
-                        updateBookingSummary(); // Update the booking summary
-                        if (bookings.length === 0) {
-                            confirmBookingBtn.disabled = true; // Disable the Confirm Booking button if no items are left
-                        }
-                    });
-                });
             }
         }
 
         // Confirm booking button
         confirmBookingBtn.addEventListener('click', function () {
             if (bookings.length > 0) {
-                // Show the payment modal
-                const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-                paymentModal.show();
+                alert(`Booking confirmed for the following items:\n${bookings.map(booking => `- ${booking.name} (₱${booking.price})`).join('\n')}`);
                 // Used for sending the data to the backend via AJAX or form submission
                 // Example:
                 // fetch('/bookings', {
@@ -364,29 +281,13 @@
                 //     body: JSON.stringify(bookings)
                 // }).then(response => response.json())
                 //   .then(data => console.log(data));
-            }
-        });
-        
-        // Submit Payment button in the payment modal
-        document.getElementById('submit-payment').addEventListener('click', function () {
-            const paymentForm = document.getElementById('payment-form');
-            if (paymentForm.checkValidity()) {
-                // Simulate payment submission (front-end only)
-                alert('Payment successful!');
 
                 // Clear the bookings array and update the summary
                 bookings = [];
                 updateBookingSummary();
                 confirmBookingBtn.disabled = true;
-
-                // Close the payment modal
-                const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
-                paymentModal.hide();
-            } else {
-                paymentForm.reportValidity(); // Show validation errors
             }
         });
-
     });
 </script>
 @endsection
