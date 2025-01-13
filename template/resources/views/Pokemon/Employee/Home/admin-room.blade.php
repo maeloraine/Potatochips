@@ -277,12 +277,12 @@
 @endsection
 
 @section('breadcrumb-title')
-<h3><b>User Management</b></h3>
+<h3><b>Room Management</b></h3>
 @endsection
 
 @section('breadcrumb-items')
-<li class="breadcrumb-item">Accounts</li>
-<li class="breadcrumb-item active">User Management</li>
+<li class="breadcrumb-item">Rooms</li>
+<li class="breadcrumb-item active">Room Management</li>
 @endsection
 
 @section('content')
@@ -297,53 +297,57 @@
         </div>
 </div>
             <div class="table-container">
-            <table id="userTable">
+            <table id="roomTable">
                 <thead>
                     <tr>
-                        <th>Employee Number</th>
-                        <th>Full Name</th>
-                        <th>Password</th>
-                        <th>Account Type</th>
+                        <th>Room No</th>
+                        <th>Room Type</th>
+                        <th>Room Rate</th>
+                        <th>Room Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>efdert3</td>
-                        <td>Nonstop Vertigo</td>
-                        <td>******</td>
-                        <td>Manager</td>
+                        <td>101</td>
+                        <td>Tent</td>
+                        <td>$50</td>
+                        <td>Available</td>
                         <td><button class="edit-button">Edit</button></td>
                     </tr>
                     <tr>
-                        <td>ee34123</td>
-                        <td>Curled Plot</td>
-                        <td>******</td>
-                        <td>Receptionist</td>
+                        <td>102</td>
+                        <td>Cottage</td>
+                        <td>$100</td>
+                        <td>Occupied</td>
                         <td><button class="edit-button">Edit</button></td>
                     </tr>
                 </tbody>
             </table>
             </div>
         
-        <!-- add account button tapos nakafloat na fill in infos -->
-        <button class="add-button" id="addAccountButton">Add Account</button>
+        <button class="add-button" id="addRoomButton">Add Room</button>
     </div>
-    <div class="modal" id="accountModal">
+    <div class="modal" id="roomModal">
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>
-            <h2>Create an Account</h2>
-            <form id="createAccountForm">
-                <label> Employee Number <input type="text" id="username" placeholder="Employee Number" required></label>
-                <label> Password <input type="password" id="password" placeholder="Password" required> </label>
-                <label> Account Type <select id="accountType" required>
-                    <option value="" disabled selected>Select Account Type</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Receptionist">Receptionist</option>
+            <h2>Add a Room</h2>
+            <form id="createRoomForm">
+                <label> Room No <input type="text" id="roomNo" placeholder="Room Number" required></label>
+                <label> Room Type <select id="roomType" required>
+                    <option value="" disabled selected>Select Room Type</option>
+                    <option value="Tent">Tent</option>
+                    <option value="Function Hall">Function Hall</option>
+                    <option value="Cottage">Cottage</option>
                 </select></label>
-                <label> Confirm password <input type="password" id="confirmPassword" placeholder="Confirm Password" required></label>
+                <label> Room Rate <input type="number" id="roomRate" placeholder="Room Rate" required></label>
+                <label> Room Status <select id="roomStatus" required>
+                    <option value="" disabled selected>Select Room Status</option>
+                    <option value="Available">Available</option>
+                    <option value="Occupied">Occupied</option>
+                </select></label>
             </form>
-            <button type="submit" id="createAccount" >Create Account</button>
+            <button type="submit" id="createRoom">Add Room</button>
         </div>
     </div>
 </div>
@@ -354,70 +358,72 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
-    document.getElementById('createAccount').addEventListener('click', () => {
+    const addRoomButton = document.getElementById('addRoomButton');
+    const roomModal = document.getElementById('roomModal');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const createRoomButton = document.getElementById('createRoom');
+
+    // Open modal
+    addRoomButton.addEventListener('click', () => {
+        roomModal.style.display = 'block';
+    });
+
+    // Close modal
+    closeModalButton.addEventListener('click', () => {
+        roomModal.style.display = 'none';
+    });
+
+    // Close modal on clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === roomModal) {
+            roomModal.style.display = 'none';
+        }
+    });
+
+    // Add Room functionality
+    createRoomButton.addEventListener('click', () => {
         // Get form values
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        const accountType = document.getElementById('accountType').value;
+        const roomNo = document.getElementById('roomNo').value;
+        const roomType = document.getElementById('roomType').value;
+        const roomRate = document.getElementById('roomRate').value;
+        const roomStatus = document.getElementById('roomStatus').value;
 
-        // Basic validation
-        if (password !== confirmPassword) {
-            alert('Passwords do not match!');
+        // Validate inputs
+        if (!roomNo || !roomType || !roomRate || !roomStatus) {
+            alert('Please fill in all the fields.');
             return;
         }
 
-        if (!username || !password || !accountType) {
-            alert('All fields are required!');
-            return;
-        }
-
-        // Add the new user to the table
-        const userTable = document.getElementById('userTable').getElementsByTagName('tbody')[0];
-        const newRow = userTable.insertRow();
+        // Add the new room to the table
+        const roomTable = document.getElementById('roomTable').getElementsByTagName('tbody')[0];
+        const newRow = roomTable.insertRow();
 
         // Insert new cells
-        const cell1 = newRow.insertCell(0); // Employee Number
-        const cell2 = newRow.insertCell(1); // Full Name 
-        const cell3 = newRow.insertCell(2); // Password
-        const cell4 = newRow.insertCell(3); // Account Type
+        const cell1 = newRow.insertCell(0); // Room No
+        const cell2 = newRow.insertCell(1); // Room Type
+        const cell3 = newRow.insertCell(2); // Room Rate
+        const cell4 = newRow.insertCell(3); // Room Status
         const cell5 = newRow.insertCell(4); // Actions
 
         // Insert the data
-        cell1.textContent = username;
-        cell2.textContent = "Full Name"; // 
-        cell3.textContent = "******"; // Hide password
-        cell4.textContent = accountType;
+        cell1.textContent = roomNo;
+        cell2.textContent = roomType;
+        cell3.textContent = `$${roomRate}`;
+        cell4.textContent = roomStatus;
+
+        // Create and append edit button
         const editButton = document.createElement('button');
         editButton.classList.add('edit-button');
         editButton.textContent = 'Edit';
         cell5.appendChild(editButton);
 
         // Clear form inputs
-        document.getElementById('createAccountForm').reset();
+        document.getElementById('createRoomForm').reset();
 
         // Close the modal
-        accountModal.style.display = 'none';
+        roomModal.style.display = 'none';
 
-        alert('Account Created Successfully!');
-    });
-
-    const addAccountButton = document.getElementById('addAccountButton');
-    const accountModal = document.getElementById('accountModal');
-    const closeModalButton = document.getElementById('closeModalButton');
-
-    addAccountButton.addEventListener('click', () => {
-        accountModal.style.display = 'block';
-    });
-
-    closeModalButton.addEventListener('click', () => {
-        accountModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === accountModal) {
-            accountModal.style.display = 'none';
-        }
+        alert('Room Added Successfully!');
     });
 </script>
 @endsection

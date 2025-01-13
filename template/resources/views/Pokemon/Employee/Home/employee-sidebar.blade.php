@@ -23,15 +23,15 @@
                         </div>
                     </li>
                     <!-- Dashboard -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-                        <label class="badge badge-light-primary"></label><a class="sidebar-link sidebar-title"
-                            href="{{ route('employee-dashboard') }}">
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('dashboard') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-home') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-home') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
                             </svg><span>Dashboard</span></a>
+                    </li>
                         <!-- <ul class="sidebar-submenu">
                             <li><a class="lan-4" href="{{ route('index') }}">Default</a></li>
                             <li><a class="lan-5" href="{{ route('dashboard-02') }}">Ecommerce</a></li>
@@ -40,53 +40,39 @@
                             <li><a href="{{ route('dashboard-05') }}">Social</a></li>
                         </ul> -->
                     </li>
-                    <!-- Guest Information -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-user') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
-                            </svg><span>Guest Information</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('user-profile') }}">Users Profile</a></li>
-                            <li><a href="{{ route('edit-profile') }}">Users Edit</a></li>
-                            <li><a href="{{ route('user-cards') }}">Users Cards</a></li>
-                        </ul>
-                    </li>
-                    <!-- Booking Information -->
+                    <!-- Guest Management -->
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('calendar-basic') }}">
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('guest') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
-                            </svg><span>Booking Information</span></a>
+                            </svg><span>Guest Management</span></a>
                     </li>
-                    <!-- Billing -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
+
+                    <!-- Room Management -->
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('room') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"></use>
-                            </svg><span>Billing</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('product') }}">Product</a></li>
-                            <li><a href="{{ route('product-page') }}">Product page</a></li>
-                            <li><a href="{{ route('list-products') }}">Product list</a></li>
-                            <li><a href="{{ route('payment-details') }}">Payment Details</a></li>
-                            <li><a href="{{ route('order-history') }}">Order History</a></li>
-                            <li><a href="{{ route('invoice-template') }}">Invoice</a></li>
-                            <li><a href="{{ route('cart') }}">Cart</a></li>
-                            <li><a href="{{ route('list-wish') }}">Wishlist</a></li>
-                            <li><a href="{{ route('checkout') }}">Checkout</a></li>
-                            <li><a href="{{ route('pricing') }}">Pricing </a></li>
-                        </ul>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                            </svg><span>Room Management</span></a>
                     </li>
+
+                    <!-- Booking Management -->
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('booking') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                            </svg><span>Booking Management</span></a>
+                    </li>
+
                     <!-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                             href="#">
                             <svg class="stroke-icon">
@@ -118,27 +104,27 @@
                             <li><a href="{{ route('footer-fixed') }}">Footer Fixed</a></li>
                         </ul>
                     </li> -->
-                    <!-- Reports and Analytics -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
+
+                    <!-- Billing -->
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('billing') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-charts') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-charts') }}"></use>
-                            </svg><span>Reports and Analytics</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('echarts') }}">Echarts</a></li>
-                            <li><a href="{{ route('chart-apex') }}">Apex Chart</a></li>
-                            <li><a href="{{ route('chart-google') }}">Google Chart</a></li>
-                            <li><a href="{{ route('chart-sparkline') }}">Sparkline chart</a></li>
-                            <li><a href="{{ route('chart-flot') }}">Flot Chart</a></li>
-                            <li><a href="{{ route('chart-knob') }}">Knob Chart</a></li>
-                            <li><a href="{{ route('chart-morris') }}">Morris Chart</a></li>
-                            <li><a href="{{ route('chartjs') }}">Chatjs Chart</a></li>
-                            <li><a href="{{ route('chartist') }}">Chartist Chart</a></li>
-                            <li><a href="{{ route('chart-peity') }}">Peity Chart</a></li>
-                        </ul>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                            </svg><span>Billing</span></a>
+                    </li>
+
+                    <!-- Reports and Analytics -->
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('analytics') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                            </svg><span>Analytics</span></a>
                     </li>
                     <li class="sidebar-main-title">
                         <div>
