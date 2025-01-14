@@ -113,6 +113,19 @@
     .booking-details {
         padding-top: 20px;
     }
+    
+    /* Dark mode compatibility */
+    .category-header {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: var(--bs-body-color); /* Use Bootstrap's body color variable */
+    }
+
+    /* Ensure text color adapts to dark mode */
+    .dark-mode .category-header {
+        color: var(--bs-light); /* Light text color for dark mode */
+    }
 </style>
 @endsection
 
