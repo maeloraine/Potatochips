@@ -267,9 +267,9 @@
                             </div>
                         </div>
 
-                        <!-- Gender, Birthdate, and Nationality -->
+                        <!-- Gender and Birthdate -->
                         <div class="row mb-3">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="gender" class="form-label">Gender</label>
                                 <select class="form-select" id="gender" required>
                                     <option value="">Select Gender</option>
@@ -277,13 +277,9 @@
                                     <option value="female">Female</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="birthdate" class="form-label">Birthdate</label>
                                 <input type="date" class="form-control" id="birthdate" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="nationality" class="form-label">Nationality</label>
-                                <input type="text" class="form-control" id="nationality" required>
                             </div>
                         </div>
 
