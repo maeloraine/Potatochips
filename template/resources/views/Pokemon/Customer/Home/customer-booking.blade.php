@@ -110,6 +110,9 @@
     .input-group .btn {
         padding: 5px 10px; /* Reduce button padding */
     }
+    .booking-details {
+        padding-top: 20px;
+    }
 </style>
 @endsection
 
@@ -130,7 +133,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                     <h5>Available Offers</h5>
                     <!-- Check-In/Check-Out and Number of Guests Form -->
-                    <div class="d-flex gap-3 flex-wrap">
+                    <div class="booking-details d-flex gap-3 flex-wrap">
                         <div>
                             <label for="check-in-date" class="form-label">Check-In Date</label>
                             <input type="date" class="form-control" id="check-in-date" required>
