@@ -1,4 +1,4 @@
-@extends('layouts.simple.master')
+@extends('layouts.simple.cust-master')
 
 @section('title', 'Default')
 

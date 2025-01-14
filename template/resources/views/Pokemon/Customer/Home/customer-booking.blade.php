@@ -1,9 +1,9 @@
-@extends('layouts.simple.master')
+@extends('layouts.simple.cust-master')
 
 @section('title', 'Create Booking')
 
 @section('css')
-    
+    <!-- Additional CSS if needed -->
 @endsection
 
 @section('style')
@@ -55,12 +55,12 @@
         display: none;
     }
     .booking-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
     }
     .booking-item:last-child {
         border-bottom: none;
@@ -84,36 +84,29 @@
     .delete-booking:hover {
         background-color: #c82333;
     }
-
     .total-price-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
     }
-
     .total-price-container span {
         font-weight: bold;
         font-size: 1.1rem;
     }
-
     #booking-dates-guests p {
-    margin: 0; /* Remove default margin for paragraphs */
+        margin: 0; /* Remove default margin for paragraphs */
     }
-
     #booking-dates-guests .d-flex {
         margin-bottom: 10px; /* Add spacing between rows */
     }
-
     .input-group {
         width: 100%; /* Ensure the input group takes full width of its container */
     }
-
     .input-group .form-control {
         flex: 1; /* Allow the input to take remaining space */
         text-align: center; /* Center the text in the input */
     }
-
     .input-group .btn {
         padding: 5px 10px; /* Reduce button padding */
     }
@@ -131,8 +124,8 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <!-- Available Offers Section -->
-        <div class="col-md-8">
+        <!-- Available Offers Section (Left Side) -->
+        <div class="col-md-8" id="available-offers">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                     <h5>Available Offers</h5>
@@ -168,46 +161,68 @@
                     <!-- Category Buttons -->
                     <div class="category-buttons">
                         <button class="btn btn-primary" id="show-cottages">Cottages</button>
-                        <button class="btn btn-primary" id="show-function-hall">Function Hall</button>
+                        <button class="btn btn-primary" id="show-kubo">Kubo</button>
+                        <button class="btn btn-primary" id="show-cabin">Cabin</button>
                     </div>
 
                     <!-- Cottages Section -->
                     <div id="cottages-list">
-                        <div class="category-header">Cottages</div>
+                        <div class="category-header">Cottage</div>
+                        <!-- Cottage Offers -->
+                        <div class="offer-card" data-id="1" data-name="Barkada Cottage" data-price="1800" data-details="A cozy kubo with a room, perfect for small families or groups.">
+                            <h6>Barkada Cottage</h6>
+                            <p>Price: ₱1,800.00</p>
+                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
+                        </div>
+                        <div class="offer-card" data-id="2" data-name="Family Cottage" data-price="2700" data-details="A comfortable triangle cabin with air conditioning, ideal for a relaxing stay.">
+                            <h6>Family Cottage</h6>
+                            <p>Price: ₱2,700.00</p>
+                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
+                        </div>
+                        <div class="offer-card" data-id="3" data-name="Duplex Cottage" data-price="800" data-details="A simple tent for those who love camping and the outdoors.">
+                            <h6>Duplex Cottage</h6>
+                            <p>Price: ₱800.00</p>
+                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Kubo Section -->
+                    <div id="kubos-list" class="hidden">
+                        <div class="category-header">Kubo</div>
                         <!-- Cottage Offers -->
                         <div class="offer-card" data-id="1" data-name="Kubo with room" data-price="1800" data-details="A cozy kubo with a room, perfect for small families or groups.">
                             <h6>Kubo with room</h6>
                             <p>Price: ₱1,800.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
                         </div>
-                        <div class="offer-card" data-id="2" data-name="Triangle Cabin w/aircon" data-price="2700" data-details="A comfortable triangle cabin with air conditioning, ideal for a relaxing stay.">
-                            <h6>Triangle Cabin w/aircon</h6>
+                        <div class="offer-card" data-id="2" data-name="Modern kubo" data-price="2700" data-details="A modern kubo, ideal for a relaxing stay.">
+                            <h6>Modern kubo</h6>
                             <p>Price: ₱2,700.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
                         </div>
-                        <div class="offer-card" data-id="3" data-name="Tent" data-price="800" data-details="A simple tent for those who love camping and the outdoors.">
-                            <h6>Tent</h6>
+                        <div class="offer-card" data-id="3" data-name="Small kubo" data-price="800" data-details="A simple and small kubo for barkada">
+                            <h6>Small Kubo</h6>
                             <p>Price: ₱800.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
                         </div>
                     </div>
 
-                    <!-- Function Hall Section -->
-                    <div id="function-hall-list" class="hidden">
-                        <div class="category-header">Function Hall</div>
+                    <!-- Cabin Section -->
+                    <div id="cabins-list" class="hidden">
+                        <div class="category-header">Cabin</div>
                         <!-- Function Hall Offers -->
-                        <div class="offer-card" data-id="4" data-name="Small Function Hall" data-price="5000" data-details="A small function hall suitable for intimate gatherings and events.">
-                            <h6>Small Function Hall</h6>
+                        <div class="offer-card" data-id="4" data-name="Duplex cabin" data-price="5000" data-details="A small cabin ideal for couples.">
+                            <h6>Duplex cabin</h6>
                             <p>Price: ₱5,000.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
                         </div>
-                        <div class="offer-card" data-id="5" data-name="Medium Function Hall" data-price="8000" data-details="A medium-sized function hall perfect for medium-sized events and parties.">
-                            <h6>Medium Function Hall</h6>
+                        <div class="offer-card" data-id="5" data-name="Triangle cabin w/ aircon" data-price="8000" data-details="A comfortable triangle cabin with air conditioning, ideal for a relaxing stay.">
+                            <h6>Triangle cabin w/ aircon</h6>
                             <p>Price: ₱8,000.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
                         </div>
-                        <div class="offer-card" data-id="6" data-name="Large Function Hall" data-price="12000" data-details="A spacious function hall ideal for large events, weddings, and conferences.">
-                            <h6>Large Function Hall</h6>
+                        <div class="offer-card" data-id="6" data-name="2-storey cabin with balcony" data-price="12000" data-details="A spacious cabin ideal for big groups and families who loves overlooking place.">
+                            <h6>2-storey cabin with view deck</h6>
                             <p>Price: ₱12,000.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
                         </div>
@@ -216,7 +231,86 @@
             </div>
         </div>
 
-        <!-- Booking Summary Section -->
+        <!-- Guest Information Section (Hidden by Default) -->
+        <div class="col-md-8 hidden" id="guest-information">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Guest Information</h5>
+                </div>
+                <div class="card-body">
+                    <form id="guest-info-form">
+                        <!-- First Name and Last Name -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="first-name" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="first-name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="last-name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="last-name" required>
+                            </div>
+                        </div>
+
+                        <!-- Gender, Birthdate, and Nationality -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="birthdate" class="form-label">Birthdate</label>
+                                <input type="date" class="form-control" id="birthdate" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="nationality" class="form-label">Nationality</label>
+                                <input type="text" class="form-control" id="nationality" required>
+                            </div>
+                        </div>
+
+                        <!-- Email and Phone Number -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" required>
+                            </div>
+                        </div>
+
+                        <!-- Special Requests -->
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="special-requests" class="form-label">Special Requests</label>
+                                <textarea class="form-control" id="special-requests" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Proceed to Payment Button -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="button" id="proceed-to-payment" class="btn btn-primary">Proceed to Payment</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Summary Section (Right Side) -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
@@ -224,30 +318,32 @@
                 </div>
                 <div class="card-body booking-summary">
                     <h6>Details</h6>
-                    <!-- Date and Number of Guests-->
+                    <!-- Date and Number of Guests -->
                     <div id="booking-dates-guests" class="mt-3">
-                    <!-- Check-In and Check-Out Dates-->
-                    <div class="d-flex justify-content-between">
-                        <p><strong>Check-In:</strong> <span id="summary-check-in">Not set</span></p>
-                        <p><strong>Check-Out:</strong> <span id="summary-check-out">Not set</span></p>
-                    </div>
+                        <!-- Check-In and Check-Out Dates -->
+                        <div class="d-flex justify-content-between">
+                            <p><strong>Check-In:</strong> <span id="summary-check-in">Not set</span></p>
+                            <p><strong>Check-Out:</strong> <span id="summary-check-out">Not set</span></p>
+                        </div>
 
-                    <!-- Adults and Children (Below Dates) -->
-                    <div class="d-flex justify-content-between">
-                        <p><strong>Adults:</strong> <span id="summary-adults">1</span></p>
-                        <p><strong>Children:</strong> <span id="summary-children">0</span></p>
-                    </div><hr>
+                        <!-- Adults and Children (Below Dates) -->
+                        <div class="d-flex justify-content-between">
+                            <p><strong>Adults:</strong> <span id="summary-adults">1</span></p>
+                            <p><strong>Children:</strong> <span id="summary-children">0</span></p>
+                        </div>
+                        <hr>
 
-                    <h6>Booked Offers</h6>
-                    <div id="booking-details">
-                        <p>No offer selected yet.</p>
+                        <h6>Booked Offers</h6>
+                        <div id="booking-details">
+                            <p>No offer selected yet.</p>
+                        </div>
                     </div>
-                </div><hr>
+                    <hr>
 
                     <!-- Display the total price -->
-                    <div class="total-price-container" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-                    <span style="font-weight: bold; font-size: 1.1rem;">Total Price:</span>
-                    <span id="total-price" style="font-weight: bold; font-size: 1.1rem;">₱0.00</span>
+                    <div class="total-price-container">
+                        <span>Total Price:</span>
+                        <span id="total-price">₱0.00</span>
                     </div>
 
                     <button id="confirm-booking" class="btn btn-success btn-block mt-3" disabled>Confirm Booking</button>
@@ -308,18 +404,32 @@
         let selectedOffer = null;
         let bookings = []; // Array to store booked items
 
-        // Toggle visibility for Cottages and Function Hall
+        // Toggle visibility for Cottages, Kubo, and Cabin
         const cottagesList = document.getElementById('cottages-list');
-        const functionHallList = document.getElementById('function-hall-list');
+        const kubosList = document.getElementById('kubos-list');
+        const cabinsList = document.getElementById('cabins-list');
 
+        // Hide all sections initially (except Cottages)
+        kubosList.classList.add('hidden');
+        cabinsList.classList.add('hidden');
+
+        // Event listeners for category buttons
         document.getElementById('show-cottages').addEventListener('click', function () {
             cottagesList.classList.remove('hidden');
-            functionHallList.classList.add('hidden');
+            kubosList.classList.add('hidden');
+            cabinsList.classList.add('hidden');
         });
 
-        document.getElementById('show-function-hall').addEventListener('click', function () {
-            functionHallList.classList.remove('hidden');
+        document.getElementById('show-kubo').addEventListener('click', function () {
             cottagesList.classList.add('hidden');
+            kubosList.classList.remove('hidden');
+            cabinsList.classList.add('hidden');
+        });
+
+        document.getElementById('show-cabin').addEventListener('click', function () {
+            cottagesList.classList.add('hidden');
+            kubosList.classList.add('hidden');
+            cabinsList.classList.remove('hidden');
         });
 
         // Event delegation for "See Details" buttons
@@ -343,7 +453,27 @@
             }
         });
 
-        document.getElementById('function-hall-list').addEventListener('click', function (event) {
+        document.getElementById('kubos-list').addEventListener('click', function (event) {
+            if (event.target.classList.contains('see-details')) {
+                const offerCard = event.target.closest('.offer-card');
+                selectedOffer = {
+                    id: offerCard.dataset.id,
+                    name: offerCard.dataset.name,
+                    price: offerCard.dataset.price,
+                    details: offerCard.dataset.details
+                };
+
+                // Update modal content
+                document.getElementById('modal-offer-name').textContent = selectedOffer.name;
+                document.getElementById('modal-offer-price').textContent = `Price: ₱${selectedOffer.price}`;
+                document.getElementById('modal-offer-details').textContent = selectedOffer.details;
+
+                // Show the modal
+                offerModal.show();
+            }
+        });
+
+        document.getElementById('cabins-list').addEventListener('click', function (event) {
             if (event.target.classList.contains('see-details')) {
                 const offerCard = event.target.closest('.offer-card');
                 selectedOffer = {
@@ -372,8 +502,8 @@
                 // Update booking summary
                 updateBookingSummary();
 
-                // Enable the Confirm Booking button
-                confirmBookingBtn.disabled = false;
+                // Enable the Confirm Booking button if dates are set
+                updateConfirmBookingButtonState();
 
                 // Close the modal
                 offerModal.hide();
@@ -402,6 +532,9 @@
             summaryCheckOut.textContent = checkOutDateInput.value || 'Not set';
             summaryAdults.textContent = adultsInput.value;
             summaryChildren.textContent = childrenInput.value;
+
+            // Update the Confirm Booking button state
+            updateConfirmBookingButtonState();
         }
 
         // Add event listeners for date inputs
@@ -436,6 +569,22 @@
         // Initial update of booking summary details
         updateBookingSummaryDetails();
 
+        // Function to check if dates are set
+        function areDatesSet() {
+            const checkInDate = checkInDateInput.value;
+            const checkOutDate = checkOutDateInput.value;
+            return checkInDate && checkOutDate; // Returns true if both dates are set
+        }
+
+        // Function to update the Confirm Booking button state
+        function updateConfirmBookingButtonState() {
+            if (bookings.length > 0 && areDatesSet()) {
+                confirmBookingBtn.disabled = false; // Enable the button if bookings exist and dates are set
+            } else {
+                confirmBookingBtn.disabled = true; // Disable the button otherwise
+            }
+        }
+
         // Function to update the booking summary
         function updateBookingSummary() {
             if (bookings.length === 0) {
@@ -463,31 +612,39 @@
                         const index = this.getAttribute('data-index');
                         bookings.splice(index, 1); // Remove the item from the bookings array
                         updateBookingSummary(); // Update the booking summary
-                        if (bookings.length === 0) {
-                            confirmBookingBtn.disabled = true; // Disable the Confirm Booking button if no items are left
-                        }
+                        updateConfirmBookingButtonState(); // Update the Confirm Booking button state
                     });
                 });
             }
+            updateConfirmBookingButtonState(); // Update the Confirm Booking button state
         }
 
         // Confirm booking button
         confirmBookingBtn.addEventListener('click', function () {
             if (bookings.length > 0) {
-                // Show the payment modal
-                const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-                paymentModal.show();
-                // Used for sending the data to the backend via AJAX or form submission
-                // Example:
-                // fetch('/bookings', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify(bookings)
-                // }).then(response => response.json())
-                //   .then(data => console.log(data));
+                // Hide Available Offers Section
+                document.getElementById('available-offers').classList.add('hidden');
+
+                // Show Guest Information Section
+                document.getElementById('guest-information').classList.remove('hidden');
             }
         });
-        
+
+        // Proceed to Payment button
+        document.getElementById('proceed-to-payment').addEventListener('click', function () {
+            const guestForm = document.getElementById('guest-info-form');
+
+            // Validate Guest Information Form
+            if (!guestForm.checkValidity()) {
+                guestForm.reportValidity(); // Show validation errors
+                return;
+            }
+
+            // If the form is valid, show the payment modal
+            const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+            paymentModal.show();
+        });
+
         // Submit Payment button in the payment modal
         document.getElementById('submit-payment').addEventListener('click', function () {
             const guestForm = document.getElementById('guest-info-form');
@@ -512,8 +669,6 @@
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 address: document.getElementById('address').value,
-                checkInDate: document.getElementById('check-in-date').value,
-                checkOutDate: document.getElementById('check-out-date').value,
                 specialRequests: document.getElementById('special-requests').value,
             };
 
@@ -547,6 +702,42 @@
             paymentModal.hide();
         });
 
+        // ====================================================
+        // Date Validation
+        // ====================================================
+
+        // Set minimum date for Check-In (today)
+        const today = new Date().toISOString().split('T')[0];
+        checkInDateInput.setAttribute('min', today);
+
+        // Update Check-Out minimum date when Check-In date changes
+        checkInDateInput.addEventListener('change', function () {
+            const checkInDate = new Date(checkInDateInput.value);
+            const minCheckOutDate = new Date(checkInDate);
+            minCheckOutDate.setDate(minCheckOutDate.getDate() + 1); // Check-Out must be at least 1 day after Check-In
+
+            // Set minimum Check-Out date
+            checkOutDateInput.setAttribute('min', minCheckOutDate.toISOString().split('T')[0]);
+
+            // If Check-Out date is invalid, reset it
+            if (new Date(checkOutDateInput.value) < minCheckOutDate) {
+                checkOutDateInput.value = '';
+            }
+        });
+
+        // Ensure Check-Out date is after Check-In date
+        checkOutDateInput.addEventListener('change', function () {
+            const checkInDate = new Date(checkInDateInput.value);
+            const checkOutDate = new Date(checkOutDateInput.value);
+
+            if (checkOutDate <= checkInDate) {
+                alert('Check-Out date must be after Check-In date.');
+                checkOutDateInput.value = '';
+            }
+        });
+
+        // Initial update of Confirm Booking button state
+        updateConfirmBookingButtonState();
     });
 </script>
 @endsection
