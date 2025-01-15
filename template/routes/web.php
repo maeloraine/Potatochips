@@ -422,3 +422,11 @@ Route::get('/customer-login', function () {
 Route::get('/customer/forgot-password', function () {
     return view('Pokemon.Customer.Authentication.customer-forgot-password');
 })->name('customer-forgot-password');
+
+Route::get('/customer/dashboard', function () {
+    return view('Pokemon.Customer.Home.customer-booking');
+})->name('customer-booking');
+
+Route::get('/customer/bookings', function () {
+    return view('Pokemon.Customer.Home.customer-reservations');
+})->name('customer-reservations');

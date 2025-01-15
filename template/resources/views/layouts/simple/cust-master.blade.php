@@ -34,12 +34,12 @@
     <!-- page-wrapper Start-->
     <div class="page-wrapper compact-wrapper" id="pageWrapper">
       <!-- Page Header Start-->
-      @include('pokemon.employee.home.employee-header')
+      @include('pokemon.customer.home.customer-header')
       <!-- Page Header Ends  -->
       <!-- Page Body Start-->
       <div class="page-body-wrapper"> 
         <!-- Page Sidebar Start-->
-        @include('pokemon.Employee.Home.employee-sidebar')
+        @include('pokemon.Customer.Home.customer-sidebar')
         
         <!-- Page Sidebar Ends-->
         <div class="page-body">
@@ -66,7 +66,7 @@
           <!-- Container-fluid Ends-->
         </div>
         <!-- footer start-->
-        @include('pokemon.employee.home.employee-footer') 
+        @include('pokemon.customer.home.customer-footer') 
         
       </div>
     </div>

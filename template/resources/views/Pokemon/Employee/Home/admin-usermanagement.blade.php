@@ -295,7 +295,36 @@
             <div class="button-group">
                 <button class="filter-button" id="filterButton">Filter</button>
         </div>
+
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Employee Number</th>
+                    <th>Full Name</th>
+                    <th>Password</th>
+                    <th>Account Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>efdert3</td>
+                    <td>Nonstop Vertigo</td>
+                    <td>******</td>
+                    <td>Manager</td>
+                    <td><button class="edit-button">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>ee34123</td>
+                    <td>Curled Plot</td>
+                    <td>******</td>
+                    <td>Receptionist</td>
+                    <td><button class="edit-button">Edit</button></td>
+                </tr>
+            </tbody>
+        </table>
 </div>
+
             <div class="table-container">
             <table id="userTable">
                 <thead>
@@ -325,6 +354,7 @@
                 </tbody>
             </table>
             </div>
+
         
         <!-- add account button tapos nakafloat na fill in infos -->
         <button class="add-button" id="addAccountButton">Add Account</button>
@@ -334,6 +364,17 @@
             <button class="close-button" id="closeModalButton">&times;</button>
             <h2>Create an Account</h2>
             <form id="createAccountForm">
+
+                <input type="text" id="username" placeholder="Employee Number" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <select id="accountType" required>
+                    <option value="" disabled selected>Select Account Type</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Receptionist">Receptionist</option>
+                </select>
+                <button type="submit">Create Account</button>
+
                 <label> Employee Number <input type="text" id="username" placeholder="Employee Number" required></label>
                 <label> Password <input type="password" id="password" placeholder="Password" required> </label>
                 <label> Account Type <select id="accountType" required>
@@ -342,17 +383,100 @@
                     <option value="Receptionist">Receptionist</option>
                 </select></label>
                 <label> Confirm password <input type="password" id="confirmPassword" placeholder="Confirm Password" required></label>
+
             </form>
             <button type="submit" id="createAccount" >Create Account</button>
         </div>
     </div>
+
+
+    <script>
+        const addAccountButton = document.getElementById('addAccountButton');
+        const accountModal = document.getElementById('accountModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        
+
+        addAccountButton.addEventListener('click', () => {
+            accountModal.style.display = 'block';
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            accountModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === accountModal) {
+                accountModal.style.display = 'none';
+            }
+        });
+
+        document.getElementById('createAccountForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Account Created Successfully!');
+            accountModal.style.display = 'none';
+        });
+    </script>
+    </div>
+</body>
+</html>
+
+
 </div>
+
 @endsection
 
 @section('script')
 <script src="{{asset('assets/js/datepicker/date-time-picker/moment.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
+
+
+<script> 
+document.getElementById('createAccountForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Get form values
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const accountType = document.getElementById('accountType').value;
+
+    // Basic validation
+    if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+    }
+
+    // Add the new user to the table
+    const userTable = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+    const newRow = userTable.insertRow();
+
+    // Insert new cells
+    const cell1 = newRow.insertCell(0); // Employee Number
+    const cell2 = newRow.insertCell(1); // Full Name
+    const cell3 = newRow.insertCell(2); // Password
+    const cell4 = newRow.insertCell(3); // Account Type
+    const cell5 = newRow.insertCell(4); // Actions
+
+    // Insert the data
+    cell1.textContent = username;
+    cell2.textContent = "Full Name"; // You can modify to allow input for Full Name if needed
+    cell3.textContent = "******"; // Password can be hidden for display purposes
+    cell4.textContent = accountType;
+    const editButton = document.createElement('button');
+    editButton.classList.add('edit-button');
+    editButton.textContent = 'Edit';
+    cell5.appendChild(editButton);
+
+    // Clear form inputs
+    document.getElementById('createAccountForm').reset();
+
+    // Close the modal
+    accountModal.style.display = 'none';
+
+});
+
+
 <script>
     document.getElementById('createAccount').addEventListener('click', () => {
         // Get form values
@@ -419,5 +543,6 @@
             accountModal.style.display = 'none';
         }
     });
+
 </script>
 @endsection

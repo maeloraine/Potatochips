@@ -154,14 +154,13 @@
             <button class="close-button" id="closeModalButton">&times;</button>
             <h2>Create an Account</h2>
             <form id="createAccountForm">
-                <input type="text" id="username" placeholder="Username" required>
+                <input type="text" id="username" placeholder="Employee Number" required>
                 <input type="password" id="password" placeholder="Password" required>
                 <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
                 <select id="accountType" required>
                     <option value="" disabled selected>Select Account Type</option>
-                    <option value="Admin">Admin</option>
                     <option value="Manager">Manager</option>
-                    <option value="User">User</option>
+                    <option value="Receptionist">Receptionist</option>
                 </select>
                 <button type="submit">Create Account</button>
             </form>

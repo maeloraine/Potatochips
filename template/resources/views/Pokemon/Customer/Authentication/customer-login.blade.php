@@ -29,7 +29,7 @@
                <div class="login-main">
                   <form class="theme-form">
                      <h4>Sign In</h4>
-                     <p>Enter your email & password to login</p>
+                     <p style="text-align: center;">Enter your email & password to login</p>
                      <div class="form-group">
                         <label class="col-form-label">Email Address</label>
                         <input class="form-control" type="email" required="" placeholder="Test@gmail.com">
@@ -37,7 +37,7 @@
                      <div class="form-group">
                         <label class="col-form-label">Password</label>
                         <input class="form-control" type="password" name="login[password]" required="" placeholder="*********">
-                        <div class="show-hide"><span class="show">                         </span></div>
+                        <!-- <div class="show-hide"><span class="show">                         </span></div> -->
                      </div>
                      <div class="form-group mb-0">
                         <div class="checkbox p-0">
@@ -62,4 +62,26 @@
 @endsection
 
 @section('script')
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('.theme-form');
+      
+      form.addEventListener('submit', function (event) {
+         event.preventDefault(); // Prevent default form submission behavior
+
+         // Retrieve form input values
+         const email = form.querySelector('input[type="email"]').value.trim();
+         const password = form.querySelector('input[type="password"]').value.trim();
+
+         // Validate email and password
+         if (email === 'guest@gmail.com' && password === 'guest') {
+            // Redirect to customer-booking route
+            window.location.href = "{{ route('customer-booking' , ['role' => 'customer']) }}";
+         } else {
+            // Show an error message
+            alert('Invalid email or password. Please try again.');
+         }
+      });
+   });
+</script>
 @endsection
