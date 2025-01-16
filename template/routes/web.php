@@ -430,3 +430,7 @@ Route::get('/customer/dashboard', function () {
 Route::get('/customer/bookings', function () {
     return view('Pokemon.Customer.Home.customer-reservations');
 })->name('customer-reservations');
+
+Route::get('/customer/account-settings', function () {
+    return view('Pokemon.Customer.Home.account-settings');
+})->name('account-settings');
