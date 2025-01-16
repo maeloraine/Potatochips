@@ -23,7 +23,7 @@
                         </div>
                     </li>
                     <!-- Dashboard -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                    <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('dashboard') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -31,17 +31,9 @@
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
                             </svg><span>Dashboard</span></a>
-                    </li>
-                        <!-- <ul class="sidebar-submenu">
-                            <li><a class="lan-4" href="{{ route('index') }}">Default</a></li>
-                            <li><a class="lan-5" href="{{ route('dashboard-02') }}">Ecommerce</a></li>
-                            <li><a href="{{ route('dashboard-03') }}">Online course</a></li>
-                            <li><a href="{{ route('dashboard-04') }}">Crypto</a></li>
-                            <li><a href="{{ route('dashboard-05') }}">Social</a></li>
-                        </ul> -->
-                    </li>
+
                     <!-- Guest Management -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                    <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('guest') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -52,7 +44,7 @@
                     </li>
 
                     <!-- Room Management -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                    <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('room') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -63,7 +55,7 @@
                     </li>
 
                     <!-- Booking Management -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                    <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('booking') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -73,40 +65,8 @@
                             </svg><span>Booking Management</span></a>
                     </li>
 
-                    <!-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-widget') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-widget') }}"></use>
-                            </svg><span class="lan-6">Widgets</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('general-widget') }}">General</a></li>
-                            <li><a href="{{ route('chart-widget') }}">Chart</a></li>
-                        </ul>
-                    </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-layout') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-layout') }}"></use>
-                            </svg><span class="lan-7">Page layout</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('box-layout') }}">Boxed</a></li>
-                            <li><a href="{{ route('layout-rtl') }}">RTL</a></li>
-                            <li><a href="{{ route('layout-dark') }}">Dark Layout</a></li>
-                            <li><a href="{{ route('hide-on-scroll') }}">Hide Nav Scroll</a></li>
-                            <li><a href="{{ route('footer-light') }}">Footer Light</a></li>
-                            <li><a href="{{ route('footer-dark') }}">Footer Dark</a></li>
-                            <li><a href="{{ route('footer-fixed') }}">Footer Fixed</a></li>
-                        </ul>
-                    </li> -->
-
                     <!-- Billing -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                    <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('billing') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -117,7 +77,7 @@
                     </li>
 
                     <!-- Reports and Analytics -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                    <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('analytics') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -132,7 +92,7 @@
                         </div>
                     </li>
                     <!-- User Management -->
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                    <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('usermanagement') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>

@@ -97,6 +97,11 @@
             background-color: #f2f2f2;
             color: #333;
         }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
 
         .edit-button {
             padding: 5px 10px;
@@ -165,6 +170,19 @@
             border: 1px solid #ddd; 
             margin-top: 20px; 
         }
+        /* Change the color of the date font */
+        .date {
+            color: gray; /* Use any color code (e.g., hex, RGB, or color name) */
+            font-size: 16px; /* Optional: Adjust the font size */
+            font-family: Arial, sans-serif; /* Optional: Set the font family */
+        }
+        
+        .required-field {
+            color:red;
+            font-size: 16px; /* Optional: Adjust the font size */
+            font-family: Arial, sans-serif; /* Optional: Set the font family */
+        }
+
 @media 
         (max-width: 768px) {
             .toolbar {
@@ -280,17 +298,16 @@
             </div>
                 <div class="table-container">
                         <table id="guestTable">
-                            <thead>
+                            <thead >
                                 <tr>
                                     <th>Last Name</th>
                                     <th>First Name</th>
-                                    <th>Middle Initial</th>
+                                    <th>Middle Namel</th>
                                     <th>Gender</th>
                                     <th>Birthdate</th>
-                                    <th>Age</th>
-                                    <th>Nationality</th>
                                     <th>Email</th>
                                     <th>Contact Number</th>
+                                    <th>Special Request</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -298,25 +315,23 @@
                                 <tr>
                                     <td>Doe</td>
                                     <td>John</td>
-                                    <td>A</td>
+                                    <td>Agassi</td>
                                     <td>Male</td>
                                     <td>1990-01-01</td>
-                                    <td>34</td>
-                                    <td>American</td>
                                     <td>john.doe@example.com</td>
-                                    <td>+1234567890</td>
+                                    <td>09214170048</td>
+                                    <td>Bed of roses</td>
                                     <td><button class="edit-button">Edit</button></td>
                                 </tr>
                                 <tr>
-                                    <td>Smith</td>
-                                    <td>Jane</td>
-                                    <td>B</td>
-                                    <td>Female</td>
-                                    <td>1995-05-15</td>
-                                    <td>29</td>
-                                    <td>British</td>
-                                    <td>jane.smith@example.com</td>
-                                    <td>+9876543210</td>
+                                <td>Doe</td>
+                                    <td>John</td>
+                                    <td>Agassi</td>
+                                    <td>Male</td>
+                                    <td>1990-01-01</td>
+                                    <td>john.doe@example.com</td>
+                                    <td>09214170048</td>
+                                    <td>Bed of roses</td>
                                     <td><button class="edit-button">Edit</button></td>
                                 </tr>
                             </tbody>
@@ -329,20 +344,32 @@
             <button class="close-button" id="closeModalButton">&times;</button>
             <h2>Add a Guest</h2>
             <form id="addGuestForm">
-                <label> Last Name <input type="text" id="lastName" placeholder="Last Name" required></label>
-                <label> First Name <input type="text" id="firstName" placeholder="First Name" required></label>
-                <label> Middle Initial <input type="text" id="middleInitial" placeholder="Middle Initial"></label>
-                <label> Gender <select id="gender" required>
+                <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                    <input type="text" id="lastName" placeholder="Last Name" required>
+                </label>
+                <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold;    
+                    margin-left: 5px;">*</span> 
+                    <input type="text" id="firstName" placeholder="First Name" required></label>
+                <label> Middle Name <input type="text" id="middleName" placeholder="Middle Name"></label>
+                <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold;    
+                    margin-left: 5px;">*</span> <select class="date" id="gender" required>
                     <option value="" disabled selected>Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Rather Not Say">Rather Not Say</option>
                 </select></label>
-                <label> Birth Date <input type="date" id="birthdate" placeholder="Birthdate" required></label>
-                <label> Age <input type="number" id="age" placeholder="Age" required></label>
-                <label> Nationality <input type="text" id="nationality" placeholder="Nationality" required></label>
-                <label> Email <input type="email" id="email" placeholder="Email" required></label>
-                <label> Contact Number <input type="text" id="contactNumber" placeholder="Contact Number" required></label>
+                <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold;    
+                    margin-left: 5px;">*</span> 
+                    <input class="date" type="date" id="birthdate" placeholder="Birthdate" required>
+                </label>
+                <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold;    
+                    margin-left: 5px;">*</span> 
+                    <input type="email" id="email" placeholder="Email" required>
+                </label>
+                <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
+                    margin-left: 5px;">*</span> 
+                    <input type="text" id="contactNumber" placeholder="Contact Number" required></label>
+                <label> Special Request <input type="text" id="specialRequest" placeholder="Special Request"></label>
             </form>
             <button id="addGuest" type="submit">Add Guest</button>
         </div>
@@ -354,64 +381,186 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
-        const addGuestButton = document.getElementById('addGuestButton');
-        const guestModal = document.getElementById('guestModal');
-        const closeModalButton = document.getElementById('closeModalButton');
-        const overlay = document.getElementById('overlay'); 
+    const addGuestButton = document.getElementById('addGuestButton');
+    const guestModal = document.getElementById('guestModal');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const addGuestForm = document.getElementById('addGuestForm');
+    const addGuestSubmitButton = document.getElementById('addGuest');
+    const guestTableBody = document.querySelector('#guestTable tbody');
+    
 
-        addGuestButton.addEventListener('click', () => {
-            guestModal.style.display = 'block';
-        });
+    // Open modal
+    addGuestButton.addEventListener('click', () => {
+        guestModal.style.display = 'block';
+    });
 
-        closeModalButton.addEventListener('click', () => {
-            guestModal.style.display = 'none';
-        });
+    // Close modal
+    closeModalButton.addEventListener('click', () => {
+        guestModal.style.display = 'none';
+    });
 
-        window.addEventListener('click', (e) => {
-            if (e.target === guestModal) {
-                guestModal.style.display = 'none';
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === guestModal) {
+             guestModal.style.display = 'none';
             }
         });
-
-        document.getElementById('addGuest').addEventListener('click', (e) => {
-            e.preventDefault(); 
-
-            const lastName = document.getElementById('lastName').value;
-            const firstName = document.getElementById('firstName').value;
-            const middleInitial = document.getElementById('middleInitial').value;
-            const gender = document.getElementById('gender').value;
-            const birthdate = document.getElementById('birthdate').value;
-            const age = document.getElementById('age').value;
-            const nationality = document.getElementById('nationality').value;
-            const email = document.getElementById('email').value;
-            const contactNumber = document.getElementById('contactNumber').value;
-
-            if (!lastName || !firstName || !gender || !birthdate || !age || !nationality || !email || !contactNumber) {
-                alert('Please fill in all required fields.');
-                return;
+ 
+    document.addEventListener('DOMContentLoaded', () => {
+        const guestTableBody = document.querySelector('#guestTable tbody');
+    
+        // Add double-click event listener to table rows
+        guestTableBody.addEventListener('dblclick', (e) => {
+            // Get the row that was double-clicked
+            const row = e.target.closest('tr');
+            if (row) {
+                // Get the full name from the row cells
+                const lastName = row.cells[0].textContent.trim();
+                const firstName = row.cells[1].textContent.trim();
+                const middleName = row.cells[2].textContent.trim();
+                    
+                // Create the full name
+                const fullName = `${firstName} ${middleName} ${lastName}`.trim();
+                    
+                // Show the alert with the full name
+                alert(`Full Name: ${fullName}`);
             }
-
-            const guestTable = document.getElementById('guestTable').getElementsByTagName('tbody')[0];
-            const newRow = guestTable.insertRow();
-
-            newRow.insertCell(0).textContent = lastName;
-            newRow.insertCell(1).textContent = firstName;
-            newRow.insertCell(2).textContent = middleInitial;
-            newRow.insertCell(3).textContent = gender;
-            newRow.insertCell(4).textContent = birthdate;
-            newRow.insertCell(5).textContent = age;
-            newRow.insertCell(6).textContent = nationality;
-            newRow.insertCell(7).textContent = email;
-            newRow.insertCell(8).textContent = contactNumber;
-
-            const editButton = document.createElement('button');
-            editButton.classList.add('edit-button');
-            editButton.textContent = 'Edit';
-            newRow.insertCell(9).appendChild(editButton);
-
-            document.getElementById('addGuestForm').reset();
-
-            guestModal.style.display = 'none';
         });
-    </script>
+    });
+
+   //     // Get the table body
+    // const guestTable = document.getElementById('guestTable');
+
+    // // Add double-click event listener to table rows
+    // guestTable.addEventListener('dblclick', (e) => {
+    //     const row = e.target.closest('tr'); // Get the row that was double-clicked
+    //     if (row && row.rowIndex !== 0) { // Exclude the header row
+    //         const rowData = [...row.children].map(cell => cell.textContent.trim());
+            
+    //         // Create query parameters from the row data
+    //         const queryParams = new URLSearchParams({
+    //             lastName: rowData[0],
+    //             firstName: rowData[1],
+    //             middleName: rowData[2],
+    //             gender: rowData[3],
+    //             birthdate: rowData[4],
+    //             email: rowData[5],
+    //             contactNumber: rowData[6],
+    //             specialRequest: rowData[7]
+    //         });
+
+    //         // Redirect to another page with query parameters
+    //         window.location.href = `/Pokemon/Employee/Home/admin-booking?${queryParams.toString()}`;
+    //     }
+    // });
+
+    
+        // Handle guest addition
+    addGuestSubmitButton.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Get form data
+        const lastName = document.getElementById('lastName').value.trim();
+        const firstName = document.getElementById('firstName').value.trim();
+        const middleName = document.getElementById('middleName').value.trim();
+        const gender = document.getElementById('gender').value;
+        const birthdate = document.getElementById('birthdate').value;
+        const email = document.getElementById('email').value.trim();
+        const contactNumber = document.getElementById('contactNumber').value.trim();
+        const specialRequest = document.getElementById('specialRequest').value.trim();
+
+        // Validate inputs
+        let valid = true;
+        let errorMessages = [];
+
+        if (!lastName) {
+            valid = false;
+            errorMessages.push('Last Name is required.');
+        } else if (lastName.length > 25) {
+            valid = false;
+            errorMessages.push('Last Name must not exceed 25 characters.');
+        }
+
+        // Validate First Name
+        if (!firstName) {
+            valid = false;
+            errorMessages.push('First Name is required.');
+        } else if (firstName.length > 50) {
+            valid = false;
+            errorMessages.push('First Name must not exceed 50 characters.');
+        }
+
+        // Validate Birthdate
+        if (!birthdate) {
+            valid = false;
+            errorMessages.push('Birth Date is required.');
+        } else {
+            const age = new Date().getFullYear() - new Date(birthdate).getFullYear();
+            if (age < 18) {
+                valid = false;
+                errorMessages.push('Guest must be 18 or above.');
+            }
+        }
+        // Validate Contact Number
+        if (contactNumber.length !== 11 || isNaN(contactNumber)) {
+            valid = false;
+            errorMessages.push('Contact number must be exactly 11 digits.');
+        }
+
+        if (middleName.length > 25) {
+            valid = false;
+            errorMessages.push('Middle Name must not exceed 25 characters.');
+        }
+
+        // Validate Gender
+        if (!gender) {
+            valid = false;
+            errorMessages.push('Gender is required.');
+        }
+
+        // Validate Age (must be above 18)
+        const age = new Date().getFullYear() - new Date(birthdate).getFullYear();
+        if (age < 18) {
+            valid = false;
+            errorMessages.push('Guest must be 18 or above.');
+        }
+
+        // Validate Email
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailPattern.test(email)) {
+            valid = false;
+            errorMessages.push('Email must be in a valid format (e.g., example@domain.com).');
+        }
+
+        // Validate Special Request length
+        if (specialRequest.length > 100) {
+            valid = false;
+            errorMessages.push('Special request cannot exceed 100 characters.');
+        }
+
+        // Display error messages if validation fails
+        if (!valid) {
+            alert(errorMessages.join('\n'));
+            return;
+        }
+
+        // If all validations pass, proceed with the form submission (e.g., adding the guest)
+        // Add the new guest to the table
+        const newRow = guestTableBody.insertRow();
+        newRow.innerHTML = `
+            <td>${lastName}</td>
+            <td>${firstName}</td>
+            <td>${middleName}</td>
+            <td>${gender}</td>
+            <td>${birthdate}</td>
+            <td>${email}</td>
+            <td>${contactNumber}</td>
+            <td>${specialRequest}</td>
+            <td><button class="edit-button">Edit</button></td>
+        `;
+
+        // Close the modal
+        guestModal.style.display = 'none';
+    });
+</script>
 @endsection

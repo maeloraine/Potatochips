@@ -171,22 +171,9 @@
             </div>
         </div>
 
-        <!-- Analytics Section -->
-        <div class="charts">
-            <div class="chart-container">
-                <canvas id="dailyBookingsChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="roomOccupancyChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="paymentStatusChart"></canvas>
-            </div>
-        </div>
 
         <!-- Booking Management Table -->
         <div class="table-container">
-            <h2>Booking Management</h2>
             <table id="bookingTable">
                 <thead>
                     <tr>
