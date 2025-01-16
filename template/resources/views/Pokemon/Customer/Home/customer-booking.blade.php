@@ -280,6 +280,7 @@
                             <div class="col-md-6">
                                 <label for="birthdate" class="form-label">Birthdate</label>
                                 <input type="date" class="form-control" id="birthdate" required>
+                                <small class="text-danger" id="age-error" style="display: none;">The primary guest must be at least 18 years old to confirm your booking.</small>
                             </div>
                         </div>
 
@@ -642,9 +643,49 @@
             }
         });
 
+        // Function to calculate age from birthdate
+            function calculateAge(birthdate) {
+                const today = new Date();
+                const birthDate = new Date(birthdate);
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDifference = today.getMonth() - birthDate.getMonth();
+
+                // Adjust age if the birthday hasn't occurred yet this year
+                if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                return age;
+            }
+
+        // Function to validate age
+            function validateAge() {
+                const birthdateInput = document.getElementById('birthdate');
+                const ageError = document.getElementById('age-error');
+                const birthdate = birthdateInput.value;
+
+                if (birthdate) {
+                    const age = calculateAge(birthdate);
+                    if (age < 18) {
+                        ageError.style.display = 'block'; // Show error message
+                        return false; // Guest is under 18
+                    } else {
+                        ageError.style.display = 'none'; // Hide error message
+                        return true; // Guest is 18 or older
+                    }
+                }
+                return false; // Birthdate is not set
+            }
+
         // Proceed to Payment button
         document.getElementById('proceed-to-payment').addEventListener('click', function () {
             const guestForm = document.getElementById('guest-info-form');
+
+            // Validate Guest Information Form
+            if (!guestForm.checkValidity()) {
+                guestForm.reportValidity(); // Show validation errors
+                return;
+            }
 
             // Validate Guest Information Form
             if (!guestForm.checkValidity()) {
@@ -656,6 +697,11 @@
             const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
             paymentModal.show();
         });
+
+        // Event listener for birthdate input to validate age in real-time
+            document.getElementById('birthdate').addEventListener('change', function () {
+                validateAge();
+            });
 
         // Submit Payment button in the payment modal
         document.getElementById('submit-payment').addEventListener('click', function () {
@@ -718,38 +764,56 @@
         // Date Validation
         // ====================================================
 
-        // Set minimum date for Check-In (today)
-        const today = new Date().toISOString().split('T')[0];
-        checkInDateInput.setAttribute('min', today);
+            // Set minimum date for Check-In (today)
+            const today = new Date().toISOString().split('T')[0];
+            checkInDateInput.setAttribute('min', today);
 
-        // Update Check-Out minimum date when Check-In date changes
-        checkInDateInput.addEventListener('change', function () {
-            const checkInDate = new Date(checkInDateInput.value);
-            const minCheckOutDate = new Date(checkInDate);
-            minCheckOutDate.setDate(minCheckOutDate.getDate() + 1); // Check-Out must be at least 1 day after Check-In
+            // Automatically set check-out date to the day after check-in date
+            checkInDateInput.addEventListener('change', function () {
+                const checkInDate = new Date(checkInDateInput.value); // Get the selected check-in date
+                if (checkInDate) {
+                    const checkOutDate = new Date(checkInDate);
+                    checkOutDate.setDate(checkOutDate.getDate() + 1); // Add 1 day to the check-in date
 
-            // Set minimum Check-Out date
-            checkOutDateInput.setAttribute('min', minCheckOutDate.toISOString().split('T')[0]);
+                    // Format the date as YYYY-MM-DD (required for input[type="date"])
+                    const formattedCheckOutDate = checkOutDate.toISOString().split('T')[0];
 
-            // If Check-Out date is invalid, reset it
-            if (new Date(checkOutDateInput.value) < minCheckOutDate) {
-                checkOutDateInput.value = '';
-            }
-        });
+                    // Set the check-out date input value
+                    checkOutDateInput.value = formattedCheckOutDate;
 
-        // Ensure Check-Out date is after Check-In date
-        checkOutDateInput.addEventListener('change', function () {
-            const checkInDate = new Date(checkInDateInput.value);
-            const checkOutDate = new Date(checkOutDateInput.value);
+                    // Update the booking summary
+                    updateBookingSummaryDetails();
+                }
+            });
 
-            if (checkOutDate <= checkInDate) {
-                alert('Check-Out date must be after Check-In date.');
-                checkOutDateInput.value = '';
-            }
-        });
+            // Update Check-Out minimum date when Check-In date changes
+            checkInDateInput.addEventListener('change', function () {
+                const checkInDate = new Date(checkInDateInput.value);
+                const minCheckOutDate = new Date(checkInDate);
+                minCheckOutDate.setDate(minCheckOutDate.getDate() + 1); // Check-Out must be at least 1 day after Check-In
 
-        // Initial update of Confirm Booking button state
-        updateConfirmBookingButtonState();
+                // Set minimum Check-Out date
+                checkOutDateInput.setAttribute('min', minCheckOutDate.toISOString().split('T')[0]);
+
+                // If Check-Out date is invalid, reset it
+                if (new Date(checkOutDateInput.value) < minCheckOutDate) {
+                    checkOutDateInput.value = '';
+                }
+            });
+
+            // Ensure Check-Out date is after Check-In date
+            checkOutDateInput.addEventListener('change', function () {
+                const checkInDate = new Date(checkInDateInput.value);
+                const checkOutDate = new Date(checkOutDateInput.value);
+
+                if (checkOutDate <= checkInDate) {
+                    alert('Check-Out date must be after Check-In date.');
+                    checkOutDateInput.value = '';
+                }
+            });
+
+            // Initial update of Confirm Booking button state
+            updateConfirmBookingButtonState();
     });
 </script>
 @endsection
