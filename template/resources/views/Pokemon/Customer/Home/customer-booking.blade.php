@@ -153,7 +153,7 @@
                         </div>
                         <div>
                             <label for="check-out-date" class="form-label">Check-Out Date</label>
-                            <input type="date" class="form-control" id="check-out-date" required>
+                            <input type="date" class="form-control" id="check-out-date" required readonly>
                         </div>
                         <div style="width: 135px;">
                             <label for="adults" class="form-label">Adults</label>
