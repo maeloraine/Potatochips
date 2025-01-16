@@ -32,12 +32,12 @@
       <div class="col-12 p-0">
          <div class="login-card">
             <div>
-               <div>
+               <!-- <div>
                   <a class="logo" href="{{ route('index') }}">
                      <img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" alt="loginpage">
                      <img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt="loginpage">
                   </a>
-               </div>
+               </div> -->
                <div class="login-main">
                   <form class="theme-form">
                      <h4>Sign In</h4><br>
