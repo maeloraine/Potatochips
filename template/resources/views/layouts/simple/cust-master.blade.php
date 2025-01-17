@@ -39,7 +39,7 @@
       <!-- Page Body Start-->
       <div class="page-body-wrapper"> 
         <!-- Page Sidebar Start-->
-        @include('pokemon.Customer.Home.customer-sidebar')
+        @include('Pokemon.Customer.Home.customer-sidebar')
         
         <!-- Page Sidebar Ends-->
         <div class="page-body">
@@ -66,7 +66,7 @@
           <!-- Container-fluid Ends-->
         </div>
         <!-- footer start-->
-        @include('pokemon.customer.home.customer-footer') 
+        @include('Pokemon.Customer.Home.customer-footer') 
         
       </div>
     </div>

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <script>
-  document.querySelectorAll('a.nav-link').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
+    <script>
+      document.querySelectorAll('a.nav-link').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
       });
-    });
-  });
-</script>
+    </script>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,6 +38,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
+
+    <!-- Add Bootstrap CSS if not already included -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body class="landing-page">
     <!-- tap on top starts-->
@@ -61,7 +64,10 @@
                     <li class="nav-item"><a class="nav-link" href="#faqs">FAQs</a></li>
                   </ul>
                 </div>
-                <div class="buy-btn rounded-pill"><a class="nav-link js-scroll" style="color: white;" target="_blank" href="{{ route('customer-login') }}"> Log in </a></div>
+                <!-- Login Button -->
+                <div class="buy-btn rounded-pill">
+                  <a class="nav-link login-trigger" href="#" style="color: white;"> Log in </a>
+                </div>
               </nav>
             </header>
           </div>
@@ -72,13 +78,13 @@
                 <h6 class="content-title"><img class="arrow-decore" src="{{ asset('assets/images/landing/decore/arrow.svg') }}" alt=""><span class="sub-title">A Nature's Escape for Relaxation and Adventure </span></h6>
                   <h1 class="wow fadeIn" id="home"> <span> Hacienda JenSon Farm Resort </span> </h1>
                   <p class="mt-3 wow fadeIn">Immerse yourself in the beauty of nature while enjoying our premium amenities and unforgettable experiences. Perfect for families, adventurers, and events of all kinds.</p><br/><br/>
-                  <!-- Button container with flexbox centering -->
-                    <div class="d-flex justify-content-center mt-4">
-                      <a class="buy-btn rounded-pill" href="{{ route('customer-login') }}" target="_blank" 
-                          style="padding: 20px 40px; width: 200px; height: 65px; font-size: 18px; text-align: center;">
-                          Book Now!
-                        </a>
-                    </div>
+                  <!-- Book Now Button -->
+                  <div class="d-flex justify-content-center mt-4">
+                    <a class="buy-btn rounded-pill book-now-trigger" href="#" 
+                      style="padding: 20px 40px; width: 200px; height: 65px; font-size: 18px; text-align: center;">
+                      Book Now!
+                    </a>
+                  </div>
                   <div class="btn-grp mt-4"><a class="wow pulse" href="{{ route('index')}}" data-bs-placement="top" title="HTML"> <img src="{{ asset('assets/images/landing/icon/html/html.png') }}" alt=""></a><a class="wow pulse" href="https://angular.pixelstrap.com/cuba/" target="_blank" data-bs-placement="top" title="Angular 13"> <img src="{{ asset('assets/images/landing/icon/angular/angular.png') }}" alt=""></a><a class="wow pulse" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank" data-bs-placement="top" title="Vue 2.6.10"> <img src="{{ asset('assets/images/landing/icon/vue/vue.png') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default/Dubai" target="_blank" data-bs-placement="top" title="React Redux"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="https://laravel.pixelstrap.com/cuba/dashboard/index" target="_blank" data-bs-placement="top" title="Laravel 9"> <img src="{{ asset('assets/images/landing/icon/laravel/laravel.png') }}" alt=""></a><a class="wow pulse" href="https://cubadjango.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Django 4.0.4"> <img src="{{ asset('assets/images/landing/icon/django/django.png') }}" alt=""></a><a class="wow pulse" href="http://cubaflask.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Flask 2.2.2"> <img src="{{ asset('assets/images/landing/stroke-icon/7.svg') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba-context/" target="_blank" data-bs-placement="top" title="React Context"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/8.svg') }}" alt=""></a><a class="wow pulse" href="https://codeigniter.pixelstrap.com/cuba/public/" target="_blank" data-bs-placement="top" title="Codeigniter"> <img src="{{ asset('assets/images/landing/icon/codeigniter/codeigniter-icon.png') }}" alt=""></a><a class="wow pulse" href="https://cuba-nodejs-pixelstrap.herokuapp.com/" target="_blank" data-bs-placement="top" title="Node"> <img src="{{ asset('assets/images/landing/stroke-icon/10.svg') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/11.svg') }}" alt=""></a></div>
                 </div>
               </div>
@@ -784,6 +790,61 @@
         </div>
       </footer> -->
     </div>
+
+    <!-- Add the modal trigger script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Open login modal
+        document.querySelectorAll('.login-trigger, .book-now-trigger').forEach(function (button) {
+          button.addEventListener('click', function (e) {
+            e.preventDefault();
+            $('#customerLoginModal').modal('show');
+          });
+        });
+
+        // Open forgot password modal from login modal
+        document.querySelector('.forgot-password-trigger').addEventListener('click', function (e) {
+          e.preventDefault();
+          $('#customerLoginModal').modal('hide'); // Hide login modal
+          $('#forgotPasswordModal').modal('show'); // Show forgot password modal
+        });
+
+        // Open login modal from forgot password modal
+        document.querySelector('#forgotPasswordModal .sign-in-link').addEventListener('click', function (e) {
+          e.preventDefault();
+          $('#forgotPasswordModal').modal('hide'); // Hide forgot password modal
+          $('#customerLoginModal').modal('show'); // Show login modal
+        });
+
+        // Open sign-up modal from login modal
+        document.querySelector('.theme-form .ms-2[href="{{ route('customer-sign-up') }}"]').addEventListener('click', function (e) {
+          e.preventDefault();
+          $('#customerLoginModal').modal('hide'); // Hide login modal
+          $('#customerSignUpModal').modal('show'); // Show sign-up modal
+        });
+
+        // Open login modal from sign-up modal
+        document.querySelector('#customerSignUpModal .sign-in-link').addEventListener('click', function (e) {
+          e.preventDefault();
+          $('#customerSignUpModal').modal('hide'); // Hide sign-up modal
+          $('#customerLoginModal').modal('show'); // Show login modal
+        });
+      });
+    </script>
+
+    <!-- Include the login modal -->
+    @include('Pokemon.Customer.Authentication.customer-login-modal')
+
+    <!-- Include the sign-up modal -->
+    @include('Pokemon.Customer.Authentication.customer-sign-up-modal')
+
+    <!-- Include the forgot password modal -->
+    @include('Pokemon.Customer.Authentication.forgot-password-modal')
+
+    <!-- Add Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <!-- latest jquery-->
     <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
     <!-- Bootstrap js-->
