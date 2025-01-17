@@ -15,7 +15,7 @@
         }
 
         .container {
-            width: 98%;
+            width: 100%;
             margin: 20px auto;
             background-color: #ffffff;
             padding: 20px;
@@ -32,7 +32,8 @@
             background-color: #0077b6;
 			display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
+            margin-bottom: 5px;
             align-items: center; 
             gap: 10px; 
             padding: 10px;
@@ -289,11 +290,9 @@
 <div class="container">
         <div class="toolbar">
             <div class="search-bar">
-                <input type="text" id="search" placeholder="Search...">
+                <input type="text" id="searchInput" placeholder="Search...">
                 <button id="searchButton">Search</button>
             </div>
-            <div class="button-group">
-                <button class="filter-button" id="filterButton">Filter</button>
         </div>
 </div>
             <div class="table-container">
@@ -362,6 +361,40 @@
     const roomModal = document.getElementById('roomModal');
     const closeModalButton = document.getElementById('closeModalButton');
     const createRoomButton = document.getElementById('createRoom');
+    
+
+    // Function to handle the search
+    function searchItems() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#roomTable tbody tr'); // Get table rows
+
+        rows.forEach(row => {
+            const cells = row.getElementsByTagName('td'); // Get cells in each row
+            let matchFound = false;
+
+            // Check if any cell text matches the search input
+            for (let i = 0; i < cells.length; i++) {
+                const cellText = cells[i].textContent.toLowerCase();
+                if (cellText.includes(searchInput)) {
+                    matchFound = true;
+                    break; // Exit loop if a match is found
+                }
+            }
+
+            // Show or hide the row based on whether a match is found
+            if (matchFound) {
+                row.style.display = ''; // Show row
+            } else {
+                row.style.display = 'none'; // Hide row
+            }
+        });
+    }
+
+    // Add event listener to the search button
+    document.getElementById('searchButton').addEventListener('click', searchItems);
+
+
+  
 
     // Open modal
     addRoomButton.addEventListener('click', () => {

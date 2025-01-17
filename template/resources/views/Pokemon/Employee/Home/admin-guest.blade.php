@@ -289,11 +289,9 @@
             <div class="container">
                 <div class="toolbar">
                     <div class="search-bar">
-                        <input type="text" id="search" placeholder="Search...">
+                        <input type="text" id="searchInput" placeholder="Search...">
                         <button id="searchButton">Search</button>
                     </div>
-                    <div class="button-group">
-                        <button class="filter-button" id="filterButton">Filter</button>
                 </div>
             </div>
                 <div class="table-container">
@@ -302,7 +300,7 @@
                                 <tr>
                                     <th>Last Name</th>
                                     <th>First Name</th>
-                                    <th>Middle Namel</th>
+                                    <th>Middle Name</th>
                                     <th>Gender</th>
                                     <th>Birthdate</th>
                                     <th>Email</th>
@@ -325,7 +323,7 @@
                                 </tr>
                                 <tr>
                                 <td>Doe</td>
-                                    <td>John</td>
+                                    <td>James</td>
                                     <td>Agassi</td>
                                     <td>Male</td>
                                     <td>1990-01-01</td>
@@ -406,6 +404,39 @@
             }
         });
  
+    // Function to handle the search
+    function searchItems() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#guestTable tbody tr'); // Get table rows
+
+        rows.forEach(row => {
+            const cells = row.getElementsByTagName('td'); // Get cells in each row
+            let matchFound = false;
+
+            // Combine the text of specific columns (e.g., first name and last name)
+            const lastName = cells[0].textContent.toLowerCase(); // Last name is in the first column
+            const firstName = cells[1].textContent.toLowerCase(); // First name is in the second column
+            const fullName = `${firstName} ${lastName}`; // Combine first and last name
+
+                // Check if the combined text matches the search input
+                if (fullName.includes(searchInput)) {
+                    matchFound = true;
+                }
+
+                // Show or hide the row based on whether a match is found
+                if (matchFound) {
+                    row.style.display = ''; // Show row
+                } else {
+                    row.style.display = 'none'; // Hide row
+                }
+        });
+    }
+
+    // Add event listener to the search button
+    document.getElementById('searchButton').addEventListener('click', searchItems);
+
+
+
     document.addEventListener('DOMContentLoaded', () => {
         const guestTableBody = document.querySelector('#guestTable tbody');
     
