@@ -211,25 +211,22 @@
         <table id="userTable">
             <thead>
                 <tr>
-                    <th>Employee Number</th>
                     <th>Full Name</th>
-                    <th>Password</th>
+                    <th>Email</th>
                     <th>Account Type</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>efdert3</td>
-                    <td>Nonstop Vertigo</td>
-                    <td>******</td>
+                    <td>Crimson Dimagiba</td>
+                    <td>crimson@gmail.com</td>
                     <td>Manager</td>
                     <td><button class="edit-button">Edit</button></td>
                 </tr>
                 <tr>
-                    <td>ee34123</td>
-                    <td>Curled Plot</td>
-                    <td>******</td>
+                    <td>Gian Pablo</td>
+                    <td>gian2323@gmail.com</td>
                     <td>Receptionist</td>
                     <td><button class="edit-button">Edit</button></td>
                 </tr>
@@ -244,7 +241,9 @@
             <button class="close-button" id="closeModalButton">&times;</button>
             <h2>Create an Account</h2>
             <form id="createAccountForm">
-                <input type="text" id="username" placeholder="Employee Number" required>
+                <input type="text" id="EMP_FName" placeholder="First Name" required>
+                <input type="text" id="EMP_LName" placeholder="Last Name" required>
+                <input type="email" id="EMP_Email" placeholder="Email" required>
                 <input type="password" id="password" placeholder="Password" required>
                 <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
                 <select id="accountType" required>
@@ -297,9 +296,11 @@
 <script> 
 document.getElementById('createAccountForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    
+
     // Get form values
-    const username = document.getElementById('username').value;
+    const EMP_Fname = document.getElementById('EMP_FName').value;  // Corrected ID
+    const EMP_Lname = document.getElementById('EMP_LName').value;  // Corrected ID
+    const email = document.getElementById('EMP_Email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     const accountType = document.getElementById('accountType').value;
@@ -313,31 +314,32 @@ document.getElementById('createAccountForm').addEventListener('submit', (e) => {
     // Add the new user to the table
     const userTable = document.getElementById('userTable').getElementsByTagName('tbody')[0];
     const newRow = userTable.insertRow();
+    const fullName = `${EMP_Fname} ${EMP_Lname}`.trim();
 
     // Insert new cells
-    const cell1 = newRow.insertCell(0); // Employee Number
-    const cell2 = newRow.insertCell(1); // Full Name
-    const cell3 = newRow.insertCell(2); // Password
-    const cell4 = newRow.insertCell(3); // Account Type
-    const cell5 = newRow.insertCell(4); // Actions
+    const cell1 = newRow.insertCell(0); // Full Name
+    const cell2 = newRow.insertCell(1); // Email
+    const cell3 = newRow.insertCell(2); // Account Type
+    const cell4 = newRow.insertCell(3); // Actions
 
     // Insert the data
-    cell1.textContent = username;
-    cell2.textContent = "Full Name"; // You can modify to allow input for Full Name if needed
-    cell3.textContent = "******"; // Password can be hidden for display purposes
-    cell4.textContent = accountType;
+    cell1.textContent = fullName;
+    cell2.textContent = email;
+    cell3.textContent = accountType;
+
+    // Create and append the edit button
     const editButton = document.createElement('button');
     editButton.classList.add('edit-button');
     editButton.textContent = 'Edit';
-    cell5.appendChild(editButton);
+    cell4.appendChild(editButton);
 
     // Clear form inputs
     document.getElementById('createAccountForm').reset();
 
     // Close the modal
     accountModal.style.display = 'none';
-
 });
+
 
 </script>
 @endsection

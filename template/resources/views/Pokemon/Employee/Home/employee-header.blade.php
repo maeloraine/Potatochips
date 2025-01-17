@@ -184,7 +184,7 @@
             <li><a href="#"><i data-feather="mail"></i><span>Inbox</span></a></li>
             <li><a href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li>
             <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>
-            <li><a href="#"><i data-feather="log-in"> </i><span>Log out</span></a></li>
+            <li><a href="{{ route('/') }}"><i data-feather="log-in"> </i><span>Log out</span></a></li>
           </ul>
         </li>
       </ul>

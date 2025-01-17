@@ -64,10 +64,10 @@
                     <li class="nav-item"><a class="nav-link" href="#faqs">FAQs</a></li>
                   </ul>
                 </div>
-                <!-- Login Button -->
+                <!-- Login Button
                 <div class="buy-btn rounded-pill">
                   <a class="nav-link login-trigger" href="#" style="color: white;"> Log in </a>
-                </div>
+                </div> -->
               </nav>
             </header>
           </div>
