@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\RoomController;
 
 
 Route::get('/', function () {
@@ -361,7 +363,10 @@ Route::get('/clear-cache', function () {
     return "Cache is cleared";
 })->name('clear.cache');
 
-// Admin and Employee Side
+// ==================================
+//      Admin and Employee Side
+// ==================================
+
 Route::get('employee/sign-up', function () {
     return view('Pokemon.Employee.Authentication.sign-up');
 })->name('sign-up');
@@ -386,10 +391,6 @@ Route::get('/employee/home/addaccount', function () {
     return view('Pokemon.Employee.Home.admin-addaccount');
 })->name('addaccount');
 
-Route::get('/employee/home/adminguest', function () {
-    return view('Pokemon.Employee.Home.admin-guest');
-})->name('guest');
-
 Route::get('/employee/home/adminbookingt', function () {
     return view('Pokemon.Employee.Home.admin-booking');
 })->name('booking');
@@ -402,15 +403,30 @@ Route::get('/employee/home/adminbilling', function () {
     return view('Pokemon.Employee.Home.admin-billing');
 })->name('billing');
 
-Route::get('/employee/home/adminroom', function () {
-    return view('Pokemon.Employee.Home.admin-room');
-})->name('room');
-
 Route::get('/employee/home/admindashboard', function () {
     return view('Pokemon.Employee.Home.admin-dashboard');
 })->name('dashboard');
 
-// Customer Side
+// ============================================
+//    Admin and Employee Side w/ Controllers Added
+// ============================================
+
+// GUEST
+Route::get('/employee/home/guest-information', [GuestController::class, 'index'])->name('guest.index');
+
+// Add Guest
+Route::post('/employee/home/guest-information', [GuestController::class, 'addGuest'])->name('guest.add');
+
+// ROOM
+Route::get('/employee/home/room-management', [RoomController::class, 'index'])->name('room.index');
+
+// Add Room
+Route::post('/employee/home/room-management', [RoomController::class, 'addRoom'])->name('room.add');
+
+// ==================================
+//      Customer Side
+// ==================================
+
 Route::get('customer/sign-up', function () {
     return view('Pokemon.Customer.Authentication.customer-sign-up');
 })->name('customer-sign-up');

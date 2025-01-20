@@ -301,29 +301,28 @@
                     <tr>
                         <th>Room No</th>
                         <th>Room Type</th>
-                        <th>Room Rate</th>
+                        <th>Room Capacity</th>
                         <th>Room Status</th>
+                        <th>Room Rate</th>
+                        <th>Room Description</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>101</td>
-                        <td>Tent</td>
-                        <td>$50</td>
-                        <td>Available</td>
-                        <td><button class="edit-button">Edit</button></td>
-                    </tr>
-                    <tr>
-                        <td>102</td>
-                        <td>Cottage</td>
-                        <td>$100</td>
-                        <td>Occupied</td>
-                        <td><button class="edit-button">Edit</button></td>
-                    </tr>
+                    @foreach ($rooms as $room)
+                        <tr>
+                            <td>{{ $room->Room_Number }}</td>
+                            <td>{{ $room->Room_Type }}</td>
+                            <td>{{ $room->Room_Capacity }}</td>
+                            <td>{{ $room->Room_Status }}</td>
+                            <td>{{ $room->Room_Rate }}</td>
+                            <td>{{ $room->Room_Description }}</td>
+                            <td><button class="edit-button">Edit</button></td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
-            </div>
+        </div>
         
         <button class="add-button" id="addRoomButton">Add Room</button>
     </div>
@@ -331,22 +330,29 @@
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>
             <h2>Add a Room</h2>
-            <form id="createRoomForm">
-                <label> Room No <input type="text" id="roomNo" placeholder="Room Number" required></label>
-                <label> Room Type <select id="roomType" required>
+            <form id="createRoomForm" method="post" action="{{route('room.add')}}">
+                @csrf
+                @method('post')
+                <label> Room No <input type="text" name="Room_Number" id="roomNo" placeholder="Room Number" required></label>
+                <label> Room Type <select id="roomType" name="Room_Type" required>
                     <option value="" disabled selected>Select Room Type</option>
-                    <option value="Tent">Tent</option>
-                    <option value="Function Hall">Function Hall</option>
                     <option value="Cottage">Cottage</option>
+                    <option value="Kubo">Kubo</option>
+                    <option value="Cabin">Cabin</option>
                 </select></label>
-                <label> Room Rate <input type="number" id="roomRate" placeholder="Room Rate" required></label>
-                <label> Room Status <select id="roomStatus" required>
+                <label> Room Capacity <input type="number" name="Room_Capacity" id="roomCapacity" placeholder="Room Capacity" value="0" required></label>
+                <label> Room Status <select id="roomStatus" name="Room_Status" required>
                     <option value="" disabled selected>Select Room Status</option>
-                    <option value="Available">Available</option>
+                    <option value="Available" selected>Available</option>
                     <option value="Occupied">Occupied</option>
+                    <option value="Reserved">Reserved</option>
                 </select></label>
+                <label> Room Rate <input type="decimal" id="roomRate" name="Room_Rate" placeholder="Room Rate" required></label>
+                <label> Room Description <input type="text" id="roomDescription" name="Room_Description" placeholder="Describe the room..."></label>
+                <div>
+                <button type="submit" id="createRoom">Add Room</button>
+                </div>
             </form>
-            <button type="submit" id="createRoom">Add Room</button>
         </div>
     </div>
 </div>
@@ -413,50 +419,5 @@
         }
     });
 
-    // Add Room functionality
-    createRoomButton.addEventListener('click', () => {
-        // Get form values
-        const roomNo = document.getElementById('roomNo').value;
-        const roomType = document.getElementById('roomType').value;
-        const roomRate = document.getElementById('roomRate').value;
-        const roomStatus = document.getElementById('roomStatus').value;
-
-        // Validate inputs
-        if (!roomNo || !roomType || !roomRate || !roomStatus) {
-            alert('Please fill in all the fields.');
-            return;
-        }
-
-        // Add the new room to the table
-        const roomTable = document.getElementById('roomTable').getElementsByTagName('tbody')[0];
-        const newRow = roomTable.insertRow();
-
-        // Insert new cells
-        const cell1 = newRow.insertCell(0); // Room No
-        const cell2 = newRow.insertCell(1); // Room Type
-        const cell3 = newRow.insertCell(2); // Room Rate
-        const cell4 = newRow.insertCell(3); // Room Status
-        const cell5 = newRow.insertCell(4); // Actions
-
-        // Insert the data
-        cell1.textContent = roomNo;
-        cell2.textContent = roomType;
-        cell3.textContent = `$${roomRate}`;
-        cell4.textContent = roomStatus;
-
-        // Create and append edit button
-        const editButton = document.createElement('button');
-        editButton.classList.add('edit-button');
-        editButton.textContent = 'Edit';
-        cell5.appendChild(editButton);
-
-        // Clear form inputs
-        document.getElementById('createRoomForm').reset();
-
-        // Close the modal
-        roomModal.style.display = 'none';
-
-        alert('Room Added Successfully!');
-    });
 </script>
 @endsection

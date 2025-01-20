@@ -300,7 +300,6 @@
                                 <tr>
                                     <th>Last Name</th>
                                     <th>First Name</th>
-                                    <th>Middle Name</th>
                                     <th>Gender</th>
                                     <th>Birthdate</th>
                                     <th>Email</th>
@@ -310,28 +309,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($guests as $guest)
                                 <tr>
-                                    <td>Doe</td>
-                                    <td>John</td>
-                                    <td>Agassi</td>
-                                    <td>Male</td>
-                                    <td>1990-01-01</td>
-                                    <td>john.doe@example.com</td>
-                                    <td>09214170048</td>
-                                    <td>Bed of roses</td>
+                                    <td>{{$guest -> Guest_LName}}</td>
+                                    <td>{{$guest -> Guest_FName}}</td>
+                                    <td>{{$guest -> Guest_Gender}}</td>
+                                    <td>{{$guest -> Guest_Birthdate}}</td>
+                                    <td>{{$guest -> Guest_Email}}</td>
+                                    <td>{{$guest -> Guest_ContactNumber}}</td>
+                                    <td>{{$guest -> Special_Request}}</td>
                                     <td><button class="edit-button">Edit</button></td>
                                 </tr>
-                                <tr>
-                                <td>Doe</td>
-                                    <td>James</td>
-                                    <td>Agassi</td>
-                                    <td>Male</td>
-                                    <td>1990-01-01</td>
-                                    <td>john.doe@example.com</td>
-                                    <td>09214170048</td>
-                                    <td>Bed of roses</td>
-                                    <td><button class="edit-button">Edit</button></td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -341,16 +330,17 @@
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>
             <h2>Add a Guest</h2>
-            <form id="addGuestForm">
+            <form id="addGuestForm" method="post" action="{{route('guest.add')}}">
+                @csrf
+                @method('post')
                 <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                    <input type="text" id="lastName" placeholder="Last Name" required>
+                    <input type="text" name="Guest_LName" id="lastName" placeholder="Last Name" required>
                 </label>
                 <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold;    
                     margin-left: 5px;">*</span> 
-                    <input type="text" id="firstName" placeholder="First Name" required></label>
-                <label> Middle Name <input type="text" id="middleName" placeholder="Middle Name"></label>
+                    <input type="text" name="Guest_FName" id="firstName" placeholder="First Name" required></label>
                 <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold;    
-                    margin-left: 5px;">*</span> <select class="date" id="gender" required>
+                    margin-left: 5px;">*</span> <select name="Guest_Gender" class="date" id="gender" required>
                     <option value="" disabled selected>Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -358,18 +348,20 @@
                 </select></label>
                 <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold;    
                     margin-left: 5px;">*</span> 
-                    <input class="date" type="date" id="birthdate" placeholder="Birthdate" required>
+                    <input class="date" name="Guest_Birthdate" type="date" id="birthdate" placeholder="Birthdate" required>
                 </label>
                 <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold;    
                     margin-left: 5px;">*</span> 
-                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="email" id="email" name="Guest_Email" placeholder="Email" required>
                 </label>
                 <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
                     margin-left: 5px;">*</span> 
-                    <input type="text" id="contactNumber" placeholder="Contact Number" required></label>
-                <label> Special Request <input type="text" id="specialRequest" placeholder="Special Request"></label>
+                    <input type="text" id="contactNumber" name="Guest_ContactNumber" placeholder="Contact Number" required></label>
+                <label> Special Request <input type="text" id="specialRequest" name="Special_Request" placeholder="Special Request"></label>
+                <div>
+                    <button id="addGuest" type="submit">Add Guest</button>
+                </div>
             </form>
-            <button id="addGuest" type="submit">Add Guest</button>
         </div>
     </div>
 @endsection
@@ -488,7 +480,7 @@
     
         // Handle guest addition
     addGuestSubmitButton.addEventListener('click', (e) => {
-        e.preventDefault();
+        //e.preventDefault();
 
         // Get form data
         const lastName = document.getElementById('lastName').value.trim();

@@ -34,7 +34,7 @@
 
                     <!-- Guest Management -->
                     <li class="sidebar-list"><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('guest') }}">
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('guest.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
@@ -45,7 +45,7 @@
 
                     <!-- Room Management -->
                     <li class="sidebar-list"><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('room') }}">
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('room.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
