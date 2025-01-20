@@ -293,9 +293,11 @@
                 <input type="text" id="searchInput" placeholder="Search...">
                 <button id="searchButton">Search</button>
             </div>
+            <div class="button-group">
+                <button class="filter-button" id="filterButton">Filter</button>
+            </div>
         </div>
-</div>
-            <div class="table-container">
+        <div class="table-container">
             <table id="roomTable">
                 <thead>
                     <tr>
@@ -324,9 +326,9 @@
                 </tbody>
             </table>
             </div>
-        
-        <button class="add-button" id="addRoomButton">Add Room</button>
-    </div>
+            <button class="add-button" id="addRoomButton">Add Room</button>
+        </div>
+</div>
     <div class="modal" id="roomModal">
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>

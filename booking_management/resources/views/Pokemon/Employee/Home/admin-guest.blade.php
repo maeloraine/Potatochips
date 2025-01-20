@@ -287,12 +287,14 @@
 @section('content')
 <div class="container">
     <div class="toolbar">
-            <div class="search-bar">
-                        <input type="text" id="searchInput" placeholder="Search...">
-                        <button id="searchButton">Search</button>
-                    </div>
-                </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search...">
+                <button id="searchButton">Search</button>
+        </div>
+        <div class="button-group">
+                <button class="filter-button" id="filterButton">Filter</button>
             </div>
+                </div>
                 <div class="table-container">
                         <table id="guestTable">
                             <thead >
@@ -334,8 +336,10 @@
                             </tbody>
                         </table>
                     </div>
-        <button type="button" class="add-button" id="addGuestButton">Add Guest</button>
-    </div>
+                    <button type="button" class="add-button" id="addGuestButton">Add Guest</button>
+
+            </div>
+        </div>
     <div class="modal" id="guestModal">
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>
