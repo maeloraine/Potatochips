@@ -285,10 +285,9 @@
 @endsection
 
 @section('content')
-        <body>
-            <div class="container">
-                <div class="toolbar">
-                    <div class="search-bar">
+<div class="container">
+    <div class="toolbar">
+            <div class="search-bar">
                         <input type="text" id="searchInput" placeholder="Search...">
                         <button id="searchButton">Search</button>
                     </div>
