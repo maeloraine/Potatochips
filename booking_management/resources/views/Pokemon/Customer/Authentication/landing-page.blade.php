@@ -20,7 +20,7 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
-    <title>Hacienda JenSon Farm Resort Booking</title>
+    <title>Hacienda Jensen Farm Resort Booking</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/slick-theme.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
     <!-- Bootstrap css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
     <!-- App css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
@@ -52,31 +53,32 @@
       <div id="home" class="landing-home">
         <div class="container-fluid">
           <div class="sticky-header">
-            <header>                       
-              <nav class="navbar navbar-b navbar-dark navbar-trans navbar-expand-xl fixed-top nav-padding" id="sidebar-menu"><a class="navbar-brand p-0" href="#"><img class="img-fluid" src="{{ asset('assets/images/landing/landing_logo.png') }}" alt=""></a>
-                <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
-                <div class="navbar-collapse justify-content-center collapse hidenav" id="navbarDefault">
-                  <ul class="navbar-nav navbar_nav_modify" id="scroll-spy">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#activities">Activities</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#feedbacks">Customer Review</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#faqs">FAQs</a></li>
-                  </ul>
-                </div>
-                <!-- Login Button
-                <div class="buy-btn rounded-pill">
-                  <a class="nav-link login-trigger" href="#" style="color: white;"> Log in </a>
-                </div> -->
-              </nav>
-            </header>
+          <header>                       
+            <nav class="navbar navbar-b navbar-dark navbar-trans navbar-expand-xl fixed-top nav-padding" id="sidebar-menu">
+              <a class="navbar-brand p-0" href="#">
+                <img class="img-fluid" src="{{ asset('assets/images/landing/landing_logo.png') }}" alt="">
+              </a>
+              <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+              </button>
+              <div class="navbar-collapse justify-content-center collapse hidenav" id="navbarDefault">
+                <ul class="navbar-nav navbar_nav_modify" id="scroll-spy">
+                  <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#activities">Activities</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#faqs">FAQs</a></li>
+                </ul>
+              </div>
+            </nav>
+          </header>
+
           </div>
-          <div class="row justify-content-center"style="background-image: url('{{ asset('assets/images/jensonheader.jpg') }}'); background-size: cover; background-position: center;">
+          <div class="row justify-content-center"style="background-image: url('{{ asset('assets/images/jensonheaderfinal.jpg') }}'); background-size: cover; background-position: center;">
             <div class="col-lg-8 col-sm-10">
               <div class="content text-center">
                 <div>
                 <h6 class="content-title"><img class="arrow-decore" src="{{ asset('assets/images/landing/decore/arrow.svg') }}" alt=""><span class="sub-title">A Nature's Escape for Relaxation and Adventure </span></h6>
-                  <h1 class="wow fadeIn" id="home"> <span> Hacienda JenSon Farm Resort </span> </h1>
+                  <h1 class="wow fadeIn" id="home"> <span> Hacienda Jensen Farm Resort </span> </h1>
                   <p class="mt-3 wow fadeIn">Immerse yourself in the beauty of nature while enjoying our premium amenities and unforgettable experiences. Perfect for families, adventurers, and events of all kinds.</p><br/><br/>
                   <!-- Book Now Button -->
                   <div class="d-flex justify-content-center mt-4">
@@ -101,7 +103,7 @@
           <div class="row"> 
             <div class="col-sm-12 wow pulse">
               <div class="landing-title">
-                <h5 class="sub-title">Why Choose Hacienda JenSon Farm Resort?</h5>
+                <h5 class="sub-title">Why Choose Hacienda Jensen Farm Resort?</h5>
                 <h1>Introducing our  <span class="gradient-13"> ACTIVITIES! </span></h1>
             </div>
 
@@ -121,7 +123,6 @@
             <div class="col-xxl-3 col-lg-4 col-sm-6"> 
 
               <div class="feature-box common-card bg-feature-1">
-                <div class="feature-icon"> <img src="{{ asset('assets/images/landing/feature-icon/1.svg') }}" alt=""></div>
                 <h5>Campsite</h5>
                 <p class="mb-0 f-light">Spend a magical night under the stars with modern camping facilities. </p>
               </div>
@@ -129,7 +130,6 @@
 
             <div class="col-xxl-3 col-lg-4 col-sm-6"> 
               <div class="feature-box common-card bg-feature-2">
-                <div class="feature-icon"> <img src="{{ asset('assets/images/landing/feature-icon/2.svg') }}" alt=""></div>
                 <h5>ATV Tours </h5>
                 <p class="mb-0 f-light">Explore the beautiful terrain of our farm with thrilling ATV rides, guided by our experienced staff.</p>
               </div>
@@ -137,7 +137,6 @@
 
             <div class="col-xxl-3 col-lg-4 col-sm-6"> 
               <div class="feature-box common-card bg-feature-3">
-                <div class="feature-icon"> <img src="{{ asset('assets/images/landing/feature-icon/3.svg') }}" alt=""></div>
                 <h5>Event Venue </h5>
                 <p class="mb-0 f-light">Host your next event at our versatile event place, ideal for weddings, conferences, and team-building activities.</p>
               </div>
@@ -162,7 +161,6 @@
           <div class="row flex-nowrap g-4" style="overflow-x: auto; flex-wrap: nowrap;">
             <div class="col-xxl-3 col-lg-4 col-sm-6"> 
                 <div class="feature-box common-card bg-feature-4">
-                  <div class="feature-icon"> <img src="{{ asset('assets/images/landing/feature-icon/4.svg') }}" alt=""></div>
                   <h5>Farm Tour </h5>
                   <p class="mb-0 f-light">Discover the wonders of farm life, from tending to crops to learning about sustainable farming practices, and enjoy hands-on activities.</p>
                 </div>
@@ -170,14 +168,12 @@
 
               <div class="col-xxl-3 col-lg-4 col-sm-6"> 
                 <div class="feature-box common-card bg-feature-5">
-                  <div class="feature-icon"> <img src="{{ asset('assets/images/landing/feature-icon/5.svg') }}" alt=""></div>
                   <h5>Relaxation Areas </h5>
                   <p class="mb-0 f-light">Take in the scenic views while lounging in our peaceful garden areas, perfect for reading, unwinding, or enjoying nature.</p>
                 </div>
               </div>
               <div class="col-xxl-3 col-lg-4 col-sm-6"> 
                 <div class="feature-box common-card bg-feature-6">
-                  <div class="feature-icon"> <img src="{{ asset('assets/images/landing/feature-icon/6.svg') }}" alt=""></div>
                   <h5>Swimming Pool </h5>
                   <p class="mb-0 f-light">Take a refreshing dip in our pristine swimming pool, perfect for a relaxing swim or fun family time. </p>
                 </div>
@@ -189,20 +185,6 @@
       <!-- START OF WORDS -->
       <section class="section-space components-section cuba-demo-section">
         <div class="container">
-          <ul class="decoration">
-            <li class="flower-gif">
-              <div class="mesh-loader">
-                <div class="set-one">
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-                </div>
-                <div class="set-two">
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-                </div>
-              </div>
-            </li>
-          </ul>
           <div class="row">
             <div class="col-sm-12 wow pulse">
               <div class="cuba-demo-content">
@@ -210,10 +192,10 @@
                   <h2>3+</h2>
                 </div>
                 <div class="landing-title">
-                  <h1><span class="gradient-8">Hacienda </span>JenSon</h1>
+                  <h1><span class="gradient-8">Hacienda </span>Jensen</h1>
                   <h5 class="sub-title">Farm Resort</h5>
                   <p>
-                    At Hacienda JenSon Farm Resort, we bring to life the essence of scenic farm retreats, 
+                    At Hacienda Jensen Farm Resort, we bring to life the essence of scenic farm retreats, 
                     rustic charm, and unforgettable group getaway adventures, offering something special 
                     for every guest.
                   </p>
@@ -223,368 +205,133 @@
           </div>
         </div>
         <div class="container-fluid">
+
+        <!-- row 1  -->
           <div class="row component_responsive g-3 mb-3" data-jarallax-element="0 100">
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/1.svg') }}" alt="">
-                <h6 class="m-0 Pt-4">Hacienda JenSon</h6>
-              </div>
-            </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/2.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Farm Resort Getaway</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/3.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Nature Retreat</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/4.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Family Friendly</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/5.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Nature Camp</h6>
               </div>
             </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/6.svg') }}" alt="">
-                <h6 class="m-0">ATV Adventures </h6>
-              </div>
-            </div>
           </div>
+
+          <!-- row 2 -->
           <div class="row component_responsive g-3 mb-3" data-jarallax-element="0 -150">
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/7.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Event Venue</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/8.svg') }}" alt="">
-                <h6 class="m-0">Farm Life Experience</h6>
-              </div>
-            </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/9.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Eco-friendly</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/10.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Relaxation</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/11.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Outdoor Activities </h6>
               </div>
             </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/12.svg') }}" alt="">
-                <h6 class="m-0">Campsite Rentals </h6>
-              </div>
-            </div>
           </div>
+
+          <!-- row 3 -->
           <div class="row component_responsive g-3 mb-3" data-jarallax-element="0 100">
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/13.svg') }}" alt="">
-                <h6 class="m-0">Corporate Event Venue </h6>
-              </div>
-            </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/14.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Romantic Getaway  </h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/15.svg') }}" alt="">
-                <h6 class="m-0"> High Rating </h6>
-              </div>
-            </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/16.svg') }}" alt="">
-                <h6 class="m-0">Open Space </h6>
-              </div>
-            </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/17.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Pet Friendly </h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/18.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Sustainable Tourism </h6>
               </div>
             </div>
+            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
+              <div class="component-hover-effect">
+                <h6 class="m-0"> Haven Place </h6>
+              </div>
+            </div>
           </div>
+
+          <!-- row 4  -->
           <div class="row component_responsive g-3 mb-3" data-jarallax-element="0 -150">
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/19.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Escapade </h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/20.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Fresh Air </h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/21.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Vacations </h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/22.svg') }}" alt="">
-                <h6 class="m-0">Scenic Farm </h6>
-              </div>
-            </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/23.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Countryside  </h6>
               </div>
             </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/24.svg') }}" alt="">
-                <h6 class="m-0">Peaceful</h6>
-              </div>
-            </div>
           </div>
+
+          <!-- row 5  -->
           <div class="row component_responsive g-3" data-jarallax-element="0 100">
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/25.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Hacienda Escape</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/26.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Outdoor Relaxation Spots</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/27.svg') }}" alt="">
-                <h6 class="m-0">All in One  </h6>
-              </div>
-            </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/28.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Authentic Experience</h6>
               </div>
             </div>
             <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/29.svg') }}" alt="">
-                <h6 class="m-0"> ATV Trail Rides</h6>
-              </div>
-            </div>
-            <div class="col-xxl-2 col-lg-3 col-md-4 col-6 component-col-set">
-              <div class="component-hover-effect"><img src="{{ asset('assets/images/landing/icon/30.svg') }}" alt="">
+              <div class="component-hover-effect">
                 <h6 class="m-0">Bonding Activities</h6>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      
-      <!-- START OF CUSTOMER REVIEWS PT. 1 -->
-      <section id="feedbacks" class="section-space customer-support"> 
-        <div class="container"><br/><br/><br/>
-          <div class="row justify-content-center"> 
-            <div class="col-sm-12"> 
-              <div class="landing-title text-center">
-              <div class="landing-title">
-                <h5 class="sub-title">Best Customer Rating</h5>
-                <h1><span class="gradient-13"> Customer Reviews! </span></h1>
-            </div>
-                <div class="rating-title gap-2"><img class="decore-1" src="{{ asset('assets/images/landing/decore/arrow-3.svg') }}" alt="">
-                  <ul class="d-flex ratings gap-1">
-                    <li> <i class="fa fa-star"></i></li>
-                    <li> <i class="fa fa-star"></i></li>
-                    <li> <i class="fa fa-star"></i></li>
-                    <li> <i class="fa fa-star"></i></li>
-                    <li> <i class="fa fa-star"></i></li>
-                  </ul>
-                  <h6 class="rating-title mb-0">4.5 <span class="f-light">(2,2022 rating)</span></h6>
-                </div><br/>
-                <h2> <span class="gradient-1"> Thousands </span> of customers love us! </h2>
-              </div>
-            </div>
-
-            <!-- overall review  -->
-            <div class="col-xxl-10">
-              <div class="row customer-wrap">
-                <div class="col-md-3 col-6">
-                  <div class="customer-wrapper">
-                    <div class="customer-box"> <img src="{{ asset('assets/images/landing/customers/1.svg') }}" alt="">
-                      <h6 class="f-light mb-0 mt-2">Top rated Resort</h6>
-                    </div><img class="outline-box" src="{{ asset('assets/images/landing/decore/arrow-style-1.svg') }}" alt="">
-                  </div>
-                </div>
-                <div class="col-md-3 col-6">
-                  <div class="customer-wrapper">
-                    <div class="customer-box"> <img src="{{ asset('assets/images/landing/customers/2.svg') }}" alt="">
-                      <h6 class="f-light mb-0 mt-2">Popular Getaway Destination</h6>
-                    </div><img class="outline-box" src="{{ asset('assets/images/landing/decore/arrow-style-2.svg') }}" alt="">
-                  </div>
-                </div>
-                <div class="col-md-3 col-6">
-                  <div class="customer-wrapper">
-                    <div class="customer-box"> <img src="{{ asset('assets/images/landing/customers/3.svg') }}" alt="">
-                      <h6 class="f-light mb-0 mt-2">Easy Booking Process</h6>
-                    </div><img class="outline-box" src="{{ asset('assets/images/landing/decore/arrow-style-3.svg') }}" alt="">
-                  </div>
-                </div>
-                <div class="col-md-3 col-6">
-                  <div class="customer-wrapper">
-                    <div class="customer-box"> <img src="{{ asset('assets/images/landing/customers/4.svg') }}" alt="">
-                      <h6 class="f-light mb-0 mt-2">Unforgettable Guest Experience</h6>
-                    </div><img class="outline-box" src="{{ asset('assets/images/landing/decore/arrow-style-4.svg') }}" alt="">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="bottom-section-grad">
-      
-      <!-- START OF CUSTOMER REVIEWS PT. 2 -->
-      <section class="section-space about-section"> 
-          <div class="container-fluid fluid-space">
-            <div class="row"> 
-              <div class="col-sm-12">
-
-                <div class="landing-title text-center">
-                  <h5 class="sub-title">Best Customer Feedback</h5>
-                  <h2> You <span class="gradient-10"> matter. </span></h2>
-                  <p>Read what our guests have to say about their unforgettable experiences at our farm resort.</p>
-                </div><br/>
-              </div>
-              <div class="col-sm-12"> 
-                <div class="testimonial-slider"> 
-                  <div class="testimonial-box common-card"> 
-
-                  <!-- review 1  -->
-                    <div class="rating-content"> 
-                      <ul class="d-flex ratings gap-1">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                      </ul>
-                      <h6 class="mb-0">Family-Friendly</h6>
-                    </div>
-                    <p class="f-light">"Our family had an unforgettable time at Hacienda JenSon Farm Resort! The kids loved the ATV tour, and we had a fantastic time at the campsite. The staff went out of their way to make us feel at home. Highly recommend it!"</p>
-                    <div class="text-end mt-2"> 
-                      <h5><i> Veritas Cruz </h5><span class="font-primary">CUSTOMER</i></span>
-                    </div>
-                    <div class="customer-img"><img src="{{ asset('assets/images/user1.jpg') }}" alt="user1"></div>
-                  </div>
-
-                  <!-- review 2  -->
-                  <div class="testimonial-box common-card"> 
-                    <div class="rating-content"> 
-                      <ul class="d-flex ratings gap-1">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                      </ul>
-                      <h6 class="mb-0">Romantic Getaway</h6>
-                    </div>
-                    <p class="f-light">"A perfect weekend getaway! The resort is peaceful, and the event venue was stunning for our anniversary celebration. The food was delicious, and the service was exceptional. We will definitely return!"</p>
-                    <div class="text-end mt-2"> 
-                      <h5>Juday and Matt Batumbakal</h5><span class="font-primary">CUSTOMER</span>
-                    </div>
-                    <div class="customer-img"><img src="{{ asset('assets/images/user2.jpg') }}" alt="user2"></div>
-                  </div>
-
-                  <!-- review 3  -->
-                  <div class="testimonial-box common-card"> 
-                    <div class="rating-content"> 
-                      <ul class="d-flex ratings gap-1">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                      </ul>
-                      <h6 class="mb-0">Outdoor Adventure</h6>
-                    </div>
-                    <p class="f-light">"Hacienda JenSon is a hidden gem! The hiking trails were beautiful, and we even got to enjoy a peaceful fishing day. The spacious grounds and friendly staff made our stay relaxing and enjoyable."</p>
-                    <div class="text-end mt-2"> 
-                      <h5> Maria Sigma </h5><span class="font-primary">CUSTOMER</span>
-                    </div>
-                    <div class="customer-img"><img src="{{ asset('assets/images/user3.jpg') }}" alt="user3"></div>
-                  </div>
-
-                  <!-- review 4  -->
-                  <div class="testimonial-box common-card"> 
-                    <div class="rating-content"> 
-                      <ul class="d-flex ratings gap-1">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                      </ul>
-                      <h6 class="mb-0">Relaxation </h6>
-                    </div>
-                    <p class="f-light">"What a wonderful place! The pool was a great place to unwind, and the kids loved the campfire nights. The whole experience felt so rejuvenating. We'll be back for sure!"
-                    </p>
-                    <div class="text-end mt-2"> 
-                      <h5>Maris Racal and Anthony Jennings</h5><span class="font-primary">CUSTOMER</span>
-                    </div>
-                    <div class="customer-img"><img src="{{ asset('assets/images/user4.jpg') }}" alt="user4"></div>
-                  </div>
-
-                  <!-- review 5  -->
-                  <div class="testimonial-box common-card"> 
-                    <div class="rating-content"> 
-                      <ul class="d-flex ratings gap-1">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                      </ul>
-                      <h6 class="mb-0">Corporate Retreat</h6>
-                    </div>
-                    <p class="f-light">"We hosted our company retreat here, and it was a hit! The event venue was perfect for our conference, and the resort provided plenty of activities for team-building. Excellent service all around!"
-                    </p>
-                    <div class="text-end mt-2"> 
-                      <h5>Baddie Maddie </h5><span class="font-primary">CUSTOMER</span>
-                    </div>
-                    <div class="customer-img"><img src="{{ asset('assets/images/user5.jpg') }}" alt="user5"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        
         <!-- 2. START OF ABOUT -->
         <section id="about" class="section-space premium-wrap">
           <div class="container"> 
             <ul class="decoration">
-              <li class="flower-gif">
-                <div class="mesh-loader">
-                  <div class="set-one">
-                    <div class="circle"></div>
-                    <div class="circle"></div>
-                  </div>
-                  <div class="set-two">
-                    <div class="circle"></div>
-                    <div class="circle"></div>
-                  </div>
-                </div>
-              </li>
-              <li class="wavy-gif">
+                          <li class="wavy-gif">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 251 38">
                   <path fill="none" stroke-width="10" stroke-miterlimit="10" d="M0,9C17.93,9,17.93,29,35.85,29S53.78,9,71.71,9s17.92,20,35.85,20S125.49,9,143.42,9s17.93,20,35.86,20S197.21,9,215.14,9,233.07,29,251,29"></path>
                 </svg>
@@ -594,8 +341,8 @@
               <div class="col-sm-12"> 
                 <div class="landing-title">
                   <h5 class="sub-title">Dedicated to sustainable and eco-friendly tourism practices.</h5>
-                  <h1> <span class="gradient-3"> ABOUT </span>  </h1>
-                  <p>Operating for over 3 years, Hacienda JenSon Farm Resort has been a top destination for nature lovers and event planners.</p>
+                  <h1> <span class="gradient-3">ABOUT</span>  </h1>
+                  <p>Operating for over 3 years, Hacienda Jensen Farm Resort has been a top destination for nature lovers and event planners.</p>
                 </div><br/></br>
                 <div class="vector-image"> <img src="{{ asset('assets/images/landing/vectors/1.svg') }}" alt=""></div>
               </div>
@@ -649,8 +396,8 @@
             <div class="row"> 
               <div class="col-sm-12">
                 <div class="landing-title text-center">
-                  <h5 class="sub-title">Frequently Ask Question</h5>
-                  <h2>Do you have  <span class="gradient-11">any Question? </span>Look Here</h2>
+                  <h5 class="sub-title">Do you have any questions?</h5>
+                  <h1>  <span class="gradient-11"> Frequently Asked Questions </span></h1>
                   <p>You can freely reach out to us at any time with any questions! We'd always be happy to serve you.</p>
                 </div>
               </div>
@@ -721,7 +468,7 @@
         <div id="admin" class="admin-login">
         <div class="container-fluid">
           <div class="sticky-header">
-          <div class="row justify-content-center"style="background-image: url('{{ asset('assets/images/jensonheader.jpg') }}'); background-size: cover; background-position: center;">
+          <div class="row justify-content-center"style="background-image: url('{{ asset('assets/images/jensonheaderfinal.jpg') }}'); background-size: cover; background-position: center;">
             <div class="col-lg-8 col-sm-10">
               <div class="content text-center">
                 <div>
@@ -862,5 +609,19 @@
     <script src="{{ asset('assets/js/slick/slick.js') }}"></script>
     <script src="{{ asset('assets/js/landing-slick.js') }}"></script>
     <!-- Plugins JS Ends-->
+    <script>
+      // Select the navbar
+      const navbar = document.getElementById('sidebar-menu');
+
+      // Add scroll event listener
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) { // Trigger after scrolling 50px
+          navbar.classList.add('navbar-scroll');
+        } else {
+          navbar.classList.remove('navbar-scroll');
+        }
+      });
+    </script>
+
   </body>
 </html>

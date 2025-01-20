@@ -1,10 +1,10 @@
-@extends('layouts.simple.master')
-@section('title', 'Booking Management')
 
-@section('css')
-@endsection
+<?php $__env->startSection('title', 'Booking Management'); ?>
 
-@section('style')
+<?php $__env->startSection('css'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('style'); ?>
 <style>
     /* General Styles */
     body {
@@ -147,18 +147,18 @@
         height: 300px;
     }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('breadcrumb-title')
+<?php $__env->startSection('breadcrumb-title'); ?>
 <h3><b>Booking Management</b></h3>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('breadcrumb-items')
+<?php $__env->startSection('breadcrumb-items'); ?>
 <li class="breadcrumb-item">General</li>
 <li class="breadcrumb-item active">Booking Management</li>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container">
         <!-- Toolbar -->
         <div class="toolbar">
@@ -170,7 +170,6 @@
                 <button class="filter-button" id="filterButton">Filter</button>
             </div>
         </div>
-
 
         <!-- Booking Management Table -->
         <div class="table-container">
@@ -211,10 +210,60 @@
 
         <button class="add-button" id="addBookingButton">Add Booking</button>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
-<script src="{{asset('assets/js/datepicker/date-time-picker/moment.min.js')}}"></script>
-<script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
-<script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
-@endsection
+<?php $__env->startSection('script'); ?>
+<script src="<?php echo e(asset('assets/js/datepicker/date-time-picker/moment.min.js')); ?>"></script>
+<script src="<?php echo e(asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')); ?>"></script>
+<script src="<?php echo e(asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')); ?>"></script>
+<script>
+    // Daily Bookings Chart
+    const dailyBookingsCtx = document.getElementById('dailyBookingsChart').getContext('2d');
+    new Chart(dailyBookingsCtx, {
+        type: 'line',
+        data: {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            datasets: [{
+                label: 'Daily Bookings',
+                data: [10, 15, 20, 25, 30, 35, 40],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Room Occupancy Chart
+    const roomOccupancyCtx = document.getElementById('roomOccupancyChart').getContext('2d');
+    new Chart(roomOccupancyCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Occupied', 'Available'],
+            datasets: [{
+                data: [60, 40],
+                backgroundColor: ['#ff6384', '#36a2eb']
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Payment Status Chart
+    const paymentStatusCtx = document.getElementById('paymentStatusChart').getContext('2d');
+    new Chart(paymentStatusCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Paid', 'Pending', 'Overdue'],
+            datasets: [{
+                label: 'Payments',
+                data: [30, 15, 5],
+                backgroundColor: ['#4caf50', '#ff9800', '#f44336']
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.simple.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\clari\OneDrive\School\GitHub\Potatochips\template\resources\views/Pokemon/Employee/Home/admin-booking.blade.php ENDPATH**/ ?>

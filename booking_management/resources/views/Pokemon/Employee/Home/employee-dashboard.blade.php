@@ -1,400 +1,394 @@
 @extends('layouts.simple.master')
-
-@section('title', 'Default')
+@section('title', 'Resort Analytics')
 
 @section('css')
-    
 @endsection
 
 @section('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
+<style>
+    .overview-container {
+        height: 120px;
+    }
+    .chart-container {
+        height: 400px; /* Standardize the height for charts */
+    }
+    .row > .col-md-6,
+    .row > .col-md-4 {
+        display: flex;
+        flex-direction: column;
+    }
+	/* General Styles */
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 98%;
+        margin: 20px auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .toolbar {
+        background-color: #0077b6;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .search-bar {
+        display: flex;
+        flex: 1;
+        gap: 10px;
+    }
+
+    .search-bar input {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .search-bar button {
+        padding: 10px 15px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .filter-button {
+        padding: 10px 15px;
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .filter-button:hover {
+        background-color: #1976d2;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    table th, table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .edit-button {
+        padding: 5px 10px;
+        background-color: #ff9800;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .edit-button:hover {
+        background-color: #e68900;
+    }
+
+    .add-button {
+        padding: 10px 15px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        margin: 20px auto;
+    }
+
+    .add-button:hover {
+        background-color: #45a049;
+    }
+
+    .charts {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .chart-container {
+        flex: 1 1 calc(33% - 20px);
+        min-width: 300px;
+        padding: 10px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-container canvas {
+        width: 100%;
+        height: 200px !important;
+    }
+	#overview {
+		height: 160px;
+	}
+	#booking {
+		height: 380px;
+	}
+	.chart-container {
+		height: 300px; /
+	}
+
+	.chart-container.booking-sources {
+		height: 280px;
+	}
+
+	.chart-container.room-status {
+		height: 280px; 
+	}
+
+
+</style>
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Dashboard</h3>
+<h3><b>Dashboard</b></h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Dashboard</li>
-    <!-- <li class="breadcrumb-item active">Default</li> -->
+<li class="breadcrumb-item">Dashboard</li>
 @endsection
 
 @section('content')
-<div class="container-fluid">
-	<div class="row widget-grid">
-	  <div class="col-xxl-4 col-sm-6 box-col-6">
-		<div class="card profile-box">
-		  <div class="card-body">
-			<div class="media">
-			  <div class="media-body"> 
-				<div class="greeting-user">
-				  <h4 class="f-w-600">Welcome to Hacienda Jenson</h4>
-				  <p>Here what's happening in your resort</p>
-				  <!-- <div class="whatsnew-btn"><a class="btn btn-outline-white">Whats New !</a></div> -->
-				</div>
-			  </div>
-			  <div>  
-				<!-- <div class="clockbox">
-				  <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-					<g id="face">
-					  <circle class="circle" cx="300" cy="300" r="253.9"></circle>
-					  <path class="hour-marks" d="M300.5 94V61M506 300.5h32M300.5 506v33M94 300.5H60M411.3 107.8l7.9-13.8M493 190.2l13-7.4M492.1 411.4l16.5 9.5M411 492.3l8.9 15.3M189 492.3l-9.2 15.9M107.7 411L93 419.5M107.5 189.3l-17.1-9.9M188.1 108.2l-9-15.6"></path>
-					  <circle class="mid-circle" cx="300" cy="300" r="16.2"></circle>
-					</g>
-					<g id="hour">
-					  <path class="hour-hand" d="M300.5 298V142"></path>
-					  <circle class="sizing-box" cx="300" cy="300" r="253.9"></circle>
-					</g>
-					<g id="minute">
-					  <path class="minute-hand" d="M300.5 298V67"></path>
-					  <circle class="sizing-box" cx="300" cy="300" r="253.9"></circle>
-					</g>
-					<g id="second">
-					  <path class="second-hand" d="M300.5 350V55"></path>
-					  <circle class="sizing-box" cx="300" cy="300" r="253.9">   </circle>
-					</g>
-				  </svg>
-				</div> -->
-				<div class="badge f-10 p-0" id="txt"></div>
-			  </div>
-			</div>
-			<!-- <div class="cartoon"><img class="img-fluid" src="{{ asset('assets/images/dashboard/cartoon.svg') }}" alt="vector women with leptop"></div> -->
-		  </div>
-		</div>
-	  </div>
-	  
-	  <div class="col-xxl-8 col-lg-12 box-col-12">
-		<div class="card">
-		  <div class="card-header card-no-border"> 
-			<h5>Overall balance</h5>
-		  </div>
-		  <div class="card-body pt-0">
-			<div class="row m-0 overall-card">
-			  <div class="col-xl-9 col-md-12 col-sm-7 p-0">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-				<div class="chart-right">
-				  <div class="row">
-					<div class="col-xl-12">
-					  <div class="card-body p-0">
-						<ul class="balance-data"> 
-						  <li><span class="circle bg-warning"> </span><span class="f-light ms-1">Earning</span></li>
-						  <li><span class="circle bg-primary"> </span><span class="f-light ms-1">Expense</span></li>
-						</ul>
-						<div class="current-sale-container">
-						  <div id="chart-currently"></div>
-						</div>
-					  </div>
-					</div>
-				  </div>
-				</div>
-			  </div>
-			  <div class="col-xl-3 col-md-12 col-sm-5 p-0">
-				<div class="row g-sm-4 g-2">
-				  <div class="col-xl-12 col-md-4">
-					<div class="light-card balance-card widget-hover">
-					  <div class="svg-box">
-						<svg class="svg-fill">
-						  <use href="{{ asset('assets/svg/icon-sprite.svg#income') }}"></use>
-						</svg>
-					  </div>
-					  <div> <span class="f-light">Income</span>
-						<h6 class="mt-1 mb-0">$22,678</h6>
-					  </div>
-					  <div class="ms-auto text-end">
-						<div class="dropdown icon-dropdown">
-						  <button class="btn dropdown-toggle" id="incomedropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-						  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="incomedropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-						</div><span class="font-success">+$456</span>
-					  </div>
-					</div>
-				  </div>
-				  <div class="col-xl-12 col-md-4">
-					<div class="light-card balance-card widget-hover">
-					  <div class="svg-box">
-						<svg class="svg-fill">
-						  <use href="{{ asset('assets/svg/icon-sprite.svg#expense') }}"></use>
-						</svg>
-					  </div>
-					  <div> <span class="f-light">Expense</span>
-						<h6 class="mt-1 mb-0">$12,057</h6>
-					  </div>
-					  <div class="ms-auto text-end">
-						<div class="dropdown icon-dropdown">
-						  <button class="btn dropdown-toggle" id="expensedropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-						  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="expensedropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-						</div><span class="font-danger">+$256</span>
-					  </div>
-					</div>
-				  </div>
-				  <div class="col-xl-12 col-md-4">
-					<div class="light-card balance-card widget-hover">
-					  <div class="svg-box">
-						<svg class="svg-fill">
-						  <use href="{{ asset('assets/svg/icon-sprite.svg#doller-return') }}"></use>
-						</svg>
-					  </div>
-					  <div> <span class="f-light">Cashback</span>
-						<h6 class="mt-1 mb-0">8,475</h6>
-					  </div>
-					  <div class="ms-auto text-end">
-						<div class="dropdown icon-dropdown">
-						  <button class="btn dropdown-toggle" id="cashbackdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-						  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cashbackdropdown"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday </a></div>
-						</div>
-					  </div>
-					</div>
-				  </div>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	  
-	  <div class="col-xxl-4 col-xl-5 col-md-6 col-sm-7 notification box-col-6">
-		<div class="card height-equal"> 
-		  <div class="card-header card-no-border">
-			<div class="header-top">
-			  <h5 class="m-0">Activity</h5>
-			  <div class="card-header-right-icon">
-				<div class="dropdown">
-				  <button class="btn dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
-				  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday  </a></div>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		  <div class="card-body pt-0">
-			<ul> 
-			  <li class="d-flex">
-				<div class="activity-dot-primary"></div>
-				<div class="w-100 ms-3">
-				  <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">8th March, 2022 </span><span>1 day ago</span></p>
-				  <h6>Updated Product<span class="dot-notification"></span></h6>
-				  <p class="f-light">Quisque a consequat ante sit amet magna...</p>
-				</div>
-			  </li>
-			  <li class="d-flex">
-				<div class="activity-dot-warning"></div>
-				<div class="w-100 ms-3">
-				  <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">15th Oct, 2022 </span><span>Today</span></p>
-				  <h6>Tello just like your product<span class="dot-notification"></span></h6>
-				  <p>Quisque a consequat ante sit amet magna... </p>
-				</div>
-			  </li>
-			  <li class="d-flex">
-				<div class="activity-dot-secondary"></div>
-				<div class="w-100 ms-3">
-				  <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">20th Sep, 2022 </span><span>12:00 PM</span></p>
-				  <h6>Tello just like your product<span class="dot-notification"></span></h6>
-				  <p>Quisque a consequat ante sit amet magna... </p>
-				</div>
-			  </li>
-			</ul>
-		  </div>
-		</div>
-	  </div>
-	  <div class="col-xxl-4 col-md-6 appointment-sec box-col-6">
-		<div class="appointment">
-		  <div class="card">
-			<div class="card-header card-no-border">
-			  <div class="header-top">
-				<h5 class="m-0">Recent Sales</h5>
-				<div class="card-header-right-icon">
-				  <div class="dropdown">
-					<button class="btn dropdown-toggle" id="recentButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
-					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentButton"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
-				  </div>
-				</div>
-			  </div>
-			</div>
-			<div class="card-body pt-0">
-			  <div class="appointment-table table-responsive">
-				<table class="table table-bordernone">
-				  <tbody>
-					<tr>
-					  <td><img class="img-fluid img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/1.jpg') }}" alt="user"></td>
-					  <td class="img-content-box"><a class="d-block f-w-500" href="{{ route('user-profile')}}">Jane Cooper</a><span class="f-light">10 minutes ago</span></td>
-					  <td class="text-end">
-						<p class="m-0 font-success">$200.00</p>
-					  </td>
-					</tr>
-					<tr>
-					  <td><img class="img-fluid img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/2.jpg') }}" alt="user"></td>
-					  <td class="img-content-box"><a class="d-block f-w-500" href="{{ route('user-profile')}}">Brooklyn Simmons</a><span class="f-light">19 minutes ago</span></td>
-					  <td class="text-end">
-						<p class="m-0 font-success">$970.00</p>
-					  </td>
-					</tr>
-					<tr>
-					  <td><img class="img-fluid img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/3.jpg') }}" alt="user"></td>
-					  <td class="img-content-box"><a class="d-block f-w-500" href="{{ route('user-profile')}}">Leslie Alexander</a><span class="f-light">2 hours ago</span></td>
-					  <td class="text-end">
-						<p class="m-0 font-success">$300.00</p>
-					  </td>
-					</tr>
-					<tr>
-					  <td><img class="img-fluid img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/4.jpg') }}" alt="user"></td>
-					  <td class="img-content-box"><a class="d-block f-w-500" href="{{ route('user-profile')}}">Travis Wright</a><span class="f-light">8 hours ago</span></td>
-					  <td class="text-end">
-						<p class="m-0 font-success">$450.00</p>
-					  </td>
-					</tr>
-					<tr>
-					  <td><img class="img-fluid img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/5.jpg') }}" alt="user"></td>
-					  <td class="img-content-box"><a class="d-block f-w-500" href="{{ route('user-profile')}}">Mark Green</a><span class="f-light">1 day ago</span></td>
-					  <td class="text-end">
-						<p class="m-0 font-success">$768.00</p>
-					  </td>
-					</tr>
-				  </tbody>
-				</table>
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	  <div class="col-xxl-4 col-md-6 box-col-6">
-		<div class="card">
-		  <div class="card-header card-no-border">
-			<div class="header-top">
-			  <h5 class="m-0">Timeline</h5>
-			  <div class="card-header-right-icon">
-				<div class="dropdown">
-				  <button class="btn dropdown-toggle" id="dropdownschedules" type="button" data-bs-toggle="dropdown" aria-expanded="false">Today</button>
-				  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownschedules"><a class="dropdown-item" href="#">Today</a><a class="dropdown-item" href="#">Tomorrow</a><a class="dropdown-item" href="#">Yesterday</a></div>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		  <div class="card-body pt-0">
-			<div class="schedule-container"> 
-			  <div id="schedulechart"></div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	  <div class="col-xxl-3 col-md-6 box-col-6 col-ed-none wow zoomIn">
-		<div class="card purchase-card"><img class="img-fluid" src="{{ asset('assets/images/dashboard/purchase.png') }}" alt="vector mens with leptop">
-		  <div class="card-body pt-3"> 
-			<h6 class="mb-3">Buy <a href="#">Pro Account </a>to Explore Primium Features</h6><a class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="https://1.envato.market/3GVzd" target="_blank">Purchase Now</a>
-		  </div>
-		</div>
-	  </div>
-	  <div class="col-xxl-4 col-md-6 box-col-6 col-ed-6"> 
-		<div class="row"> 
-		  <div class="col-xl-12"> 
-			<div class="card">
-			  <div class="card-header card-no-border">
-				<div class="header-top">
-				  <h5>Total Users</h5>
-				  <div class="dropdown icon-dropdown">
-					<button class="btn dropdown-toggle" id="userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
-				  </div>
-				</div>
-			  </div>
-			  <div class="card-body pt-0">
-				<ul class="user-list">
-				  <li> 
-					<div class="user-icon primary">
-					  <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
-					</div>
-					<div> 
-					  <h5 class="mb-1">178,098</h5><span class="font-primary d-flex align-items-center"><i class="icon-arrow-up icon-rotate me-1"> </i><span class="f-w-500">+30.89</span></span>
-					</div>
-				  </li>
-				  <li> 
-					<div class="user-icon success">
-					  <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
-					</div>
-					<div> 
-					  <h5 class="mb-1">178,098</h5><span class="font-danger d-flex align-items-center"><i class="icon-arrow-down icon-rotate me-1"></i><span class="f-w-500">-08.89</span></span>
-					</div>
-				  </li>
-				</ul>
-			  </div>
-			</div>
-		  </div>
-		  <div class="col-xl-12"> 
-			<div class="card growth-wrap">
-			  <div class="card-header card-no-border">
-				<div class="header-top">
-				  <h5>Followers Growth</h5>
-				  <div class="dropdown icon-dropdown">
-					<button class="btn dropdown-toggle" id="growthdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
-					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthdropdown"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
-				  </div>
-				</div>
-			  </div>
-			  <div class="card-body pt-0">
-				<div class="growth-wrapper">
-				  <div id="growthchart"></div>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	  <div class="col-xxl-5 col-lg-8 col-md-11 box-col-8 col-ed-6"> 
-		<div class="card papernote-wrap">
-		  <div class="card-header card-no-border">
-			<div class="header-top"> 
-			  <h5>PaperNote</h5><a class="f-light d-flex align-items-center" href="#">View project <i class="f-w-700 icon-arrow-top-right"></i></a>
-			</div>
-		  </div>
-		  <div class="card-body pt-0"> <img class="banner-img img-fluid" src="{{ asset('assets/images/dashboard/papernote.jpg') }}" alt="multicolor background">
-			<div class="note-content mt-sm-4 mt-2">
-			  <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
-			  <div class="note-labels">
-				<ul>
-				  <li> <span class="badge badge-light-primary">SAAS</span></li>
-				  <li> <span class="badge badge-light-success">E-Commerce</span></li>
-				  <li> <span class="badge badge-light-warning">Crypto</span></li>
-				  <li> <span class="badge badge-light-info">Project</span></li>
-				  <li> <span class="badge badge-light-secondary">NFT</span></li>
-				  <li> <span class="badge badge-light-light">+9</span></li>
-				</ul>
-				<div class="last-label"> <span class="badge badge-light-success">Inprogress</span></div>
-			  </div>
-			  <div class="mt-sm-4 mt-2 user-details">
-				<div class="customers">
-				  <ul> 
-					<li class="d-inline-block"><img class="img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/1.jpg') }}" alt="user"></li>
-					<li class="d-inline-block"><img class="img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/6.jpg') }}" alt="user"></li>
-					<li class="d-inline-block"><img class="img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/7.jpg') }}" alt="user"></li>
-					<li class="d-inline-block"><img class="img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/3.jpg') }}" alt="user"></li>
-					<li class="d-inline-block"><img class="img-40 rounded-circle" src="{{ asset('assets/images/dashboard/user/8.jpg') }}" alt="user"></li>
-					<li class="d-inline-block">
-					  <div class="light-card"><span class="f-w-500">+5</span></div>
-					</li>
-				  </ul>
-				</div>
-				<div class="d-flex align-items-center"> 
-				  <h5 class="mb-0 font-primary f-18 me-1">$239,098</h5><span class="f-light f-w-500">(Budget)</span>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
-    <script type="text/javascript">
-        var session_layout = '{{ session()->get('layout') }}';
-    </script>
+    <!-- Overview Section -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card overview-container text-center">
+                <div class="card-body">
+                    <h6>Total Bookings</h6>
+                    <h3><b>1,245</b></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card overview-container text-center">
+                <div class="card-body">
+                    <h6>Total Rooms</h6>
+                    <h3><b>120</b></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card overview-container text-center">
+                <div class="card-body">
+                    <h6>Occupancy Rate</h6>
+                    <h3><b>78%</b></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card overview-container text-center">
+                <div class="card-body">
+                    <h6>New Guests</h6>
+                    <h3><b>245</b></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Second Row - Booking Sources and Room Status -->
+<div class="row mb-4" id="secondRow">
+    <div class="col-md-8">
+        <div class="card chart-container booking-sources" id="booking">
+            <div class="card-header">
+                <h3> Room Trends</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="bookingSourcesChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card chart-container room-status">
+            <div class="card-header">
+                <h3>Room Status</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="roomStatusChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="search-bar">
+                <input type="text" id="search" placeholder="Search...">
+                <button id="searchButton">Search</button>
+            </div>
+            <div class="button-group">
+                <button class="filter-button" id="filterButton">Filter</button>
+            </div>
+        </div>
+
+        <!-- Booking Management Table -->
+        <div class="table-container">
+            <table id="bookingTable">
+                <thead>
+                    <tr>
+                        <th>Guest Name</th>
+                        <th>Room No</th>
+                        <th>Check-In Date</th>
+                        <th>Check-In Time</th>
+                        <th>Check-Out Date</th>
+                        <th>Check-Out Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>101</td>
+                        <td>2025-01-10</td>
+                        <td>14:00</td>
+                        <td>2025-01-15</td>
+                        <td>12:00</td>
+                        <td><button class="edit-button">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>102</td>
+                        <td>2025-01-11</td>
+                        <td>15:00</td>
+                        <td>2025-01-16</td>
+                        <td>11:00</td>
+                        <td><button class="edit-button">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <button class="add-button" id="addBookingButton">Add Booking</button>
+    </div>
+    <!-- Third Row - Occupancy Trends and Income -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card chart-container">
+                <div class="card-header">
+                    <h3>Occupancy Trends</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="occupancyTrendsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card chart-container">
+                <div class="card-header">
+                    <h3>Income</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="incomeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Booking Sources Chart
+    const bookingSourcesCtx = document.getElementById('bookingSourcesChart').getContext('2d');
+    new Chart(bookingSourcesCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Cottage', 'Function Hall', 'Tent'],
+            datasets: [{
+                label: 'Bookings',
+                data: [500, 300, 200],
+                backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // Room Status Chart
+    const roomStatusCtx = document.getElementById('roomStatusChart').getContext('2d');
+    new Chart(roomStatusCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Available', 'Occupied'],
+            datasets: [{
+                data: [50, 70],
+                backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+                borderWidth: 1
+            }]
+        }
+    });
+
+    // Occupancy Trends Chart
+    const occupancyTrendsCtx = document.getElementById('occupancyTrendsChart').getContext('2d');
+    new Chart(occupancyTrendsCtx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Occupancy (%)',
+                data: [65, 70, 75, 80, 78, 82],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                fill: true
+            }]
+        }
+    });
+
+    // Income Chart
+    const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+    new Chart(incomeCtx, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Income (PHP)',
+                data: [20000, 25000, 27000, 30000, 28000, 31000],
+                backgroundColor: ['rgba(255, 159, 64, 0.5)'],
+                borderWidth: 1
+            }]
+        }
+    });
+</script>
 @endsection
 
 @section('script')
-<script src="{{ asset('assets/js/clock.js') }}"></script>
-<script src="{{ asset('assets/js/chart/apex-chart/moment.min.js') }}"></script>
-<script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
-<script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
-<script src="{{ asset('assets/js/notify/index.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
-<script src="{{ asset('assets/js/height-equal.js') }}"></script>
-<script src="{{ asset('assets/js/animation/wow/wow.min.js') }}"></script>
+<script src="{{ asset('assets/js/datepicker/date-time-picker/moment.min.js') }}"></script>
+<script src="{{ asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js') }}"></script>
+<script src="{{ asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js') }}"></script>
 @endsection
