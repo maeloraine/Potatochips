@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
-
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
-    return view('pokemon.employee.authentication.login');
+    return view('Pokemon.Employee.Authentication.login');
 })->name('/');
 
 
@@ -390,3 +390,7 @@ Route::get('/customer-login', function () {
 Route::get('/customer/forgot-password', function () {
     return view('Pokemon.Customer.Authentication.customer-forgot-password');
 })->name('customer-forgot-password');
+
+
+Route::get('pay',[PaymentController::class,'pay']);
+Route::get('success',[PaymentController::class,'success']);
