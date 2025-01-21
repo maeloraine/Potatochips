@@ -1,11 +1,12 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\RoomController;
-
+use App\Http\Controllers\CustomerRoomController;
 
 Route::get('/', function () {
     return view('pokemon.customer.authentication.landing-page'); //replace to landing page
@@ -427,6 +428,10 @@ Route::post('/employee/home/room-management', [RoomController::class, 'addRoom']
 //      Customer Side
 // ==================================
 
+Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
+
+// Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'showAvailableRooms'])->name('customer.rooms');
+
 Route::get('customer/sign-up', function () {
     return view('Pokemon.Customer.Authentication.customer-sign-up');
 })->name('customer-sign-up');
@@ -439,9 +444,9 @@ Route::get('/customer/forgot-password', function () {
     return view('Pokemon.Customer.Authentication.customer-forgot-password');
 })->name('customer-forgot-password');
 
-Route::get('/customer/dashboard', function () {
-    return view('Pokemon.Customer.Home.customer-booking');
-})->name('customer-booking');
+// Route::get('/customer/dashboard', function () {
+//     return view('Pokemon.Customer.Home.customer-booking');
+// })->name('customer-booking');
 
 Route::get('/customer/bookings', function () {
     return view('Pokemon.Customer.Home.customer-reservations');

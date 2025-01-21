@@ -185,21 +185,13 @@
                     <div id="cottages-list">
                         <div class="category-header">Cottage</div>
                         <!-- Cottage Offers -->
-                        <div class="offer-card" data-id="1" data-name="Barkada Cottage" data-price="1800" data-details="A cozy kubo with a room, perfect for small families or groups.">
-                            <h6>Barkada Cottage</h6>
-                            <p>Price: ₱1,800.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
-                        <div class="offer-card" data-id="2" data-name="Family Cottage" data-price="2700" data-details="A comfortable triangle cabin with air conditioning, ideal for a relaxing stay.">
-                            <h6>Family Cottage</h6>
-                            <p>Price: ₱2,700.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
-                        <div class="offer-card" data-id="3" data-name="Duplex Cottage" data-price="800" data-details="A simple tent for those who love camping and the outdoors.">
-                            <h6>Duplex Cottage</h6>
-                            <p>Price: ₱800.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
+                        @foreach($rooms as $room)
+                            <div class="offer-card" data-id="{{ $room->RoomID }}" data-name="{{ $room->Room_Type }}" data-price="{{ $room->Room_Rate }}" data-details="{{ $room->Room_Description }}">
+                                <h6>{{ $room->Room_Type }}</h6>
+                                <p>Price: ₱{{ number_format($room->Room_Rate, 2) }}</p>
+                                <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
+                            </div>
+                        @endforeach
                     </div>
 
                     <!-- Kubo Section -->
@@ -209,16 +201,6 @@
                         <div class="offer-card" data-id="1" data-name="Kubo with room" data-price="1800" data-details="A cozy kubo with a room, perfect for small families or groups.">
                             <h6>Kubo with room</h6>
                             <p>Price: ₱1,800.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
-                        <div class="offer-card" data-id="2" data-name="Modern kubo" data-price="2700" data-details="A modern kubo, ideal for a relaxing stay.">
-                            <h6>Modern kubo</h6>
-                            <p>Price: ₱2,700.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
-                        <div class="offer-card" data-id="3" data-name="Small kubo" data-price="800" data-details="A simple and small kubo for barkada">
-                            <h6>Small Kubo</h6>
-                            <p>Price: ₱800.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
                         </div>
                     </div>
@@ -232,16 +214,7 @@
                             <p>Price: ₱5,000.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
                         </div>
-                        <div class="offer-card" data-id="5" data-name="Triangle cabin w/ aircon" data-price="8000" data-details="A comfortable triangle cabin with air conditioning, ideal for a relaxing stay.">
-                            <h6>Triangle cabin w/ aircon</h6>
-                            <p>Price: ₱8,000.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
-                        <div class="offer-card" data-id="6" data-name="2-storey cabin with balcony" data-price="12000" data-details="A spacious cabin ideal for big groups and families who loves overlooking place.">
-                            <h6>2-storey cabin with view deck</h6>
-                            <p>Price: ₱12,000.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
+
                     </div>
                 </div>
             </div>

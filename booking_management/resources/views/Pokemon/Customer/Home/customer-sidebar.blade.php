@@ -22,7 +22,7 @@
                 <ul class="sidebar-links" id="simple-bar">
                     <!-- Back Button -->
                     <li class="back-btn">
-                        <a href="{{ route('customer-booking') }}">
+                        <a href="{{ route('customer.index') }}">
                             <img class="img-fluid" src="{{ asset('assets/images/logo/logo-icon.png') }}" alt="Logo Icon">
                         </a>
                         <div class="mobile-back text-end">
@@ -41,7 +41,7 @@
                     <!-- Book Now -->
                     <li class="sidebar-list">
                         <i class="fa fa-thumb-tack"></i>
-                        <a class="sidebar-link sidebar-title" href="{{ route('customer-booking') }}">
+                        <a class="sidebar-link sidebar-title" href="{{ route('customer.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>

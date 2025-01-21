@@ -116,6 +116,21 @@
             background-color: #e68900;
         }
 
+        /* Delete button styles */
+        .delete-button {
+            padding: 5px 10px;
+            background-color: #dc3545; /* Red color for delete */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+
         .add-button {
             padding: 10px 15px;
             background-color: #4caf50;
@@ -142,15 +157,19 @@
         }
 
         .modal-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
             background-color: #023e8a;
             color: white;
-            width: 600px;
-            margin: 5% auto;
-            padding: 20px;
             border-radius: 10px;
-            position: relative;
-            top: 70px;
+            max-width: 600px;
+            width: 90%;
+            margin: auto;
         }
+
         .close-button {
             position: absolute;
             top: 10px;
@@ -263,6 +282,26 @@
             background-color: #560bad;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #addGuest {
+            padding: 10px 20px;
+            background-color: #800080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #addGuest:hover {
+            background-color: #560bad;
+        }
+
         @media screen and (max-width: 768px) {
             .modal-content form {
                 flex-direction: column;
@@ -271,6 +310,12 @@
             .modal-content label {
                 flex: 1 1 100%;
             }
+        }
+        /* Ensure the "Actions" column is wide enough */
+        table th:nth-child(8),
+        table td:nth-child(8) {
+            width: 150px; /* Adjust the width as needed */
+            min-width: 150px; /* Prevent the column from shrinking */
         }
     </style>
 @endsection
@@ -292,78 +337,84 @@
                         <input type="text" id="searchInput" placeholder="Search...">
                         <button id="searchButton">Search</button>
                     </div>
+                    <div class="button-group">
+                        <button class="filter-button" id="filterButton">Filter</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="guestTable">
+                        <thead >
+                            <tr>
+                                <th>Last Name</th>
+                                <th>First Name</th>
+                                <th>Gender</th>
+                                <th>Birthdate</th>
+                                <th>Email</th>
+                                <th>Contact Number</th>
+                                <th>Special Request</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($guests as $guest)
+                            <tr>
+                                <td>{{$guest -> Guest_LName}}</td>
+                                <td>{{$guest -> Guest_FName}}</td>
+                                <td>{{$guest -> Guest_Gender}}</td>
+                                <td>{{$guest -> Guest_Birthdate}}</td>
+                                <td>{{$guest -> Guest_Email}}</td>
+                                <td>{{$guest -> Guest_ContactNumber}}</td>
+                                <td>{{$guest -> Special_Request}}</td>
+                                <td>
+                                    <button class="edit-button">Edit</button>
+                                    <button class="delete-button">Delete</button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                    <button type="button" class="add-button" id="addGuestButton">Add Guest</button>
                 </div>
             </div>
-                <div class="table-container">
-                        <table id="guestTable">
-                            <thead >
-                                <tr>
-                                    <th>Last Name</th>
-                                    <th>First Name</th>
-                                    <th>Gender</th>
-                                    <th>Birthdate</th>
-                                    <th>Email</th>
-                                    <th>Contact Number</th>
-                                    <th>Special Request</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($guests as $guest)
-                                <tr>
-                                    <td>{{$guest -> Guest_LName}}</td>
-                                    <td>{{$guest -> Guest_FName}}</td>
-                                    <td>{{$guest -> Guest_Gender}}</td>
-                                    <td>{{$guest -> Guest_Birthdate}}</td>
-                                    <td>{{$guest -> Guest_Email}}</td>
-                                    <td>{{$guest -> Guest_ContactNumber}}</td>
-                                    <td>{{$guest -> Special_Request}}</td>
-                                    <td><button class="edit-button">Edit</button></td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+        <div class="modal" id="guestModal">
+            <div class="modal-content">
+                <button class="close-button" id="closeModalButton">&times;</button>
+                <h2>Add a Guest</h2>
+                <form id="addGuestForm" method="post" action="{{route('guest.add')}}">
+                    @csrf
+                    @method('post')
+                    <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                        <input type="text" name="Guest_LName" id="lastName" placeholder="Last Name" required>
+                    </label>
+                    <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold;    
+                        margin-left: 5px;">*</span> 
+                        <input type="text" name="Guest_FName" id="firstName" placeholder="First Name" required></label>
+                    <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold;    
+                        margin-left: 5px;">*</span> <select name="Guest_Gender" class="date" id="gender" required>
+                        <option value="" disabled selected>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Rather Not Say">Rather Not Say</option>
+                    </select></label>
+                    <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold;    
+                        margin-left: 5px;">*</span> 
+                        <input class="date" name="Guest_Birthdate" type="date" id="birthdate" placeholder="Birthdate" required>
+                    </label>
+                    <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold;    
+                        margin-left: 5px;">*</span> 
+                        <input type="email" id="email" name="Guest_Email" placeholder="Email" required>
+                    </label>
+                    <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
+                        margin-left: 5px;">*</span> 
+                        <input type="text" id="contactNumber" name="Guest_ContactNumber" placeholder="Contact Number" required></label>
+                    <label> Special Request <input type="text" id="specialRequest" name="Special_Request" placeholder="Special Request"></label>
+                    <div class="button-container">
+                        <button id="addGuest" type="submit">Add Guest</button>
                     </div>
-        <button type="button" class="add-button" id="addGuestButton">Add Guest</button>
-    </div>
-    <div class="modal" id="guestModal">
-        <div class="modal-content">
-            <button class="close-button" id="closeModalButton">&times;</button>
-            <h2>Add a Guest</h2>
-            <form id="addGuestForm" method="post" action="{{route('guest.add')}}">
-                @csrf
-                @method('post')
-                <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                    <input type="text" name="Guest_LName" id="lastName" placeholder="Last Name" required>
-                </label>
-                <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold;    
-                    margin-left: 5px;">*</span> 
-                    <input type="text" name="Guest_FName" id="firstName" placeholder="First Name" required></label>
-                <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold;    
-                    margin-left: 5px;">*</span> <select name="Guest_Gender" class="date" id="gender" required>
-                    <option value="" disabled selected>Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Rather Not Say">Rather Not Say</option>
-                </select></label>
-                <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold;    
-                    margin-left: 5px;">*</span> 
-                    <input class="date" name="Guest_Birthdate" type="date" id="birthdate" placeholder="Birthdate" required>
-                </label>
-                <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold;    
-                    margin-left: 5px;">*</span> 
-                    <input type="email" id="email" name="Guest_Email" placeholder="Email" required>
-                </label>
-                <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
-                    margin-left: 5px;">*</span> 
-                    <input type="text" id="contactNumber" name="Guest_ContactNumber" placeholder="Contact Number" required></label>
-                <label> Special Request <input type="text" id="specialRequest" name="Special_Request" placeholder="Special Request"></label>
-                <div>
-                    <button id="addGuest" type="submit">Add Guest</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
 @endsection
 
 @section('script')
@@ -443,7 +494,7 @@
                 const middleName = row.cells[2].textContent.trim();
                     
                 // Create the full name
-                const fullName = `${firstName} ${middleName} ${lastName}`.trim();
+                const fullName = `${firstName} ${lastName}`.trim();
                     
                 // Show the alert with the full name
                 alert(`Full Name: ${fullName}`);

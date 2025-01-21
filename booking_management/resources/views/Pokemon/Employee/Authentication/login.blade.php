@@ -121,17 +121,26 @@
          const password = passwordField.value;
 
          if (role === 'receptionist') {
-            window.location.href = "{{ route('employee-dashboard', ['role' => 'employee']) }}";
+            //Receptionist credentials
+            if (email === 'receptionist@gmail.com' && password === 'receptionist123') {
+               window.location.href = "{{ route('employee-dashboard') }}";
+            } else {
+               alert('Invalid receptionist credentials!');
+            }
          } else if (role === 'manager') {
-            window.location.href = "{{ route('employee-dashboard', ['role' => 'employee']) }}";
+            //Manager credentials
+            if (email === 'manager@gmail.com' && password === 'manager123') {
+               window.location.href = "{{ route('employee-dashboard') }}";
+            } else {
+               alert('Invalid manager credentials!');
+            }
          } else if (role === 'admin') {
-            // Admin credentials
-            // if (email === 'admin@gmail.com' && password === '123') {
-            //    window.location.href = "{{ route('employee-dashboard') }}";
-            // } else {
-            //    alert('Invalid admin credentials!');
-            // }
-            window.location.href = "{{ route('employee-dashboard', ['role' => 'employee']) }}";
+            //Admin credentials
+            if (email === 'admin@gmail.com' && password === 'admin123') {
+               window.location.href = "{{ route('employee-dashboard') }}";
+            } else {
+               alert('Invalid admin credentials!');
+            }
          } else {
             alert('Please select a valid role and fill in your credentials.');
          }

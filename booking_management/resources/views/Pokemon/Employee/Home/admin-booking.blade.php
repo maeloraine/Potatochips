@@ -6,147 +6,245 @@
 
 @section('style')
 <style>
-    /* General Styles */
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 0;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
 
-    .container {
-        width: 98%;
-        margin: 20px auto;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            width: 98%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    h1, h2 {
-        text-align: center;
-        color: #333;
-    }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
 
-    .toolbar {
-        background-color: #0077b6;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        padding: 10px;
-        margin-bottom: 20px;
-    }
+        .toolbar {
+            background-color: #0077b6;
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 10px; 
+            padding: 10px;
+            margin-bottom: 20px;
+        }
 
-    .search-bar {
-        display: flex;
-        flex: 1;
-        gap: 10px;
-    }
+        .search-bar {
+            display: flex;
+            flex: 1; 
+            gap: 10px; 
+        }
 
-    .search-bar input {
-        flex: 1;
-        padding: 10px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-    .search-bar button {
-        padding: 10px 15px;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
 
-    .button-group {
-        display: flex;
-        gap: 10px;
-    }
+        .filter-button {
+            padding: 10px 15px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 75px;
+            height: 40px;
+        }
 
-    .filter-button {
-        padding: 10px 15px;
-        background-color: #2196f3;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+        .filter-button:hover {
+            background-color: #1976d2;
+        }
 
-    .filter-button:hover {
-        background-color: #1976d2;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-    table th, table td {
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
+        table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
 
-    table th {
-        background-color: #f2f2f2;
-        color: #333;
-    }
+        .edit-button {
+            padding: 5px 10px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    .edit-button {
-        padding: 5px 10px;
-        background-color: #ff9800;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+        .edit-button:hover {
+            background-color: #e68900;
+        }
 
-    .edit-button:hover {
-        background-color: #e68900;
-    }
+        .add-button {
+            padding: 10px 15px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
 
-    .add-button {
-        padding: 10px 15px;
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        display: block;
-        margin: 20px auto;
-    }
+        .add-button:hover {
+            background-color: #45a049;
+        }
 
-    .add-button:hover {
-        background-color: #45a049;
-    }
+        .modal-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            background-color: #023e8a;
+            color: white;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            margin: auto;
+            top: 160px;
+        }
 
-    .charts {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 20px;
-        margin-top: 20px;
-    }
+        .modal-content h2 {
+            text-align: center;
+            margin: 0;
+            padding-top: 10px;
+        }
 
-    .chart-container {
-        flex: 1 1 calc(33% - 20px);
-        min-width: 300px;
-        padding: 10px;
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-    .chart-container canvas {
-        width: 100%;
-        height: 300px;
-    }
-</style>
+        .modal-content label {
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .modal-content .row {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .modal-content .row label {
+            flex: 1; 
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            background-color: #800080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            align-self: center;
+        }
+
+        .modal-content button:hover {
+            background-color: #560bad;
+        }
+
+        @media screen and (max-width: 768px) {
+            .modal-content .row {
+                flex-direction: column; 
+            }
+        }
+        .close-button {
+                position: absolute;
+                top: 10px; 
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #ff4d4d;
+                border: none;
+                border-radius: 50%;
+                font-size: 20px;
+                font-weight: bold;
+                color: white;
+                cursor: pointer;
+            }
+
+            .close-button:hover {
+                background-color: #e63939;
+            }
+
+        #roomNo {
+            width: 260px;
+        }
+        #GuestName {
+            width: 260px;
+        }
+        #addBooking {
+            width: 200px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none; 
+            z-index: 999; 
+        }
+
+
+    </style>
 @endsection
 
 @section('breadcrumb-title')
@@ -159,8 +257,7 @@
 @endsection
 
 @section('content')
-<div class="container">
-        <!-- Toolbar -->
+    <div class="container">
         <div class="toolbar">
             <div class="search-bar">
                 <input type="text" id="search" placeholder="Search...">
@@ -170,9 +267,6 @@
                 <button class="filter-button" id="filterButton">Filter</button>
             </div>
         </div>
-
-
-        <!-- Booking Management Table -->
         <div class="table-container">
             <table id="bookingTable">
                 <thead>
@@ -211,6 +305,47 @@
 
         <button class="add-button" id="addBookingButton">Add Booking</button>
     </div>
+    <div class="overlay" id="overlay">
+    <div class="modal" id="bookingModal">
+    <div class="modal-content">
+        <button class="close-button" id="closeModalButton">&times;</button>
+        <h2>Add a Booking</h2>
+        <form id="addBookingForm">
+        <div class="row">
+            <label>
+                Room No.
+                <input type="text" id="roomNo" placeholder="Room No" required>
+            </label>
+            <label>
+                Guest Name
+                <input type="text" id="GuestName1" placeholder="Guest Name" required>
+            </label>
+        </div>
+            <div class="row">
+                <label>
+                    Check-In Date
+                    <input type="date" id="checkInDate" placeholder="Check-In Date" required>
+                </label>
+                <label>
+                    Check-In Time
+                    <input type="time" id="checkInTime" placeholder="Check-In Time" required>
+                </label>
+            </div>
+            <div class="row">
+                <label>
+                    Check-Out Date
+                    <input type="date" id="checkOutDate" placeholder="Check-Out Date" required>
+                </label>
+                <label>
+                    Check-Out Time
+                    <input type="time" id="checkOutTime" placeholder="Check-Out Time" required>
+                </label>
+            </div>
+            <button type="submit" id="addBooking" >Add Booking</button>
+        </form>
+    </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
@@ -218,51 +353,65 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
-    // Daily Bookings Chart
-    const dailyBookingsCtx = document.getElementById('dailyBookingsChart').getContext('2d');
-    new Chart(dailyBookingsCtx, {
-        type: 'line',
-        data: {
-            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-            datasets: [{
-                label: 'Daily Bookings',
-                data: [10, 15, 20, 25, 30, 35, 40],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 2
-            }]
-        },
-        options: { responsive: true }
+    const addBookingButton = document.getElementById('addBookingButton');
+    const bookingModal = document.getElementById('bookingModal');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const overlay = document.getElementById('overlay');
+
+    // Open the modal
+    addBookingButton.addEventListener('click', () => {
+        bookingModal.style.display = 'block';
+        overlay.style.display = 'block';
     });
 
-    // Room Occupancy Chart
-    const roomOccupancyCtx = document.getElementById('roomOccupancyChart').getContext('2d');
-    new Chart(roomOccupancyCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Occupied', 'Available'],
-            datasets: [{
-                data: [60, 40],
-                backgroundColor: ['#ff6384', '#36a2eb']
-            }]
-        },
-        options: { responsive: true }
+    // Close the modal
+    closeModalButton.addEventListener('click', () => {
+        bookingModal.style.display = 'none';
+        overlay.style.display = 'none';
     });
 
-    // Payment Status Chart
-    const paymentStatusCtx = document.getElementById('paymentStatusChart').getContext('2d');
-    new Chart(paymentStatusCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Paid', 'Pending', 'Overdue'],
-            datasets: [{
-                label: 'Payments',
-                data: [30, 15, 5],
-                backgroundColor: ['#4caf50', '#ff9800', '#f44336']
-            }]
-        },
-        options: { responsive: true }
+    // Close the modal when clicking on the overlay
+    window.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            bookingModal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
     });
-</script>
+
+    // Handle the form submission
+    document.getElementById('addBookingForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const guestName1 = document.getElementById('GuestName1').value; // Corrected input ID
+        const roomNo = document.getElementById('roomNo').value;
+        const checkInDate = document.getElementById('checkInDate').value;
+        const checkInTime = document.getElementById('checkInTime').value;
+        const checkOutDate = document.getElementById('checkOutDate').value;
+        const checkOutTime = document.getElementById('checkOutTime').value;
+
+        const bookingTable = document.getElementById('bookingTable').getElementsByTagName('tbody')[0];
+        const newRow = bookingTable.insertRow();
+
+        // Populate table cells with input values
+        newRow.insertCell(0).textContent = guestName1; // Corrected variable usage
+        newRow.insertCell(1).textContent = roomNo;
+        newRow.insertCell(2).textContent = checkInDate;
+        newRow.insertCell(3).textContent = checkInTime;
+        newRow.insertCell(4).textContent = checkOutDate;
+        newRow.insertCell(5).textContent = checkOutTime;
+
+        // Add edit button to the new row
+        const editButton = document.createElement('button');
+        editButton.classList.add('edit-button');
+        editButton.textContent = 'Edit';
+        newRow.insertCell(6).appendChild(editButton);
+
+        // Reset the form fields
+        document.getElementById('addBookingForm').reset();
+
+        // Hide the modal and overlay
+        bookingModal.style.display = 'none';
+        overlay.style.display = 'none';
+    });
 </script>
 @endsection

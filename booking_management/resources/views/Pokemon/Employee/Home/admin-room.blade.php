@@ -116,6 +116,21 @@
             background-color: #e68900;
         }
 
+        /* Delete button styles */
+        .delete-button {
+            padding: 5px 10px;
+            background-color: #dc3545; /* Red color for delete */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+
         .add-button {
             padding: 10px 15px;
             background-color: #4caf50;
@@ -248,6 +263,26 @@
             background-color: #560bad;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #createRoom {
+            padding: 10px 20px;
+            background-color: #800080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #createRoom:hover {
+            background-color: #560bad;
+        }
+
         @media screen and (max-width: 768px) {
             .modal-content form {
                 flex-direction: column;
@@ -274,6 +309,12 @@
                 justify-content: flex-end;
             }
         }
+        /* Ensure the "Actions" column is wide enough */
+        table th:nth-child(7),
+        table td:nth-child(7) {
+            width: 150px; /* Adjust the width as needed */
+            min-width: 150px; /* Prevent the column from shrinking */
+        }
     </style>
 @endsection
 
@@ -293,9 +334,11 @@
                 <input type="text" id="searchInput" placeholder="Search...">
                 <button id="searchButton">Search</button>
             </div>
+            <div class="button-group">
+                <button class="filter-button" id="filterButton">Filter</button>
+            </div>
         </div>
-</div>
-            <div class="table-container">
+        <div class="table-container">
             <table id="roomTable">
                 <thead>
                     <tr>
@@ -317,15 +360,17 @@
                             <td>{{ $room->Room_Status }}</td>
                             <td>{{ $room->Room_Rate }}</td>
                             <td>{{ $room->Room_Description }}</td>
-                            <td><button class="edit-button">Edit</button></td>
+                            <td>
+                                <button class="edit-button">Edit</button>
+                                <button class="delete-button">Delete</button>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-        
         <button class="add-button" id="addRoomButton">Add Room</button>
-    </div>
+</div>
     <div class="modal" id="roomModal">
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>
@@ -349,8 +394,8 @@
                 </select></label>
                 <label> Room Rate <input type="decimal" id="roomRate" name="Room_Rate" placeholder="Room Rate" required></label>
                 <label> Room Description <input type="text" id="roomDescription" name="Room_Description" placeholder="Describe the room..."></label>
-                <div>
-                <button type="submit" id="createRoom">Add Room</button>
+                <div class="button-container">
+                    <button type="submit" id="createRoom">Add Room</button>
                 </div>
             </form>
         </div>

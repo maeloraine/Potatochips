@@ -90,7 +90,7 @@
          // Validate email and password
          if (email === 'guest@gmail.com' && password === 'guest') {
             // Redirect to customer-booking route
-            window.location.href = "{{ route('customer-booking' , ['role' => 'customer']) }}";
+            window.location.href = "{{ route('customer.index' , ['role' => 'customer']) }}";
          } else {
             // Show an error message
             alert('Invalid email or password. Please try again.');
