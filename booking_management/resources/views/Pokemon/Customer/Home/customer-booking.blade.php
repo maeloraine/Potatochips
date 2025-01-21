@@ -134,6 +134,7 @@
 @endsection
 
 @section('breadcrumb-items')
+    <li class="breadcrumb-item">General</li>
     <li class="breadcrumb-item">Create Booking</li>
 @endsection
 
