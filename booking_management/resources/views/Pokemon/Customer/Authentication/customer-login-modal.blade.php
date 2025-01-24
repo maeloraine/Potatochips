@@ -69,7 +69,7 @@
                 <p></p>
                 <button class="btn btn-primary btn-block" type="submit">Sign in</button>
             </div>
-            <p class="mt-4 mb-0">Don't have account? <a class="ms-2" href="{{ route('customer-sign-up') }}">Create Account</a></p>
+            <p class="mt-4 mb-0">Don't have account? <a class="ms-2" href="#">Create Account</a></p>
         </form>
       </div>
     </div>
@@ -90,7 +90,7 @@
          // Validate email and password
          if (email === 'guest@gmail.com' && password === 'guest') {
             // Redirect to customer-booking route
-            window.location.href = "{{ route('customer.index' , ['role' => 'customer']) }}";
+            window.location.href = "#";
          } else {
             // Show an error message
             alert('Invalid email or password. Please try again.');

@@ -43,7 +43,7 @@
                            <input id="checkbox1" type="checkbox">
                            <label class="text-muted" for="checkbox1">Remember password</label>
                         </div>
-                        <a class="link" href="{{ route('customer-forgot-password') }}">Forgot password?</a>
+                        <a class="link" href="#">Forgot password?</a>
                         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
                      </div>
                      <h6 class="text-muted mt-4 or">Or Sign in with</h6>
@@ -75,7 +75,7 @@
          // Validate email and password
          if (email === 'guest@gmail.com' && password === 'guest') {
             // Redirect to customer-booking route
-            window.location.href = "{{ route('customer-booking' , ['role' => 'customer']) }}";
+            window.location.href = "#";
          } else {
             // Show an error message
             alert('Invalid email or password. Please try again.');

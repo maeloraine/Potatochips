@@ -1,19 +1,18 @@
+<div style="text-align: center; margin-bottom: 20px;">
+    <img src="{{ asset('assets/images/logo/JensonLogo.png') }}" alt="Hacienda JenSen Farm Resort" style="width: 200px; height: auto;">
+</div>
+
 <x-mail::message>
 {{-- Greeting --}}
 @if (! empty($greeting))
 # {{ $greeting }}
 @else
-@if ($level === 'error')
-# @lang('Whoops!')
-@else
-# @lang('Hello!')
-@endif
+# @lang('Please Verify Your Email Address')
 @endif
 
 {{-- Intro Lines --}}
 @foreach ($introLines as $line)
 {{ $line }}
-
 @endforeach
 
 {{-- Action Button --}}
@@ -25,14 +24,13 @@
     };
 ?>
 <x-mail::button :url="$actionUrl" :color="$color">
-{{ $actionText }}
+Click Here to Verify Your Email Address
 </x-mail::button>
 @endisset
 
 {{-- Outro Lines --}}
 @foreach ($outroLines as $line)
 {{ $line }}
-
 @endforeach
 
 {{-- Salutation --}}
@@ -40,7 +38,7 @@
 {{ $salutation }}
 @else
 @lang('Regards'),<br>
-{{ config('app.name') }}
+Hacienda JenSen Farm Resort
 @endif
 
 {{-- Subcopy --}}
@@ -48,10 +46,7 @@
 <x-slot:subcopy>
 @lang(
     "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
-    'into your web browser:',
-    [
-        'actionText' => $actionText,
-    ]
+    'into your web browser:'
 ) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
 </x-slot:subcopy>
 @endisset
