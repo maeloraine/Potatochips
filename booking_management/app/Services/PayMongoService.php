@@ -13,7 +13,7 @@ class PayMongoService
     public function __construct()
     {
         // Encode the API key for Basic Auth
-        $this->authHeader = 'Basic ' . base64_encode(env('AUTH_PAY') . ':');
+        $this->authHeader = 'Basic ' . base64_encode(env('PAYMONGO_SECRET_KEY') . ':');
     }
 
     /**
@@ -51,6 +51,28 @@ class PayMongoService
             'Accept' => 'application/json',
             'Authorization' => $this->authHeader,
         ])->get("{$this->baseUrl}/v1/checkout_sessions/{$sessionId}");
+
+        if ($response->failed()) {
+            throw new Exception('PayMongo API request failed: ' . $response->body());
+        }
+
+        return $response->json();
+    }
+
+    /**
+     * Create a refund.
+     *
+     * @param array $data
+     * @return array
+     * @throws Exception
+     */
+    public function createRefund(array $data)
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => $this->authHeader,
+        ])->post("{$this->baseUrl}/refunds", $data);
 
         if ($response->failed()) {
             throw new Exception('PayMongo API request failed: ' . $response->body());

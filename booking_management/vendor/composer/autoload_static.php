@@ -426,6 +426,7 @@ class ComposerStaticInit3cc103bb845e9d02d8758e54e8e63801
         'Ixudra\\Curl\\' => 
         array (
             0 => __DIR__ . '/..' . '/ixudra/curl/src',
+        ),
 
         'Laravel\\Breeze\\' => 
         array (
