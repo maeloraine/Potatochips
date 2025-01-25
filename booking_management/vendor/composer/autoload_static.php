@@ -130,6 +130,7 @@ class ComposerStaticInit3cc103bb845e9d02d8758e54e8e63801
         ),
         'I' => 
         array (
+            'Ixudra\\Curl\\' => 12,
             'Illuminate\\Support\\' => 19,
             'Illuminate\\' => 11,
         ),
@@ -421,9 +422,15 @@ class ComposerStaticInit3cc103bb845e9d02d8758e54e8e63801
         array (
             0 => __DIR__ . '/..' . '/laravel/sail/src',
         ),
+
+        'Ixudra\\Curl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ixudra/curl/src',
+
         'Laravel\\Breeze\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/breeze/src',
+
         ),
         'Illuminate\\Support\\' => 
         array (
@@ -2722,11 +2729,18 @@ class ComposerStaticInit3cc103bb845e9d02d8758e54e8e63801
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+
+        'Ixudra\\Curl\\Builder' => __DIR__ . '/..' . '/ixudra/curl/src/Builder.php',
+        'Ixudra\\Curl\\CurlService' => __DIR__ . '/..' . '/ixudra/curl/src/CurlService.php',
+        'Ixudra\\Curl\\CurlServiceProvider' => __DIR__ . '/..' . '/ixudra/curl/src/CurlServiceProvider.php',
+        'Ixudra\\Curl\\Facades\\Curl' => __DIR__ . '/..' . '/ixudra/curl/src/Facades/Curl.php',
+
         'Laravel\\Breeze\\BreezeServiceProvider' => __DIR__ . '/..' . '/laravel/breeze/src/BreezeServiceProvider.php',
         'Laravel\\Breeze\\Console\\InstallCommand' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallCommand.php',
         'Laravel\\Breeze\\Console\\InstallsApiStack' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsApiStack.php',
         'Laravel\\Breeze\\Console\\InstallsBladeStack' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsBladeStack.php',
         'Laravel\\Breeze\\Console\\InstallsInertiaStacks' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsInertiaStacks.php',
+
         'Laravel\\Sail\\Console\\AddCommand' => __DIR__ . '/..' . '/laravel/sail/src/Console/AddCommand.php',
         'Laravel\\Sail\\Console\\Concerns\\InteractsWithDockerComposeServices' => __DIR__ . '/..' . '/laravel/sail/src/Console/Concerns/InteractsWithDockerComposeServices.php',
         'Laravel\\Sail\\Console\\InstallCommand' => __DIR__ . '/..' . '/laravel/sail/src/Console/InstallCommand.php',

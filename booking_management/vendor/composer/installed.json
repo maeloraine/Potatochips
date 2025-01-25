@@ -1204,6 +1204,37 @@
             "install-path": "../hamcrest/hamcrest-php"
         },
         {
+
+            "name": "ixudra/curl",
+            "version": "6.22.2",
+            "version_normalized": "6.22.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/curl.git",
+                "reference": "ac1844e9770995a493fd92b6b18b254b1636f2d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/curl/zipball/ac1844e9770995a493fd92b6b18b254b1636f2d0",
+                "reference": "ac1844e9770995a493fd92b6b18b254b1636f2d0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "illuminate/support": ">=4.0",
+                "php": ">=5.4.0"
+            },
+            "time": "2024-04-22T18:35:47+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Curl": "Ixudra\\Curl\\Facades\\Curl"
+                    },
+                    "providers": [
+                        "Ixudra\\Curl\\CurlServiceProvider"
+                    ]
+
             "name": "laravel/breeze",
             "version": "v1.21.2",
             "version_normalized": "1.21.2.0",
@@ -1239,12 +1270,17 @@
                 },
                 "branch-alias": {
                     "dev-master": "1.x-dev"
+
                 }
             },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
+
+                    "Ixudra\\Curl\\": "src/"
+
                     "Laravel\\Breeze\\": "src/"
+
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1253,6 +1289,24 @@
             ],
             "authors": [
                 {
+
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom PHP Curl library for the Laravel framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "curl",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/ixudra/curl/issues",
+                "source": "https://github.com/ixudra/curl/tree/6.22.2"
+            },
+            "install-path": "../ixudra/curl"
+
                     "name": "Taylor Otwell",
                     "email": "taylor@laravel.com"
                 }
@@ -1267,6 +1321,7 @@
                 "source": "https://github.com/laravel/breeze"
             },
             "install-path": "../laravel/breeze"
+
         },
         {
             "name": "laravel/framework",
