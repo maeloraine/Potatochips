@@ -37,6 +37,11 @@
     .form-group.mb-0 .link {
         margin-left: auto; /* Push "Forgot password?" to the right */
     }
+       /* Error message styling */
+       .text-danger {
+        color: red;
+        font-size: 0.875em;
+    }
 </style>
 
 <div class="modal fade" id="customerLoginModal" tabindex="-1" aria-labelledby="customerLoginModalLabel" aria-hidden="true">
@@ -44,25 +49,32 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="customerLoginModalLabel">Log In</h5>
-        <!-- X button with data-dismiss attribute -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form class="theme-form">
+        <form class="theme-form" id="loginForm" action="{{ route('customer.login') }}" method="POST"  >
+            
             <p>Enter your email & password to login</p>
+            @csrf
             <div class="form-group">
                 <label class="col-form-label">Email Address</label>
-                <input class="form-control" type="email" required="" placeholder="Test@gmail.com">
+                <input class="form-control" type="email" name="email"  placeholder="xxx@gmail.com" id="email" value="{{ old('email') }}" required>
+                @error('email')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-group">
                 <label class="col-form-label">Password</label>
-                <input class="form-control" type="password" name="login[password]" required="" placeholder="*********">
+                <input class="form-control" type="password" name="password" id="password"placeholder="*********">
+                @error('CU_Password')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-group mb-0">
                 <div class="checkbox p-0">
-                    <input id="checkbox1" type="checkbox">
+                    <input id="checkbox1" type="checkbox" name="remember">
                     <label class="text-muted" for="checkbox1">Remember password</label>
                     <a class="link forgot-password-trigger" href="#">Forgot password?</a>
                 </div>
@@ -77,30 +89,12 @@
 </div>
 
 <script>
-   document.addEventListener('DOMContentLoaded', function () {
-      const form = document.querySelector('.theme-form');
-      
-      form.addEventListener('submit', function (event) {
-         event.preventDefault(); // Prevent default form submission behavior
-
-         // Retrieve form input values
-         const email = form.querySelector('input[type="email"]').value.trim();
-         const password = form.querySelector('input[type="password"]').value.trim();
-
-         // Validate email and password
-         if (email === 'guest@gmail.com' && password === 'guest') {
-            // Redirect to customer-booking route
-            window.location.href = "{{ route('customer.index' , ['role' => 'customer']) }}";
-         } else {
-            // Show an error message
-            alert('Invalid email or password. Please try again.');
-         }
-      });
-      // Close modal when X button is clicked
-      document.querySelector('#customerLoginModal .close').addEventListener('click', function () {
-        $('#customerLoginModal').modal('hide'); // Use Bootstrap's modal method
-      });
-   });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Close modal when X button is clicked
+        document.querySelector('#customerLoginModal .close').addEventListener('click', function () {
+            $('#customerLoginModal').modal('hide'); // Use Bootstrap's modal method
+        });
+    });
 </script>
 
 <!-- Include jQuery -->

@@ -7,10 +7,16 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CustomerRoomController;
+
 use App\Http\Controllers\PaymentController;
 
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\CustomerController;
+
+
 Route::get('/', function () {
-    return view('pokemon.customer.authentication.landing-page'); //replace to landing page
+    return view('Pokemon.Customer.Authentication.landing-page'); //replace to landing page
 })->name('/');
 
 
@@ -429,7 +435,26 @@ Route::post('/employee/home/room-management', [RoomController::class, 'addRoom']
 //      Customer Side
 // ==================================
 
-Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
+// Will only enter if customer is registered or if customer have an account
+Route::middleware(['auth:customer'])->group(function () {
+    Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
+
+    Route::get('/customer/reservations', function () {
+        return view('Pokemon.Customer.Home.customer-reservations');
+    })->name('customer-reservations');
+});
+
+//Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
+
+// for customer account creation
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+Route::post('/customer-login', [LoginController::class, 'login'])->name('customer.login');
+
+// for customer logout
+Route::post('/customer-logout', [LoginController::class, 'logout'])->name('customer.logout');
+
+
 
 // Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'showAvailableRooms'])->name('customer.rooms');
 
@@ -437,21 +462,11 @@ Route::get('customer/sign-up', function () {
     return view('Pokemon.Customer.Authentication.customer-sign-up');
 })->name('customer-sign-up');
 
-Route::get('/customer-login', function () {
-    return view('Pokemon.Customer.Authentication.customer-login');
-})->name('customer-login');
 
 Route::get('/customer/forgot-password', function () {
     return view('Pokemon.Customer.Authentication.customer-forgot-password');
 })->name('customer-forgot-password');
 
-// Route::get('/customer/dashboard', function () {
-//     return view('Pokemon.Customer.Home.customer-booking');
-// })->name('customer-booking');
-
-Route::get('/customer/bookings', function () {
-    return view('Pokemon.Customer.Home.customer-reservations');
-})->name('customer-reservations');
 
 Route::get('/customer/account-settings', function () {
     return view('Pokemon.Customer.Home.account-settings');

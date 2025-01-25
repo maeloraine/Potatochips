@@ -1,17 +1,16 @@
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
     <div>
         <!-- Logo -->
-        <div class="logo-wrapper"><a href="{{ route('index') }}"><img class="img-fluid for-light"
-            src="{{ asset('assets/images/logo/jenson-logo.png') }}" alt=""><img class="img-fluid for-dark"
-            src="{{ asset('assets/images/logo/jenson-logo.png') }}" alt=""></a>
+        <div class="logo-wrapper"><a href="{{ route('customer.index') }}"><img class="img-fluid for-light"
+            src="{{ asset('assets/images/logo/JensonLogo.png') }}" alt=""><img class="img-fluid for-dark"
+            src="{{ asset('assets/images/logo/JensonLogo.png') }}" alt=""></a>
             <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"></i></div>
         </div>
 
         <!-- Logo Icon -->
         <div class="logo-icon-wrapper">
-            <a href="{{ route('customer-reservations') }}">
-                <img class="img-fluid" src="{{ asset('assets/images/logo/logo-icon.png') }}" alt="Logo Icon">
+            <a href="#">
             </a>
         </div>
 

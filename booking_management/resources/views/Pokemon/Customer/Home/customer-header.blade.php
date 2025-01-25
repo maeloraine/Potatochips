@@ -4,7 +4,7 @@
       <div class="form-group w-100">
         <div class="Typeahead Typeahead--twitterUsers">
           <div class="u-posRelative">
-            <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text" placeholder="Search Cuba .." name="q" title="" autofocus>
+            <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text" placeholder="Search..." name="q" title="" autofocus>
             <div class="spinner-border Typeahead-spinner" role="status"><span class="sr-only">Loading...</span></div><i class="close-search" data-feather="x"></i>
           </div>
           <div class="Typeahead-menu"></div>
@@ -43,12 +43,12 @@
             </div>
           </div>
         </li> -->
-        <li>
+        <!-- <li>
             <span class="header-search">
             <svg>
               <use href="{{ asset('assets/svg/icon-sprite.svg#search') }}"></use>
             </svg></span>
-        </li>
+        </li> -->
         <!-- <li class="onhover-dropdown">
           <svg>
             <use href="{{ asset('assets/svg/icon-sprite.svg#star') }}"></use>
@@ -175,8 +175,8 @@
         </li>
         <li class="profile-nav onhover-dropdown pe-0 py-0">
           <div class="media profile-media"><img class="b-r-10" src="{{ asset('assets/images/dashboard/profile.png') }}" alt="">
-            <div class="media-body"><span>Ann Lei</span>
-              <p class="mb-0 font-roboto">Guest <i class="middle fa fa-angle-down"></i></p>
+            <div class="media-body"><span>{{ Auth::guard('customer')->user()->CU_FName }} {{ Auth::guard('customer')->user()->CU_LName }}</span>
+              <p class="mb-0 font-roboto"> Guest <i class="middle fa fa-angle-down"></i></p>
             </div>
           </div>
           <ul class="profile-dropdown onhover-show-div">
@@ -190,7 +190,13 @@
             <li><a href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li> -->
             <!-- <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li> -->
             <li>
-              <a href="{{ route('/') }}"><i data-feather="log-out"> </i><span>Log out</span></a>
+            <form action="{{ route('customer.logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+                    <i data-feather="log-out"></i>
+                    <span>Log out</span>
+                </button>
+            </form>
             </li>
           </ul>
         </li>
