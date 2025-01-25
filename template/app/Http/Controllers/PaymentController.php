@@ -15,7 +15,7 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function pay()
+    public function pay(PayMongoService $payMongoService)
     {
         $data = [
             'data' => [
@@ -29,7 +29,6 @@ class PaymentController extends Controller
                             'quantity' => 1,
                         ]
                     ],
-                    
                     'payment_method_types' => [
                         'card',
                         'gcash',
@@ -47,93 +46,33 @@ class PaymentController extends Controller
                 ],
             ]
         ];
-
+    
         try {
-            $apiKey = env('PAYMONGO_SECRET_KEY');
-
-            if (!$apiKey) {
-                throw new \Exception('API key is missing in the .env file.');
+            $responseData = $payMongoService->createCheckoutSession($data);
+            Session::put('session_id', $responseData['data']['id']);
+            return redirect()->to($responseData['data']['attributes']['checkout_url']);
+        } catch (Exception $e) {
+            Log::error('PayMongo API Error:', ['error' => $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    
+    public function success(PayMongoService $payMongoService)
+    {
+        try {
+            $sessionId = Session::get('session_id');
+            if (!$sessionId) {
+                throw new Exception('Session ID is missing.');
             }
-
-            $base64ApiKey = base64_encode($apiKey . ':');
-
-            $response = Curl::to('https://api.paymongo.com/v1/checkout_sessions')
-                ->withHeader('Content-Type: application/json')
-                ->withHeader('Accept: application/json')
-                ->withHeader('Authorization: Basic ' . $base64ApiKey)
-                ->withData($data)
-                ->asJson()
-                ->post();
-
-            // Store session ID in the session for later reference
-            \Session::put('session_id', $response->data->id);
-
-            // Redirect to the PayMongo checkout URL
-            return redirect()->to($response->data->attributes->checkout_url);
-        } catch (\Exception $e) {
-            \Log::error('PayMongo API Error:', ['error' => $e->getMessage()]);
+    
+            $responseData = $payMongoService->getCheckoutSession($sessionId);
+            Log::info('PayMongo Success Response:', $responseData);
+            return response()->json($responseData);
+        } catch (Exception $e) {
+            Log::error('PayMongo Success Error:', ['error' => $e->getMessage()]);
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    /**
-     * Handles the success callback from PayMongo and fetches session details.
-     *
-     * //@return void
-     * @throws \Exception
-     */
-    public function success()
-    {
-        $sessionId = \Session::get('session_id');
-
-        if (!$sessionId) {
-            throw new \Exception('Session ID is missing.');
-        }
-
-        $apiKey = env('PAYMONGO_SECRET_KEY');
-
-        if (!$apiKey) {
-            throw new \Exception('API key is missing in the .env file.');
-        }
-
-        $base64ApiKey = base64_encode($apiKey . ':');
-
-        $response = Curl::to("https://api.paymongo.com/v1/checkout_sessions/{$sessionId}")
-            ->withHeader('Accept: application/json')
-            ->withHeader('Authorization: Basic ' . $base64ApiKey)
-            ->asJson()
-            ->get();
-
-        // Debug the response (use proper logging or return JSON in production)
-        dd($response);
-    }
-
-    public function refund()
-    {
-
-        $data['data']['attributes']['amount']       = 5000;
-        $data['data']['attributes']['payment_id']   = 'pay_sA83KrtmJUdue8prEHD6rZrY';
-        $data['data']['attributes']['reason']       = 'duplicate';
-
-        $response = Curl::to('https://api.paymongo.com/refunds')
-                    ->withHeader('Content-Type: application/json')
-                    ->withHeader('accept: application/json')
-                    ->withHeader('Authorization: Basic '.env('PAYMONGO_SECRET_KEY'))
-                    ->withData($data)
-                    ->asJson()
-                    ->post();
-
-        dd($response);
-    }
-
-    public function refundStatus($id)
-    {
-        $response = Curl::to('https://api.paymongo.com/refunds/'.$id)
-                ->withHeader('accept: application/json')
-                ->withHeader('Authorization: Basic '.env('PAYMONGO_SECRET_KEY'))
-                ->asJson()
-                ->get();
-
-        dd($response);
-    }
+    
 }
