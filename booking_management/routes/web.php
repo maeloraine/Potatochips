@@ -399,7 +399,7 @@ Route::get('/employee/home/addaccount', function () {
     return view('Pokemon.Employee.Home.admin-addaccount');
 })->name('addaccount');
 
-Route::get('/employee/home/adminbookingt', function () {
+Route::get('/employee/home/adminbooking', function () {
     return view('Pokemon.Employee.Home.admin-booking');
 })->name('booking');
 

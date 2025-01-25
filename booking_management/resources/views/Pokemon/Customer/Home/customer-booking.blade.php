@@ -649,38 +649,50 @@
             // If the form is valid, redirect to the payment route
             window.location.href = '{{ route("payment.index") }}';
 
-            // // Prepare the booking data
-            // const bookingData = {
-            //     checkInDate: document.getElementById('check-in-date').value,
-            //     checkOutDate: document.getElementById('check-out-date').value,
-            //     adults: document.getElementById('adults').value,
-            //     children: document.getElementById('children').value,
-            //     bookings: bookings, // Include the booked items from the booking summary
-            //     totalPrice: bookings.reduce((sum, booking) => sum + parseFloat(booking.price), 0), // Calculate total price
-            // };
+            // Prepare booking data
+            const bookingData = {
+                checkInDate: document.getElementById('check-in-date').value,
+                checkOutDate: document.getElementById('check-out-date').value,
+                adults: document.getElementById('adults').value,
+                children: document.getElementById('children').value,
+                bookings: bookings, // Array of booked offers
+                totalPrice: parseFloat(document.getElementById('total-price').textContent.replace('₱', '')), // Total price
+                guestInfo: {
+                    firstName: document.getElementById('first-name').value,
+                    lastName: document.getElementById('last-name').value,
+                    gender: document.getElementById('gender').value,
+                    birthdate: document.getElementById('birthdate').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value,
+                    specialRequests: document.getElementById('special-requests').value,
+                }
+            };
 
-            // // Send the booking data to the backend
-            // fetch('{{ route("pay") }}', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //     },
-            //     body: JSON.stringify(bookingData)
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     if (data.checkout_url) {
-            //         // Redirect to PayMongo's checkout page
-            //         window.location.href = '{{ route("pay") }}';
-            //     } else {
-            //         alert('Error creating payment session. Please try again.');
-            //     }
-            // })
-            // .catch(error => {
-            //     console.error('Error:', error);
-            //     alert('An error occurred. Please try again.');
-            // });
+            // Send booking data to the backend
+            console.log('Booking Data:', bookingData);
+
+            fetch('{{ route("pay") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(bookingData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response Data:', data); // Log the response from the backend
+                if (data.checkout_url) {
+                    window.location.href = data.checkout_url; // Redirect to PayMongo checkout
+                } else {
+                    alert('Error: Unable to proceed to payment. ' + (data.error || ''));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while processing your request.');
+            });
         });
 
         // Event listener for birthdate input to validate age in real-time
