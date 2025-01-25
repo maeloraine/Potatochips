@@ -54,7 +54,7 @@
                     <!-- My Bookings -->
                     <li class="sidebar-list">
                         <i class="fa fa-thumb-tack"></i>
-                        <a class="sidebar-link sidebar-title" href="#">
+                        <a class="sidebar-link sidebar-title" href="{{ route('customer-reservations') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>
                             </svg>

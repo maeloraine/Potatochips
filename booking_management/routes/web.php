@@ -436,6 +436,10 @@ Route::post('/employee/home/room-management', [RoomController::class, 'addRoom']
 // Will only enter if customer is registered or if customer have an account
 Route::middleware(['auth:customer'])->group(function () {
     Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
+
+    Route::get('/customer/reservations', function () {
+        return view('Pokemon.Customer.Home.customer-reservations');
+    })->name('customer-reservations');
 });
 
 //Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
@@ -445,7 +449,9 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 
 Route::post('/customer-login', [LoginController::class, 'login'])->name('customer.login');
 
+// for customer logout
 Route::post('/customer-logout', [LoginController::class, 'logout'])->name('customer.logout');
+
 
 
 // Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'showAvailableRooms'])->name('customer.rooms');
@@ -459,10 +465,6 @@ Route::get('/customer/forgot-password', function () {
     return view('Pokemon.Customer.Authentication.customer-forgot-password');
 })->name('customer-forgot-password');
 
-
-Route::get('/customer/bookings', function () {
-    return view('Pokemon.Customer.Home.customer-reservations');
-})->name('customer-reservations');
 
 Route::get('/customer/account-settings', function () {
     return view('Pokemon.Customer.Home.account-settings');
