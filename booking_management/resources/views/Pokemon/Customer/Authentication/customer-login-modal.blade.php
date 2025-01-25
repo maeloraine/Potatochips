@@ -54,19 +54,20 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="theme-form" id="loginForm" method="POST" action="{{ route('customer.login') }}">
-            @csrf
+        <form class="theme-form" id="loginForm" action="{{ route('customer.login') }}" method="POST"  >
+            
             <p>Enter your email & password to login</p>
+            @csrf
             <div class="form-group">
                 <label class="col-form-label">Email Address</label>
-                <input class="form-control" type="email" id="CU_Email" name="CU_Email" placeholder="xxx@gmail.com" value="{{ old('CU_Email') }}" required autocomplete="email" autofocus>
-                @error('CU_Email')
+                <input class="form-control" type="email" name="email"  placeholder="xxx@gmail.com" id="email" value="{{ old('email') }}" required>
+                @error('email')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
             <div class="form-group">
                 <label class="col-form-label">Password</label>
-                <input class="form-control" type="password" id="CU_Password" name="CU_Password" placeholder="*********">
+                <input class="form-control" type="password" name="password" id="password"placeholder="*********">
                 @error('CU_Password')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror

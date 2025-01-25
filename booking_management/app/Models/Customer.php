@@ -8,18 +8,19 @@ use Illuminate\Notifications\Notifiable;
 class Customer extends Authenticatable
 {
     use Notifiable;
+    protected $table = 'customers';
 
     protected $fillable = [
         'CU_FName',
         'CU_LName',
         'CU_Birthdate',
-        'CU_Email',
-        'CU_Password',
+        'email',
+        'password',
         'remember_token',
     ];
 
     protected $hidden = [
-        'CU_Password', // Hides the password when the model is serialized
+        'password', // Hides the password when the model is serialized
         'remember_token',
     ];
 
@@ -27,9 +28,4 @@ class Customer extends Authenticatable
         'CU_Birthdate' => 'date', // Automatically casts birthdate to a Date object
     ];
     
-    // Specify the password field for authentication
-    public function getAuthPassword()
-    {
-        return $this->CU_Password;
-    }
 }

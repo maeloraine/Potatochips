@@ -11,13 +11,17 @@ class CustomerRoomController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        // Kunin ang lahat ng available rooms
+        if (!Auth::guard('customer')->check()) {
+            return redirect()->route('/')->with('error', 'You must be logged in to view this page.');
+        }
+        $customer = Auth::guard('customer')->user(); // Retrieve the authenticated customer
+
+        // Kunin ang lahat ng available rooms 
         $rooms = Room::where('Room_Status', 'Available')->get();
 
         // I-pass ang rooms sa view
         return view('Pokemon.Customer.Home.customer-booking', [
-            'user' => $user,
+            'user' => $customer,
             'rooms' => $rooms,
         ]);
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CustomerRoomController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\CustomerController;
 
 
 
@@ -433,7 +434,7 @@ Route::post('/employee/home/room-management', [RoomController::class, 'addRoom']
 // ==================================
 
 // Will only enter if customer is registered or if customer have an account
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth:customer'])->group(function () {
     Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
 });
 

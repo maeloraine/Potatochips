@@ -13,8 +13,8 @@ class CreateCustomersTable extends Migration
             $table->string('CU_FName');
             $table->string('CU_LName');
             $table->date('CU_Birthdate');
-            $table->string('CU_Email')->unique();
-            $table->string('CU_Password');
+            $table->string('email')->unique();
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

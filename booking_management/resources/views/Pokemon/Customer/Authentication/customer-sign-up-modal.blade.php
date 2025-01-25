@@ -30,11 +30,11 @@
           </div>
           <div class="form-group">
             <label class="col-form-label">Email Address</label>
-            <input class="form-control" type="email" name="CU_Email" required="" placeholder="Test@gmail.com">
+            <input class="form-control" type="email" name="email" required="" placeholder="Test@gmail.com">
           </div>
           <div class="form-group">
             <label class="col-form-label">Password</label>
-            <input class="form-control" type="password" name="CU_Password" required="" placeholder="*********">
+            <input class="form-control" type="password" name="password" required="" placeholder="*********">
           </div>
           <div id="ageError" class="text-danger mb-3" style="display: none;">
             You must be at least 18 years old to create an account.

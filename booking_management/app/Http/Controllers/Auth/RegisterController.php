@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -16,8 +17,8 @@ class RegisterController extends Controller
             'CU_FName' => 'required|string|max:255',
             'CU_LName' => 'required|string|max:255',
             'CU_Birthdate' => 'required|date',
-            'CU_Email' => 'required|email|unique:customers,CU_Email|max:255',
-            'CU_Password' => 'required|string|min:8|', 
+            'email' => 'required|email|unique:customers,email|max:255',
+            'password' => 'required|string|min:8', 
         ]);
 
         // Create the customer
@@ -25,12 +26,12 @@ class RegisterController extends Controller
             'CU_FName' => $validated['CU_FName'],
             'CU_LName' => $validated['CU_LName'],
             'CU_Birthdate' => $validated['CU_Birthdate'],
-            'CU_Email' => $validated['CU_Email'],
-            'CU_Password' => Hash::make($validated['CU_Password']),
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
         ]);
 
         // Log the user in
-        auth()->login($customer);
+        Auth::guard('customer')->login($customer);
         return redirect()->route('customer.index');
     }
 }

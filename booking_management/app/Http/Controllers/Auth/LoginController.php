@@ -5,39 +5,60 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Models\Customer;
 
 class LoginController extends Controller
 {
-
-    // Handle the login request
     public function login(Request $request)
     {
-        // Validate the login request
-        $request->validate([
-            'CU_Email' => 'required|email',
-            'CU_Password' => 'required|string',
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        // Attempt to log the user in
-        if (Auth::guard('customer')->attempt(['CU_Email' => $request->CU_Email, 'CU_Password' => $request->CU_Password], $request->remember)) {
-            // If successful, redirect to the intended location
-            return redirect()->intended(route('customer.index'));
+        if (Auth::guard('customer')->attempt([
+            'email' => $credentials['email'], 
+            'password' => $credentials['password']
+        ])) {
+            // Regenerate session to avoid session fixation attacks
+            $request->session()->regenerate();
+            
+            // Redirect to intended route after login or to a default route
+            return redirect()->route('customer.index');
         }
 
-        // If unsuccessful, redirect back with input and error message
-        return redirect()->back()->withInput($request->only('CU_Email', 'remember'))->withErrors([
-            'CU_Email' => 'These credentials do not match our records.',
+        // If login fails, redirect back with error
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
         ]);
+      
     }
+    // public function showLoginForm()
+    // {
+    //     return view('auth.customer-login'); // Create this view for the login form
+    // }
+
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'CU_Email' => 'required|email',
+    //         'CU_Password' => 'required',
+    //     ]);
+
+    //     if (Auth::guard('customer')->attempt($credentials)) {
+    //         $request->session()->regenerate();
+    //         return redirect()->intended('customer.index'); // Redirect to the customer dashboard
+    //     }
+
+    //     return back()->withErrors([
+    //         'CU_Email' => 'The provided credentials do not match our records.',
+    //     ]);
+    // }
+
     public function logout(Request $request)
     {
-        Auth::logout(); // Logs the user out
-
-        $request->session()->invalidate(); // Invalidates the session
-        $request->session()->regenerateToken(); // Regenerates the CSRF token
-
-        return redirect('/'); // Redirects to the home page or login page
+        Auth::guard('customer')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 }
