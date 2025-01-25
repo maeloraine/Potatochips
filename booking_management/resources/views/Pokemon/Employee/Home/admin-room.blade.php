@@ -444,9 +444,6 @@
     // Add event listener to the search button
     document.getElementById('searchButton').addEventListener('click', searchItems);
 
-
-  
-
     // Open modal
     addRoomButton.addEventListener('click', () => {
         roomModal.style.display = 'block';

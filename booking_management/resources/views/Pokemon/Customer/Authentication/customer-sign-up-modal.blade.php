@@ -9,30 +9,32 @@
         </button>
       </div>
       <div class="modal-body">
-        <form class="theme-form" id="signupForm">
+        <form class="theme-form" id="signupForm" method="POST" action="{{route('register')}}"  >
+          @csrf
+          @method('post')
           <p>Enter your personal details to create account</p>
           <div class="form-group">
             <label class="col-form-label pt-0">Your Name</label>
             <div class="row g-2">
               <div class="col-6">
-                <input class="form-control" type="text" required="" placeholder="First name" maxlength="50">
+                <input class="form-control" type="text" name="CU_FName" required="" placeholder="First name" maxlength="50">
               </div>
               <div class="col-6">
-                <input class="form-control" type="text" required="" placeholder="Last name" maxlength="25">
+                <input class="form-control" type="text" name="CU_LName" required="" placeholder="Last name" maxlength="25">
               </div>
             </div>
           </div>
           <div class="form-group">
             <label class="col-form-label">Birthdate</label>
-            <input class="form-control" type="date" name="birthdate" id="birthdate" required="">
+            <input class="form-control" type="date" name="CU_Birthdate" id="birthdate" required="">
           </div>
           <div class="form-group">
             <label class="col-form-label">Email Address</label>
-            <input class="form-control" type="email" required="" placeholder="Test@gmail.com">
+            <input class="form-control" type="email" name="CU_Email" required="" placeholder="Test@gmail.com">
           </div>
           <div class="form-group">
             <label class="col-form-label">Password</label>
-            <input class="form-control" type="password" name="login[password]" required="" placeholder="*********">
+            <input class="form-control" type="password" name="CU_Password" required="" placeholder="*********">
           </div>
           <div id="ageError" class="text-danger mb-3" style="display: none;">
             You must be at least 18 years old to create an account.
@@ -49,50 +51,47 @@
 
 <!-- JavaScript for Age Validation and Modal Close -->
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('signupForm');
-    const ageError = document.getElementById('ageError');
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('signupForm');
+  const ageError = document.getElementById('ageError');
 
-    form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', function (e) {
+    const birthdateInput = document.getElementById('birthdate');
+
+    // Check if birthdate is filled
+    if (!birthdateInput.value) {
+      alert('Please enter your birthdate.');
       e.preventDefault(); // Prevent form submission
+      return;
+    }
 
-      // Get birthdate value
-      const birthdateInput = document.getElementById('birthdate');
-      if (!birthdateInput.value) {
-        alert('Please enter your birthdate.');
-        return;
-      }
+    // Calculate age
+    const birthdate = new Date(birthdateInput.value);
+    const today = new Date();
+    let age = today.getFullYear() - birthdate.getFullYear();
+    const monthDifference = today.getMonth() - birthdate.getMonth();
 
-      const birthdate = new Date(birthdateInput.value); // Convert birthdate value to Date object
-      const today = new Date(); // Get current date
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
+      age--;
+    }
 
-      let age = today.getFullYear() - birthdate.getFullYear(); // Compute age
-      const monthDifference = today.getMonth() - birthdate.getMonth(); // Check if birthday has passed this year
+    // Validate age
+    if (age < 18) {
+      ageError.style.display = 'block'; // Show error message
+      e.preventDefault(); // Prevent form submission
+    } else {
+      ageError.style.display = 'none'; // Hide error message
+      // Allow form submission (no need for form.submit() since the form will submit naturally)
+    }
+  });
 
-      // Adjust age if birthday hasn't occurred yet this year
-      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
-        age--;
-      }
-
-      // Check if age is less than 18
-      if (age < 18) {
-        ageError.style.display = 'block'; // Show error message
-        return; // Stop form submission
-      } else {
-        ageError.style.display = 'none'; // Hide error message
-      }
-
-      // If age is 18 or older, submit the form
-      alert('Account created successfully!');
-      // Uncomment the line below to actually submit the form
-      // form.submit();
-    });
-
-    // Close modal when X button is clicked
+     // Close modal when X button is clicked
     document.querySelector('#customerSignUpModal .close').addEventListener('click', function () {
       $('#customerSignUpModal').modal('hide'); // Use Bootstrap's modal method
-    });
   });
+});
+</script>
+
 </script>
 
 <!-- Include jQuery -->
