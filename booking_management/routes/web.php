@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CustomerRoomController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('pokemon.customer.authentication.landing-page'); //replace to landing page
@@ -455,3 +456,16 @@ Route::get('/customer/bookings', function () {
 Route::get('/customer/account-settings', function () {
     return view('Pokemon.Customer.Home.account-settings');
 })->name('account-settings');
+
+// =================================
+//          PAYMENT SECTION
+// =================================
+
+// Papuntang Paymongo
+Route::get('pay',[PaymentController::class,'pay'])->name('payment.index'); //Pwede naman wala na pero in case lang
+
+// Magbabayad ka na
+Route::post('pay', [PaymentController::class, 'pay'])->name('pay');
+
+
+Route::get('success',[PaymentController::class,'success'])->name('pay-success');

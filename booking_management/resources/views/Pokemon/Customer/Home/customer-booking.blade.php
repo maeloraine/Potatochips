@@ -360,26 +360,6 @@
         </div>
     </div>
 </div>
-
-<!-- Payment Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="paymentModalLabel">Payment Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Include the customer-payment.blade.php content here -->
-                @include('Pokemon.Customer.Home.customer-payment')
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submit-payment">Submit Payment</button>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('script')
@@ -661,15 +641,46 @@
                 return;
             }
 
-            // Validate Guest Information Form
-            if (!guestForm.checkValidity()) {
-                guestForm.reportValidity(); // Show validation errors
+            // Validate age
+            if (!validateAge()) {
                 return;
             }
 
-            // If the form is valid, show the payment modal
-            const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-            paymentModal.show();
+            // If the form is valid, redirect to the payment route
+            window.location.href = '{{ route("payment.index") }}';
+
+            // // Prepare the booking data
+            // const bookingData = {
+            //     checkInDate: document.getElementById('check-in-date').value,
+            //     checkOutDate: document.getElementById('check-out-date').value,
+            //     adults: document.getElementById('adults').value,
+            //     children: document.getElementById('children').value,
+            //     bookings: bookings, // Include the booked items from the booking summary
+            //     totalPrice: bookings.reduce((sum, booking) => sum + parseFloat(booking.price), 0), // Calculate total price
+            // };
+
+            // // Send the booking data to the backend
+            // fetch('{{ route("pay") }}', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //     },
+            //     body: JSON.stringify(bookingData)
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     if (data.checkout_url) {
+            //         // Redirect to PayMongo's checkout page
+            //         window.location.href = '{{ route("pay") }}';
+            //     } else {
+            //         alert('Error creating payment session. Please try again.');
+            //     }
+            // })
+            // .catch(error => {
+            //     console.error('Error:', error);
+            //     alert('An error occurred. Please try again.');
+            // });
         });
 
         // Event listener for birthdate input to validate age in real-time
@@ -677,62 +688,62 @@
                 validateAge();
             });
 
-        // Submit Payment button in the payment modal
-        document.getElementById('submit-payment').addEventListener('click', function () {
-            const guestForm = document.getElementById('guest-info-form');
-            const paymentForm = document.getElementById('payment-form');
+        // // Submit Payment button in the payment modal
+        // document.getElementById('submit-payment').addEventListener('click', function () {
+        //     const guestForm = document.getElementById('guest-info-form');
+        //     const paymentForm = document.getElementById('payment-form');
 
-            // Validate Guest Information Form
-            if (!guestForm.checkValidity()) {
-                guestForm.reportValidity(); // Show validation errors
-                return;
-            }
+        //     // Validate Guest Information Form
+        //     if (!guestForm.checkValidity()) {
+        //         guestForm.reportValidity(); // Show validation errors
+        //         return;
+        //     }
 
-            // Validate Payment Form
-            if (!paymentForm.checkValidity()) {
-                paymentForm.reportValidity(); // Show validation errors
-                return;
-            }
+        //     // Validate Payment Form
+        //     if (!paymentForm.checkValidity()) {
+        //         paymentForm.reportValidity(); // Show validation errors
+        //         return;
+        //     }
 
-            // If both forms are valid, proceed with submission
-            const guestInfo = {
-                firstName: document.getElementById('first-name').value,
-                lastName: document.getElementById('last-name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
-                specialRequests: document.getElementById('special-requests').value,
-            };
+        //     // If both forms are valid, proceed with submission
+        //     const guestInfo = {
+        //         firstName: document.getElementById('first-name').value,
+        //         lastName: document.getElementById('last-name').value,
+        //         email: document.getElementById('email').value,
+        //         phone: document.getElementById('phone').value,
+        //         address: document.getElementById('address').value,
+        //         specialRequests: document.getElementById('special-requests').value,
+        //     };
 
-            const paymentInfo = {
-                cardNumber: document.getElementById('card-number').value,
-                expiryDate: document.getElementById('expiry-date').value,
-                cvv: document.getElementById('cvv').value,
-                cardholderName: document.getElementById('cardholder-name').value,
-            };
+        //     const paymentInfo = {
+        //         cardNumber: document.getElementById('card-number').value,
+        //         expiryDate: document.getElementById('expiry-date').value,
+        //         cvv: document.getElementById('cvv').value,
+        //         cardholderName: document.getElementById('cardholder-name').value,
+        //     };
 
-            // Combine guest and payment information
-            const bookingData = {
-                guestInfo,
-                paymentInfo,
-                bookings, // Include the booked items from the booking summary
-            };
+        //     // Combine guest and payment information
+        //     const bookingData = {
+        //         guestInfo,
+        //         paymentInfo,
+        //         bookings, // Include the booked items from the booking summary
+        //     };
 
-            // Simulate submission (replace with actual API call)
-            console.log('Booking Data:', bookingData);
-            alert('Booking submitted successfully!');
+        //     // Simulate submission (replace with actual API call)
+        //     console.log('Booking Data:', bookingData);
+        //     alert('Booking submitted successfully!');
 
-            // Clear forms and reset booking summary
-            guestForm.reset();
-            paymentForm.reset();
-            bookings = [];
-            updateBookingSummary();
-            confirmBookingBtn.disabled = true;
+        //     // Clear forms and reset booking summary
+        //     guestForm.reset();
+        //     paymentForm.reset();
+        //     bookings = [];
+        //     updateBookingSummary();
+        //     confirmBookingBtn.disabled = true;
 
-            // Close the payment modal
-            const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
-            paymentModal.hide();
-        });
+        //     // Close the payment modal
+        //     const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+        //     paymentModal.hide();
+        // });
 
         // ====================================================
         // Date Validation
