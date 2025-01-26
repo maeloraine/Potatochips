@@ -442,6 +442,15 @@ Route::middleware(['auth:customer'])->group(function () {
     Route::get('/customer/reservations', function () {
         return view('Pokemon.Customer.Home.customer-reservations');
     })->name('customer-reservations');
+
+    // Papuntang Paymongo
+    Route::get('/pay',[PaymentController::class,'pay'])->name('payment.index'); //Pwede naman wala na pero in case lang
+
+    // Magbabayad ka na
+    Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
+
+
+    Route::get('/success',[PaymentController::class,'success'])->name('pay-success');
 });
 
 //Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
@@ -476,11 +485,3 @@ Route::get('/customer/account-settings', function () {
 //          PAYMENT SECTION
 // =================================
 
-// Papuntang Paymongo
-Route::get('pay',[PaymentController::class,'pay'])->name('payment.index'); //Pwede naman wala na pero in case lang
-
-// Magbabayad ka na
-Route::post('pay', [PaymentController::class, 'pay'])->name('pay');
-
-
-Route::get('success',[PaymentController::class,'success'])->name('pay-success');
