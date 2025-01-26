@@ -130,8 +130,8 @@
             //    window.location.href = "{{ route('employee-dashboard') }}";
             // } else {
             //    alert('Invalid admin credentials!');
-            // }
-            window.location.href = "{{ route('employee-dashboard', ['role' => 'employee']) }}";
+            // } "{{ route('employee-dashboard') }}"
+            window.location.href = "{{ route('employee-dashboard') }}"
          } else {
             alert('Please select a valid role and fill in your credentials.');
          }

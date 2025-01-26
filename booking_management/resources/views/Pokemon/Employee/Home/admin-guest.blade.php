@@ -337,7 +337,6 @@
                         </table>
                     </div>
                     <button type="button" class="add-button" id="addGuestButton">Add Guest</button>
-
             </div>
         </div>
     <div class="modal" id="guestModal">

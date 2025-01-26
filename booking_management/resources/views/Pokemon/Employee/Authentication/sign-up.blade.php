@@ -55,7 +55,8 @@
                            <input id="checkbox1" type="checkbox">
                            <label class="text-muted" for="checkbox1">Agree with<a class="ms-2" href="#">Privacy Policy</a></label>
                         </div>
-                        <button class="btn btn-primary btn-block" type="submit">Create Account</button>
+                        <button class="btn btn-primary btn-block" type="submit">Create Account<a
+                        class="sidebar-link sidebar-title link-nav" href="{{ route('employee-dashboard') }}"></button>
                      </div>
                      <h6 class="text-muted mt-4 or">Or signup with</h6>
                      <div class="social mt-4">
