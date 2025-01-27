@@ -29,7 +29,7 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calendar') }}"></use>
                             </svg><span>Dashboard</span></a>
 
                     <!-- Guest Management -->
@@ -58,10 +58,11 @@
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('booking') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"></use>
+                            </svg>
                             </svg><span>Booking Management</span></a>
                     </li>
 

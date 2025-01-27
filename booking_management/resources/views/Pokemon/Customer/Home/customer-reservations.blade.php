@@ -15,8 +15,8 @@
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Bookings</li>
-    <!-- <li class="breadcrumb-item active">Default</li> -->
+    <li class="breadcrumb-item">General</li>
+    <li class="breadcrumb-item">My Bookings</li>
 @endsection
 
 @section('content')

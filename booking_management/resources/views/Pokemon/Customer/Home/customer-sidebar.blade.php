@@ -1,18 +1,27 @@
+<style>
+    h6 {
+        padding-top: 25px; 
+        padding-bottom: 5px;
+    }
+</style>
+
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
     <div>
         <!-- Logo -->
-        <div class="logo-wrapper"><a href="{{ route('customer.index') }}"><img class="img-fluid for-light"
+        <div class="logo-wrapper">
+            <!-- <a href="{{ route('customer.index') }}"> -->
+            <img class="img-fluid for-light"
             src="{{ asset('assets/images/logo/JensonLogo.png') }}" alt=""><img class="img-fluid for-dark"
             src="{{ asset('assets/images/logo/JensonLogo.png') }}" alt=""></a>
-            <div class="back-btn"><i class="fa fa-angle-left"></i></div>
+            <!-- <div class="back-btn"><i class="fa fa-angle-left"></i></div> -->
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"></i></div>
         </div>
 
         <!-- Logo Icon -->
-        <!-- <div class="logo-icon-wrapper">
+        <div class="logo-icon-wrapper">
             <a href="#">
             </a>
-        </div> -->
+        </div>
 
         <!-- Sidebar Links -->
         <nav class="sidebar-main">
@@ -33,13 +42,12 @@
                     <!-- General Section -->
                     <li class="sidebar-main-title">
                         <div>
-                            <h6 style="padding-top: 25px; padding-bottom: 5px">General</h6>
+                            <h6>General</h6>
                         </div>
                     </li>
 
                     <!-- Book Now -->
                     <li class="sidebar-list">
-                        <!-- <i class="fa fa-thumb-tack"></i> -->
                         <a class="sidebar-link sidebar-title" href="{{ route('customer.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -53,7 +61,6 @@
 
                     <!-- My Bookings -->
                     <li class="sidebar-list">
-                        <!-- <i class="fa fa-thumb-tack"></i> -->
                         <a class="sidebar-link sidebar-title" href="{{ route('customer-reservations') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>
