@@ -13,14 +13,14 @@ class Guest extends Model
 
 
     protected $fillable = [
-        'Guest_FName',
-        'Guest_LName',
-        'Guest_Birthdate',
-        'Guest_Gender',
-        'Guest_Email',
-        'Guest_ContactNumber',
-        'Guest_Address',
-        'Special_Request'
+        'firstName',
+        'lastName',
+        'birthdate',
+        'gender',
+        'email',
+        'phone',
+        'address',
+        'specialRequests'
     ];
     public function bookings()
     {

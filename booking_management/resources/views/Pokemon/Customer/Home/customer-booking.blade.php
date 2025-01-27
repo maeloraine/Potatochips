@@ -199,7 +199,7 @@
                     <div id="kubos-list" class="hidden">
                         <div class="category-header">Kubo</div>
                         <!-- Cottage Offers -->
-                        <div class="offer-card" data-id="1" data-name="Kubo with room" data-price="1800" data-details="A cozy kubo with a room, perfect for small families or groups.">
+                        <div class="offer-card" data-id="6" data-name="Kubo with room" data-price="1800" data-details="A cozy kubo with a room, perfect for small families or groups.">
                             <h6>Kubo with room</h6>
                             <p>Price: ₱1,800.00</p>
                             <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
@@ -647,7 +647,7 @@
             }
 
             // If the form is valid, redirect to the payment route
-            window.location.href = '{{ route("payment.index") }}';
+            window.location.href = '{{ route("pay") }}';
 
             // Prepare booking data
             const bookingData = {
@@ -658,43 +658,21 @@
                 bookings: bookings, // Array of booked offers
                 totalPrice: parseFloat(document.getElementById('total-price').textContent.replace('₱', '')), // Total price
                 guestInfo: {
-                    Guest_FName: document.getElementById('first-name').value,
-                    Guest_LName: document.getElementById('last-name').value,
-                    Guest_Gender: document.getElementById('gender').value,
-                    Guest_Birthdate: document.getElementById('birthdate').value,
-                    Guest_Email: document.getElementById('email').value,
-                    Guest_ContactNumber: document.getElementById('phone').value,
-                    Guest_Address: document.getElementById('address').value,
-                    Special_Request: document.getElementById('special-requests').value,
+                    firstName: document.getElementById('first-name').value,
+                    lastName: document.getElementById('last-name').value,
+                    gender: document.getElementById('gender').value,
+                    birthdate: document.getElementById('birthdate').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value,
+                    specialRequests: document.getElementById('special-requests').value,
                 }
             };
 
             // Send booking data to the backend
             console.log('Booking Data:', bookingData);
              // Send booking data to the backend
-            fetch('/bookings', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(bookingData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Response Data:', data); // Log the response from the backend
-                if (data.booking) {
-                    window.location.href = '{{ route("payment.index") }}'; // Redirect to payment page
-                } else {
-                    alert('Error: Unable to create booking. ' + (data.error || ''));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while processing your request.');
-            });
-
-            // fetch('{{ route("pay") }}', {
+            // fetch('/bookings', {
             //     method: 'POST',
             //     headers: {
             //         'Content-Type': 'application/json',
@@ -705,16 +683,38 @@
             // .then(response => response.json())
             // .then(data => {
             //     console.log('Response Data:', data); // Log the response from the backend
-            //     if (data.checkout_url) {
-            //         window.location.href = data.checkout_url; // Redirect to PayMongo checkout
+            //     if (data.booking) {
+            //         window.location.href = '{{ route("payment.index") }}'; // Redirect to payment page
             //     } else {
-            //         alert('Error: Unable to proceed to payment. ' + (data.error || ''));
+            //         alert('Error: Unable to create booking. ' + (data.error || ''));
             //     }
             // })
             // .catch(error => {
             //     console.error('Error:', error);
             //     alert('An error occurred while processing your request.');
             // });
+
+            fetch('{{ route("pay") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(bookingData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response Data:', data); // Log the response from the backend
+                if (data.checkout_url) {
+                    window.location.href = data.checkout_url; // Redirect to PayMongo checkout
+                } else {
+                    alert('Error: Unable to proceed to payment. ' + (data.error || ''));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while processing your request.');
+            });
         });
 
         // Event listener for birthdate input to validate age in real-time

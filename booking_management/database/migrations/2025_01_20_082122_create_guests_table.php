@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('guests', function (Blueprint $table) {
             $table->id('guest_id');
-            $table->string('Guest_FName');
-            $table->string('Guest_LName');
-            $table->date('Guest_Birthdate');
-            $table->enum('Guest_Gender', ['Male', 'Female', 'Rather Not Say']);
-            $table->string('Guest_Email');
-            $table->string('Guest_ContactNumber');
-            $table->string('Guest_Address');
-            $table->text('Special_Request')->nullable();
+            $table->string('firstName');
+            $table->string('lastName');
+            $table->date('birthdate');
+            $table->enum('gender', ['Male', 'Female', 'Rather Not Say']);
+            $table->string('email');
+            $table->string('phone');
+            $table->string('address');
+            $table->text('specialRequests')->nullable();
             // $table->time(updated_at);
             // $table->time(created_at);
             $table->timestamps(); // Optional: Add timestamps if needed
