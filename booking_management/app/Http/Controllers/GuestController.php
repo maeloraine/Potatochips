@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Guest;
+use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 
 class GuestController extends Controller
 {
@@ -13,6 +15,8 @@ class GuestController extends Controller
         return view('Pokemon.Employee.Home.admin-guest', ['guests' => $guests]);
         
     }
+
+    // Add guest admin side
 
     public function addGuest(Request $request) {
         $data = $request->validate([
@@ -29,4 +33,5 @@ class GuestController extends Controller
 
             return redirect(route('guest.index'))->with('success', 'Guest added successfully!');
     }
+    
 }

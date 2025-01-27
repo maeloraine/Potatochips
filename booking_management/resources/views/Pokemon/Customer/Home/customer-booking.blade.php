@@ -187,7 +187,7 @@
                         <div class="category-header">Cottage</div>
                         <!-- Cottage Offers -->
                         @foreach($rooms as $room)
-                            <div class="offer-card" data-id="{{ $room->RoomID }}" data-name="{{ $room->Room_Type }}" data-price="{{ $room->Room_Rate }}" data-details="{{ $room->Room_Description }}">
+                            <div class="offer-card" data-id="{{ $room->room_id }}" data-name="{{ $room->Room_Type }}" data-price="{{ $room->Room_Rate }}" data-details="{{ $room->Room_Description }}">
                                 <h6>{{ $room->Room_Type }}</h6>
                                 <p>Price: ₱{{ number_format($room->Room_Rate, 2) }}</p>
                                 <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
@@ -658,21 +658,21 @@
                 bookings: bookings, // Array of booked offers
                 totalPrice: parseFloat(document.getElementById('total-price').textContent.replace('₱', '')), // Total price
                 guestInfo: {
-                    firstName: document.getElementById('first-name').value,
-                    lastName: document.getElementById('last-name').value,
-                    gender: document.getElementById('gender').value,
-                    birthdate: document.getElementById('birthdate').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    address: document.getElementById('address').value,
-                    specialRequests: document.getElementById('special-requests').value,
+                    Guest_FName: document.getElementById('first-name').value,
+                    Guest_LName: document.getElementById('last-name').value,
+                    Guest_Gender: document.getElementById('gender').value,
+                    Guest_Birthdate: document.getElementById('birthdate').value,
+                    Guest_Email: document.getElementById('email').value,
+                    Guest_ContactNumber: document.getElementById('phone').value,
+                    Guest_Address: document.getElementById('address').value,
+                    Special_Request: document.getElementById('special-requests').value,
                 }
             };
 
             // Send booking data to the backend
             console.log('Booking Data:', bookingData);
-
-            fetch('{{ route("pay") }}', {
+             // Send booking data to the backend
+            fetch('/bookings', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -683,16 +683,38 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Response Data:', data); // Log the response from the backend
-                if (data.checkout_url) {
-                    window.location.href = data.checkout_url; // Redirect to PayMongo checkout
+                if (data.booking) {
+                    window.location.href = '{{ route("payment.index") }}'; // Redirect to payment page
                 } else {
-                    alert('Error: Unable to proceed to payment. ' + (data.error || ''));
+                    alert('Error: Unable to create booking. ' + (data.error || ''));
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred while processing your request.');
             });
+
+            // fetch('{{ route("pay") }}', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //     },
+            //     body: JSON.stringify(bookingData)
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     console.log('Response Data:', data); // Log the response from the backend
+            //     if (data.checkout_url) {
+            //         window.location.href = data.checkout_url; // Redirect to PayMongo checkout
+            //     } else {
+            //         alert('Error: Unable to proceed to payment. ' + (data.error || ''));
+            //     }
+            // })
+            // .catch(error => {
+            //     console.error('Error:', error);
+            //     alert('An error occurred while processing your request.');
+            // });
         });
 
         // Event listener for birthdate input to validate age in real-time

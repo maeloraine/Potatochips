@@ -76,7 +76,7 @@ class PaymentController extends Controller
                         'brankas_landbank',
                         'brankas_metrobank',
                     ],
-                    'success_url' => route('customer-reservations'),//'http://localhost:8000/success',
+                    'success_url' => 'http://localhost:8000/success',
                     'cancel_url' => 'http://localhost:8000/cancel',
                     'description' => 'Online Booking',
                 ],

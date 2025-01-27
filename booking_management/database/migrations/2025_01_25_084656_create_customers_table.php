@@ -9,7 +9,7 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
+            $table->id('customer_id'); // primary key
             $table->string('CU_FName');
             $table->string('CU_LName');
             $table->date('CU_Birthdate');
