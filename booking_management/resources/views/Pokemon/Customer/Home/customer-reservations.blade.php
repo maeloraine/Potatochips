@@ -31,26 +31,26 @@
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Booking</th>
+                            <tr>
+                                    <th>Check-In Date</th>
+                                    <th>Check-Out Date</th>
+                                    <th>Adults</th>
+                                    <th>Children</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Example static data, replace with dynamic data from your backend -->
-                                <tr>
-                                    <td>2023-10-01</td>
-                                    <td>Booking 1</td>
-                                </tr>
-                                <tr>
-                                    <td>2023-10-02</td>
-                                    <td>Booking 2</td>
-                                </tr>
-                                <tr>
-                                    <td>2023-10-03</td>
-                                    <td>Booking 3</td>
-                                </tr>
-                                <!-- End of example static data -->
+                                @foreach($bookings as $booking)
+                                    <tr>
+                                        <td>{{ $booking->check_in_date }}</td>
+                                        <td>{{ $booking->check_out_date }}</td>
+                                        <td>{{ $booking->adults }}</td>
+                                        <td>{{ $booking->children }}</td>
+                                        <td>₱{{ number_format($booking->total_price, 2) }}</td>
+                                        <td>Paid</td> <!-- Add a status field if needed -->
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
