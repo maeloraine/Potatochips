@@ -9,14 +9,14 @@
         </div>
 
         <!-- Logo Icon -->
-        <div class="logo-icon-wrapper">
+        <!-- <div class="logo-icon-wrapper">
             <a href="#">
             </a>
-        </div>
+        </div> -->
 
         <!-- Sidebar Links -->
         <nav class="sidebar-main">
-            <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+            <!-- <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div> -->
             <div id="sidebar-menu">
                 <ul class="sidebar-links" id="simple-bar">
                     <!-- Back Button -->
@@ -33,13 +33,13 @@
                     <!-- General Section -->
                     <li class="sidebar-main-title">
                         <div>
-                            <h6>General</h6>
+                            <h6 style="padding-top: 25px; padding-bottom: 5px">General</h6>
                         </div>
                     </li>
 
                     <!-- Book Now -->
                     <li class="sidebar-list">
-                        <i class="fa fa-thumb-tack"></i>
+                        <!-- <i class="fa fa-thumb-tack"></i> -->
                         <a class="sidebar-link sidebar-title" href="{{ route('customer.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -53,7 +53,7 @@
 
                     <!-- My Bookings -->
                     <li class="sidebar-list">
-                        <i class="fa fa-thumb-tack"></i>
+                        <!-- <i class="fa fa-thumb-tack"></i> -->
                         <a class="sidebar-link sidebar-title" href="{{ route('customer-reservations') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>

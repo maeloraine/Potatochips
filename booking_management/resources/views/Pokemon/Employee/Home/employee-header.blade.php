@@ -43,12 +43,12 @@
             </div>
           </div>
         </li> -->
-        <li>
+        <!-- <li>
             <span class="header-search">
             <svg>
               <use href="{{ asset('assets/svg/icon-sprite.svg#search') }}"></use>
             </svg></span>
-        </li>
+        </li> -->
         <!-- <li class="onhover-dropdown">
           <svg>
             <use href="{{ asset('assets/svg/icon-sprite.svg#star') }}"></use>
