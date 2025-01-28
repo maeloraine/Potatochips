@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use Curl;
 use Exception;
+use App\Models\Customer;
+use App\Models\Guest;
+use App\Models\Booking;
+use App\Models\Payment;
+use App\Models\Room;
 
 class PaymentController extends Controller
 {
@@ -47,6 +52,7 @@ class PaymentController extends Controller
         ]);
     
         Log::info('Validated Data:', $validatedData);
+        // Store the validated data in the session
     
         // Prepare line items for PayMongo
         $lineItems = [];
@@ -76,7 +82,7 @@ class PaymentController extends Controller
                         'brankas_landbank',
                         'brankas_metrobank',
                     ],
-                    'success_url' => 'http://localhost:8000/success',
+                    'success_url' => route('customer-reservations'),//'http://localhost:8000/success',
                     'cancel_url' => 'http://localhost:8000/cancel',
                     'description' => 'Online Booking',
                 ],
@@ -121,10 +127,13 @@ class PaymentController extends Controller
             // Save booking details to the database (optional)
             // $this->saveBookingDetails($responseData);
 
+  
+
             return response()->json($responseData);
         } catch (Exception $e) {
             Log::error('PayMongo Success Error:', ['error' => $e->getMessage()]);
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    
 }

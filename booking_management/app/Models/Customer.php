@@ -9,6 +9,8 @@ class Customer extends Authenticatable
 {
     use Notifiable;
     protected $table = 'customers';
+    protected $primaryKey = 'customer_id';
+
 
     protected $fillable = [
         'CU_FName',
@@ -27,5 +29,10 @@ class Customer extends Authenticatable
     protected $casts = [
         'CU_Birthdate' => 'date', // Automatically casts birthdate to a Date object
     ];
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'customer_id');
+    }
     
 }

@@ -358,13 +358,13 @@
                         <tbody>
                             @foreach($guests as $guest)
                             <tr>
-                                <td>{{$guest -> Guest_LName}}</td>
-                                <td>{{$guest -> Guest_FName}}</td>
-                                <td>{{$guest -> Guest_Gender}}</td>
-                                <td>{{$guest -> Guest_Birthdate}}</td>
-                                <td>{{$guest -> Guest_Email}}</td>
-                                <td>{{$guest -> Guest_ContactNumber}}</td>
-                                <td>{{$guest -> Special_Request}}</td>
+                                <td>{{$guest -> firstName}}</td>
+                                <td>{{$guest -> lastName}}</td>
+                                <td>{{$guest -> gender}}</td>
+                                <td>{{$guest -> birthdate}}</td>
+                                <td>{{$guest -> email}}</td>
+                                <td>{{$guest -> phone}}</td>
+                                <td>{{$guest -> specialRequests}}</td>
                                 <td>
                                     <button class="edit-button">Edit</button>
                                     <button class="delete-button">Delete</button>
@@ -385,13 +385,13 @@
                     @csrf
                     @method('post')
                     <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                        <input type="text" name="Guest_LName" id="lastName" placeholder="Last Name" required>
+                        <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
                     </label>
                     <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold;    
                         margin-left: 5px;">*</span> 
-                        <input type="text" name="Guest_FName" id="firstName" placeholder="First Name" required></label>
+                        <input type="text" name="firstName" id="firstName" placeholder="First Name" required></label>
                     <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold;    
-                        margin-left: 5px;">*</span> <select name="Guest_Gender" class="date" id="gender" required>
+                        margin-left: 5px;">*</span> <select name="gender" class="date" id="gender" required>
                         <option value="" disabled selected>Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -399,16 +399,22 @@
                     </select></label>
                     <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold;    
                         margin-left: 5px;">*</span> 
-                        <input class="date" name="Guest_Birthdate" type="date" id="birthdate" placeholder="Birthdate" required>
+                        <input class="date" name="birthdate" type="date" id="birthdate" placeholder="Birthdate" required>
                     </label>
                     <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold;    
                         margin-left: 5px;">*</span> 
-                        <input type="email" id="email" name="Guest_Email" placeholder="Email" required>
+                        <input type="email" id="email" name="email" placeholder="Email" required>
                     </label>
                     <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
                         margin-left: 5px;">*</span> 
-                        <input type="text" id="contactNumber" name="Guest_ContactNumber" placeholder="Contact Number" required></label>
-                    <label> Special Request <input type="text" id="specialRequest" name="Special_Request" placeholder="Special Request"></label>
+                        <input type="text" id="contactNumber" name="phone" placeholder="Contact Number" required></label>
+                    <div>
+                        <label> Address <input type="text" id="address" name="address" placeholder="Address"></label>
+                    </div>
+                    <div>
+                        <label> Special Request <input type="text" id="specialRequest" name="specialRequests" placeholder="Special Request"></label>
+                    </div>
+                    
                     <div class="button-container">
                         <button id="addGuest" type="submit">Add Guest</button>
                     </div>
@@ -541,6 +547,7 @@
         const birthdate = document.getElementById('birthdate').value;
         const email = document.getElementById('email').value.trim();
         const contactNumber = document.getElementById('contactNumber').value.trim();
+        const address = document.getElementById('address').value.trim();
         const specialRequest = document.getElementById('specialRequest').value.trim();
 
         // Validate inputs
@@ -629,6 +636,7 @@
             <td>${birthdate}</td>
             <td>${email}</td>
             <td>${contactNumber}</td>
+            <td>${address}</td>
             <td>${specialRequest}</td>
             <td><button class="edit-button">Edit</button></td>
         `;

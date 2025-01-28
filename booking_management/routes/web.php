@@ -13,7 +13,9 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\CustomerController;
+
 use App\Http\Controllers\BookingController;
+
 
 
 Route::get('/', function () {
@@ -443,6 +445,20 @@ Route::middleware(['auth:customer'])->group(function () {
     Route::get('/customer/reservations', function () {
         return view('Pokemon.Customer.Home.customer-reservations');
     })->name('customer-reservations');
+
+    // Papuntang Paymongo
+    Route::get('/pay',[PaymentController::class,'pay'])->name('payment.index'); //Pwede naman wala na pero in case lang
+
+    // Magbabayad ka na
+    Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
+
+    Route::get('/success',[PaymentController::class,'success'])->name('pay-success');
+
+    // Booking
+    Route::post('/bookings',[BookingController::class,'store'])->name('booking.add');
+    
+    // adding guest in customer side
+    Route::post('/customer/guests', [CustomerGuestController::class, 'store'])->name('customerGuests.add');
 });
 
 //Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
@@ -477,11 +493,3 @@ Route::get('/customer/account-settings', function () {
 //          PAYMENT SECTION
 // =================================
 
-// Papuntang Paymongo
-Route::get('pay',[PaymentController::class,'pay'])->name('payment.index'); //Pwede naman wala na pero in case lang
-
-// Magbabayad ka na
-Route::post('pay', [PaymentController::class, 'pay'])->name('pay');
-
-
-Route::get('success',[PaymentController::class,'success'])->name('pay-success');
