@@ -1,19 +1,10 @@
-<style>
-    h6 {
-        padding-top: 25px; 
-        padding-bottom: 5px;
-    }
-</style>
-
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
     <div>
         <!-- Logo -->
-        <div class="logo-wrapper">
-            <!-- <a href="{{ route('customer.index') }}"> -->
-            <img class="img-fluid for-light"
+        <div class="logo-wrapper"><a href="{{ route('customer.index') }}"><img class="img-fluid for-light"
             src="{{ asset('assets/images/logo/JensonLogo.png') }}" alt=""><img class="img-fluid for-dark"
             src="{{ asset('assets/images/logo/JensonLogo.png') }}" alt=""></a>
-            <!-- <div class="back-btn"><i class="fa fa-angle-left"></i></div> -->
+            <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"></i></div>
         </div>
 
@@ -25,7 +16,7 @@
 
         <!-- Sidebar Links -->
         <nav class="sidebar-main">
-            <!-- <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div> -->
+            <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
             <div id="sidebar-menu">
                 <ul class="sidebar-links" id="simple-bar">
                     <!-- Back Button -->
@@ -48,6 +39,7 @@
 
                     <!-- Book Now -->
                     <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i>
                         <a class="sidebar-link sidebar-title" href="{{ route('customer.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
@@ -61,6 +53,7 @@
 
                     <!-- My Bookings -->
                     <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i>
                         <a class="sidebar-link sidebar-title" href="{{ route('customer-reservations') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-task') }}"></use>

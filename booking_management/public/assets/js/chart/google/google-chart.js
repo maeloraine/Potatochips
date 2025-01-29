@@ -74,17 +74,18 @@ function drawBasic() {
   if ($("#pie-chart2").length > 0) {
       var data = google.visualization.arrayToDataTable([
         ['Task', 'Hours per Day'],
-        ['Male',     5],
-        ['Female',      10],
-        ['Others',  15],
-
+        ['Work',     5],
+        ['Eat',      10],
+        ['Commute',  15],
+        ['Watch TV', 20],
+        ['Sleep',    25]
       ]);
       var options = {
-        title: 'Average Guests by Gender',
+        title: 'My Daily Activities',
         is3D: true,
         width:'100%',
         height: 300,
-        colors: ["#8fb8ed", "#ed6a5e" , "#e2e8ce", CubaAdminConfig.secondary , CubaAdminConfig.primary ]
+        colors: ["#f8d62b", "#a927f9" , "#51bb25", CubaAdminConfig.secondary , CubaAdminConfig.primary ]
       };
       var chart = new google.visualization.PieChart(document.getElementById('pie-chart2'));
       chart.draw(data, options);
@@ -244,16 +245,13 @@ function drawBasic() {
   }
     if ($("#bar-chart2").length > 0) {
         var a = google.visualization.arrayToDataTable([
-                ["Age", "Population", {
+                ["Element", "Density", {
                     role: "style"
                 }],
-                ["60+", 8, "#b429f9"],
-                ["55-60", 21, "#9c43f8"],
-                ["45-54", 17, "#855df7"],
-                ["35-44", 17, "#6d77f6"],
-                ["25-34", 14, "#5591f5"],
-                ["18-24", 12, "#3eabf4"],
-                ["Less than 18", 16, "color: #26c5f3"]
+                ["Copper", 10, "#a927f9"],
+                ["Silver", 12, "#f8d62b"],
+                ["Gold", 14, "#f73164"],
+                ["Platinum", 16, "color: #7366ff"]
             ]),
             d = new google.visualization.DataView(a);
         d.setColumns([0, 1, {
@@ -263,9 +261,9 @@ function drawBasic() {
             role: "annotation"
         }, 2]);
         var b = {
-                title: "Average Guests by Age",
+                title: "Density of Precious Metals, in g/cm^3",
                 width:'100%',
-                height: 240,
+                height: 400,
                 bar: {
                     groupWidth: "95%"
                 },

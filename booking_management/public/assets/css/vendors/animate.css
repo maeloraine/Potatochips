@@ -1441,16 +1441,3 @@
 .slideOutUp {
   animation-name: slideOutUp;
 }
-.chart-container {
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  height: 250px;
-  position: relative;
-}
-#roomStatusCardDashboard{
-  height: 420px;
-}
-#roomStatusCardAnalytics{
-  height: 345px;
-}
