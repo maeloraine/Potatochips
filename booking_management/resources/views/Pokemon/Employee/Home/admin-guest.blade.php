@@ -345,12 +345,13 @@
                     <table id="guestTable">
                         <thead >
                             <tr>
-                                <th>Last Name</th>
                                 <th>First Name</th>
+                                <th>Last Name</th>
                                 <th>Gender</th>
                                 <th>Birthdate</th>
                                 <th>Email</th>
                                 <th>Contact Number</th>
+                                <th>Address</th>
                                 <th>Special Request</th>
                                 <th>Actions</th>
                             </tr>
@@ -364,9 +365,19 @@
                                 <td>{{$guest -> birthdate}}</td>
                                 <td>{{$guest -> email}}</td>
                                 <td>{{$guest -> phone}}</td>
+                                <td>{{$guest -> address}}</td>
                                 <td>{{$guest -> specialRequests}}</td>
                                 <td>
-                                    <button class="edit-button">Edit</button>
+                                    <button class="edit-button" 
+                                    data-guest-id="{{ $guest->guest_id }}"
+                                    data-guest-firstName="{{ $guest->firstName }}"
+                                    data-guest-lastName="{{ $guest->lastName }}"
+                                    data-guest-gender="{{ $guest->gender }}"
+                                    data-guest-birthdate="{{ $guest->birthdate }}"
+                                    data-guest-email="{{ $guest->email }}"
+                                    data-guest-phone="{{ $guest->phone }}"
+                                    data-guest-address="{{ $guest->address }}"
+                                    data-guest-specialRequests="{{ $guest->specialRequests }}">Edit</button>
                                     <button class="delete-button">Delete</button>
                                 </td>
                             </tr>
@@ -383,41 +394,42 @@
                 <h2>Add a Guest</h2>
                 <form id="addGuestForm" method="post" action="{{route('guest.add')}}">
                     @csrf
-                    @method('post')
-                    <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                        <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
-                    </label>
-                    <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold;    
-                        margin-left: 5px;">*</span> 
-                        <input type="text" name="firstName" id="firstName" placeholder="First Name" required></label>
-                    <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold;    
-                        margin-left: 5px;">*</span> <select name="gender" class="date" id="gender" required>
-                        <option value="" disabled selected>Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Rather Not Say">Rather Not Say</option>
-                    </select></label>
-                    <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold;    
-                        margin-left: 5px;">*</span> 
-                        <input class="date" name="birthdate" type="date" id="birthdate" placeholder="Birthdate" required>
-                    </label>
-                    <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold;    
-                        margin-left: 5px;">*</span> 
-                        <input type="email" id="email" name="email" placeholder="Email" required>
-                    </label>
-                    <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
-                        margin-left: 5px;">*</span> 
-                        <input type="text" id="contactNumber" name="phone" placeholder="Contact Number" required></label>
-                    <div>
-                        <label> Address <input type="text" id="address" name="address" placeholder="Address"></label>
-                    </div>
-                    <div>
-                        <label> Special Request <input type="text" id="specialRequest" name="specialRequests" placeholder="Special Request"></label>
-                    </div>
+                    <input type="hidden" name="_method" value="PUT">
+                        <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold;    
+                            margin-left: 5px;">*</span> 
+                            <input type="text" name="firstName" id="firstName" placeholder="First Name" required></label>
+                        <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                            <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
+                        </label>
                     
-                    <div class="button-container">
-                        <button id="addGuest" type="submit">Add Guest</button>
-                    </div>
+                        <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold;    
+                            margin-left: 5px;">*</span> <select name="gender" class="date" id="gender" required>
+                            <option value="" disabled selected>Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Rather Not Say">Rather Not Say</option>
+                        </select></label>
+                        <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold;    
+                            margin-left: 5px;">*</span> 
+                            <input class="date" name="birthdate" type="date" id="birthdate" placeholder="Birthdate" required>
+                        </label>
+                        <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold;    
+                            margin-left: 5px;">*</span> 
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                        </label>
+                        <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
+                            margin-left: 5px;">*</span> 
+                            <input type="text" id="phone" name="phone" placeholder="Contact Number" required></label>
+                        <div>
+                            <label> Address <input type="text" id="address" name="address" placeholder="Address"></label>
+                        </div>
+                        <div>
+                            <label> Special Request <input type="text" id="specialRequests" name="specialRequests" placeholder="Special Request"></label>
+                        </div>
+                        
+                        <div class="button-container">
+                            <button id="addGuest" type="submit">Add Guest</button>
+                        </div>
                 </form>
             </div>
         </div>
@@ -439,7 +451,65 @@
     // Open modal
     addGuestButton.addEventListener('click', () => {
         guestModal.style.display = 'block';
+        addGuestForm.reset();
+        document.getElementById('addGuest').textContent = 'Add guest'; // Change button text
+        addGuestForm.action = "{{ route('guest.add') }}"; // Set form action to the route for adding a room
+        document.querySelector('input[name="_method"]').remove(); // Remove any hidden method input from previous edit action
     });
+
+    // Open modal for editing an existing room
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function () {
+            // Open the modal
+            guestModal.style.display = 'block';
+
+            // Get data attributes from the clicked button
+            const guestId = this.getAttribute('data-guest-id');
+            const guestFirstName = this.getAttribute('data-guest-firstName');
+            const guestLastName = this.getAttribute('data-guest-lastName');
+            const guestGender = this.getAttribute('data-guest-gender');
+            const guestBirthdate = this.getAttribute('data-guest-birthdate');
+            const guestEmail = this.getAttribute('data-guest-email');
+            const guestPhone = this.getAttribute('data-guest-phone');
+            const guestAddress = this.getAttribute('data-guest-address');
+            const guestSpecialRequests = this.getAttribute('data-guest-specialRequests');
+
+            // Populate modal fields with the guest data
+            document.getElementById('firstName').value = guestFirstName;
+            document.getElementById('lastName').value = guestLastName;
+            document.getElementById('gender').value = guestGender;
+            document.getElementById('birthdate').value = guestBirthdate;
+            document.getElementById('email').value = guestEmail;
+            document.getElementById('phone').value = guestPhone;
+            document.getElementById('address').value = guestAddress;
+            document.getElementById('specialRequests').value = guestSpecialRequests;
+
+            // Update form action for editing
+            addGuestForm.action = `/guests/${guestId}`;
+            addGuestForm.method = 'POST'; // Ensure method is POST for update
+
+            // Update hidden _method input to use PUT request
+            let methodInput = addGuestForm.querySelector('input[name="_method"]');
+            if (!methodInput) {
+                methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                addGuestForm.appendChild(methodInput);
+            }
+            methodInput.value = 'PUT';
+
+            // Change submit button text to 'Update Guest'
+            document.getElementById('addGuest').textContent = 'Update Guest'; // Update button text
+        });
+});
+// Ensure that the form submits properly when the button is clicked
+addGuestSubmitButton.addEventListener('click', (e) => {
+    if (document.getElementById('addGuest').textContent === 'Update Guest') {
+        // If editing, allow the form submission normally
+        addGuestForm.submit();  // Directly submit the form without preventing default
+    }
+});
+
 
     // Close modal
     closeModalButton.addEventListener('click', () => {
@@ -463,8 +533,8 @@
             let matchFound = false;
 
             // Combine the text of specific columns (e.g., first name and last name)
-            const lastName = cells[0].textContent.toLowerCase(); // Last name is in the first column
-            const firstName = cells[1].textContent.toLowerCase(); // First name is in the second column
+            const firstName = cells[0].textContent.toLowerCase(); // Last name is in the first column
+            const lastName = cells[1].textContent.toLowerCase(); // First name is in the second column
             const fullName = `${firstName} ${lastName}`; // Combine first and last name
 
                 // Check if the combined text matches the search input
@@ -485,58 +555,10 @@
     document.getElementById('searchButton').addEventListener('click', searchItems);
 
 
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const guestTableBody = document.querySelector('#guestTable tbody');
-    
-        // Add double-click event listener to table rows
-        guestTableBody.addEventListener('dblclick', (e) => {
-            // Get the row that was double-clicked
-            const row = e.target.closest('tr');
-            if (row) {
-                // Get the full name from the row cells
-                const lastName = row.cells[0].textContent.trim();
-                const firstName = row.cells[1].textContent.trim();
-                    
-                // Create the full name
-                const fullName = `${firstName} ${lastName}`.trim();
-                    
-                // Show the alert with the full name
-                alert(`Full Name: ${fullName}`);
-            }
-        });
-    });
-
-   //     // Get the table body
-    // const guestTable = document.getElementById('guestTable');
-
-    // // Add double-click event listener to table rows
-    // guestTable.addEventListener('dblclick', (e) => {
-    //     const row = e.target.closest('tr'); // Get the row that was double-clicked
-    //     if (row && row.rowIndex !== 0) { // Exclude the header row
-    //         const rowData = [...row.children].map(cell => cell.textContent.trim());
-            
-    //         // Create query parameters from the row data
-    //         const queryParams = new URLSearchParams({
-    //             lastName: rowData[0],
-    //             firstName: rowData[1],
-    //             middleName: rowData[2],
-    //             gender: rowData[3],
-    //             birthdate: rowData[4],
-    //             email: rowData[5],
-    //             contactNumber: rowData[6],
-    //             specialRequest: rowData[7]
-    //         });
-
-    //         // Redirect to another page with query parameters
-    //         window.location.href = `/Pokemon/Employee/Home/admin-booking?${queryParams.toString()}`;
-    //     }
-    // });
-
     
         // Handle guest addition
-        addGuestSubmitButton.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent form submission
+    addGuestSubmitButton.addEventListener('click', (e) => {
+         e.preventDefault(); // Prevent form submission
 
             // Get form data
             const lastName = document.getElementById('lastName').value.trim();
@@ -544,9 +566,9 @@
             const gender = document.getElementById('gender').value;
             const birthdateInput = document.getElementById('birthdate').value;
             const email = document.getElementById('email').value.trim();
-            const contactNumber = document.getElementById('contactNumber').value.trim();
+            const phone = document.getElementById('phone').value.trim();
             const address = document.getElementById('address').value.trim();
-            const specialRequest = document.getElementById('specialRequest').value.trim();
+            const specialRequests = document.getElementById('specialRequests').value.trim();
 
             // Validate inputs
             let valid = true;
@@ -595,10 +617,10 @@
             }
 
             // Validate Contact Number
-            if (!contactNumber) {
+            if (!phone) {
                 valid = false;
                 errorMessages.push('Contact Number is required.');
-            } else if (contactNumber.length !== 11 || isNaN(contactNumber)) {
+            } else if (phone.length !== 11 || isNaN(phone)) {
                 valid = false;
                 errorMessages.push('Contact number must be exactly 11 digits.');
             }
@@ -614,7 +636,7 @@
             }
 
             // Validate Special Request (if applicable)
-            if (specialRequest && specialRequest.length > 100) {
+            if (specialRequests && specialRequests.length > 100) {
                 valid = false;
                 errorMessages.push('Special request cannot exceed 100 characters.');
             }
@@ -629,22 +651,22 @@
             addGuestForm.submit();
 
         // If all validations pass, proceed with the form submission (e.g., adding the guest)
-        // Add the new guest to the table
-        const newRow = guestTableBody.insertRow();
-        newRow.innerHTML = `
-            <td>${lastName}</td>
-            <td>${firstName}</td>
-            <td>${gender}</td>
-            <td>${birthdate}</td>
-            <td>${email}</td>
-            <td>${contactNumber}</td>
-            <td>${address}</td>
-            <td>${specialRequest}</td>
-            <td><button class="edit-button">Edit</button></td>
-        `;
+    //     // Add the new guest to the table
+    //     const newRow = guestTableBody.insertRow();
+    //     newRow.innerHTML = `
+    //         <td>${firstName}</td>
+    //         <td>${lastName}</td>
+    //         <td>${gender}</td>
+    //         <td>${birthdate}</td>
+    //         <td>${email}</td>
+    //         <td>${phone}</td>
+    //         <td>${address}</td>
+    //         <td>${specialRequests}</td>
+    //         <td><button class="edit-button">Edit</button></td>
+    //     `;
 
-        // Close the modal
-        guestModal.style.display = 'none';
+    //     // Close the modal
+     guestModal.style.display = 'none';
     });
 </script>
 @endsection

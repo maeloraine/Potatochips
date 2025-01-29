@@ -426,6 +426,7 @@ Route::get('/employee/home/guest-information', [GuestController::class, 'index']
 
 // Add Guest
 Route::post('/employee/home/guest-information', [GuestController::class, 'addGuest'])->name('guest.add');
+Route::put('/guests/{id}', [GuestController::class, 'update'])->name('guest.update');
 
 
 // ==================================
