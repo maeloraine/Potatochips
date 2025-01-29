@@ -6,27 +6,19 @@ use App\Services\PayMongoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
-use Curl;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class PaymentController extends Controller
 {
-    /**
-     * Handles the creation of a PayMongo checkout session and redirects to the checkout URL.
-     *
-     * @param Request $request
-     * @param PayMongoService $payMongoService
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-     */
     public function pay(Request $request, PayMongoService $payMongoService)
     {
-        // Log the incoming request payload
         Log::info('Incoming Booking Data:', $request->all());
     
-        // Validate the request payload
         $validatedData = $request->validate([
             'bookings' => 'required|array',
             'bookings.*.id' => 'required|numeric',
+            'bookings.*.id' => 'required|exists:rooms,room_id', // Validate room_id
             'bookings.*.name' => 'required|string',
             'bookings.*.price' => 'required|numeric',
             'bookings.*.details' => 'nullable|string',
@@ -45,22 +37,21 @@ class PaymentController extends Controller
             'guestInfo.address' => 'required|string',
             'guestInfo.specialRequests' => 'nullable|string',
         ]);
+
+        // Store the validated data in the session before creating PayMongo checkout
+        Session::put('booking_data', $validatedData);
     
-        Log::info('Validated Data:', $validatedData);
-    
-        // Prepare line items for PayMongo
         $lineItems = [];
         foreach ($validatedData['bookings'] as $booking) {
             $lineItems[] = [
                 'currency' => 'PHP',
-                'amount' => (int) ($booking['price'] * 100), // Convert to cents
-                'description' => substr($booking['details'] ?? '', 0, 255), // Truncate to 255 characters
+                'amount' => (int) ($booking['price'] * 100),
+                'description' => substr($booking['details'] ?? '', 0, 255),
                 'name' => $booking['name'],
                 'quantity' => 1,
             ];
         }
     
-        // Prepare PayMongo checkout session data
         $data = [
             'data' => [
                 'attributes' => [
@@ -76,23 +67,17 @@ class PaymentController extends Controller
                         'brankas_landbank',
                         'brankas_metrobank',
                     ],
-                    'success_url' => route('customer-reservations'),//'http://localhost:8000/success',
+                    'success_url' => 'http://localhost:8000/success',
                     'cancel_url' => 'http://localhost:8000/cancel',
                     'description' => 'Online Booking',
                 ],
             ]
         ];
     
-        Log::info('PayMongo Request Data:', $data);
-    
         try {
-            // Create PayMongo checkout session
             $responseData = $payMongoService->createCheckoutSession($data);
-            Log::info('PayMongo API Response:', $responseData); // Log the PayMongo API response
-    
             Session::put('session_id', $responseData['data']['id']);
-    
-            // Redirect to PayMongo checkout URL
+            
             return response()->json(['checkout_url' => $responseData['data']['attributes']['checkout_url']]);
         } catch (Exception $e) {
             Log::error('PayMongo API Error:', ['error' => $e->getMessage()]);
@@ -100,28 +85,96 @@ class PaymentController extends Controller
         }
     }
     
-    /**
-     * Handles the success callback from PayMongo.
-     *
-     * @param PayMongoService $payMongoService
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function success(PayMongoService $payMongoService)
     {
         try {
+            // Retrieve the session data first
             $sessionId = Session::get('session_id');
+            $validatedData = Session::get('booking_data');
+
             if (!$sessionId) {
                 throw new Exception('Session ID is missing.');
             }
 
-            // Retrieve checkout session details from PayMongo
+            if (!$validatedData) {
+                throw new Exception('Booking data not found in session.');
+            }
+
             $responseData = $payMongoService->getCheckoutSession($sessionId);
-            Log::info('PayMongo Success Response:', $responseData);
+            $attributes = $responseData['data']['attributes'];
 
-            // Save booking details to the database (optional)
-            // $this->saveBookingDetails($responseData);
+            if (empty($attributes['payments'])) {
+                throw new Exception('No payments found in the response.');
+            }
 
-            return response()->json($responseData);
+            $payment = $attributes['payments'][0]['attributes'];
+            $paymentStatus = $payment['status'] ?? 'unknown';
+
+            if ($paymentStatus === 'paid') {
+                // Get the authenticated user as the customer
+                $customer = Auth::user();
+                if (!$customer) {
+                    throw new Exception('No authenticated customer found.');
+                }
+                $guest = \App\Models\Guest::firstOrCreate(
+                    ['email' => $validatedData['guestInfo']['email']],
+                    [
+                        'first_name' => $validatedData['guestInfo']['firstName'],
+                        'last_name' => $validatedData['guestInfo']['lastName'],
+                        'gender' => $validatedData['guestInfo']['gender'],
+                        'birthdate' => $validatedData['guestInfo']['birthdate'],
+                        'phone' => $validatedData['guestInfo']['phone'],
+                        'address' => $validatedData['guestInfo']['address'],
+                        'special_requests' => $validatedData['guestInfo']['specialRequests'] ?? null,
+                    ]
+                );
+                
+                if (!$guest->exists) {
+                    throw new Exception('Failed to create or find guest');
+                }
+                
+                Log::info('Guest Created/Found:', $guest->toArray());
+
+                $guest = \App\Models\Guest::where('email', $validatedData['guestInfo']['email'])->first();
+                if (!$guest || !$guest->guest_id) {
+                    throw new Exception('Guest ID is missing.');
+                }
+
+                // Save bookings
+                foreach ($validatedData['bookings'] as $booking) {
+                    \App\Models\Booking::create([
+                        'customer_id' => $customer->customer_id, // Assigning logged-in user as customer
+                        'room_id' => $booking['id'],
+                        'guest_id' => $guest->guest_id,
+                        'name' => $booking['name'],
+                        'price' => $booking['price'],
+                        'details' => $booking['details'] ?? null,
+                        'check_in_date' => $validatedData['checkInDate'],
+                        'check_out_date' => $validatedData['checkOutDate'],
+                        'adults' => $validatedData['adults'],
+                        'children' => $validatedData['children'],
+                    ]);
+                }
+
+                // Save payment
+                \App\Models\Payment::create([
+                    'guest_id' => $guest->guest_id,
+                    'session_id' => $sessionId,
+                    'payment_id' => $payment['payment_intent_id'] ?? $responseData['data']['id'],
+                    'amount' => $payment['amount'] / 100,
+                    'currency' => $payment['currency'],
+                    'status' => $paymentStatus,
+                    'payment_method' => $payment['source']['type'] ?? 'unknown',
+                    'description' => $payment['description'] ?? 'Online Booking',
+                ]);
+
+                // Clear the session data after successful processing
+                Session::forget(['session_id', 'booking_data']);
+
+                return response()->json(['message' => 'Booking and payment details saved successfully.']);
+            } else {
+                throw new Exception('Payment status is not successful. Status: ' . $paymentStatus);
+            }
         } catch (Exception $e) {
             Log::error('PayMongo Success Error:', ['error' => $e->getMessage()]);
             return response()->json(['error' => $e->getMessage()], 500);

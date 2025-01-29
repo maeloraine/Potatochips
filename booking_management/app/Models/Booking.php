@@ -18,8 +18,8 @@ class Booking extends Model
         'booking_reference', 
         'check_in_date', 
         'check_out_date', 
-        'check_in_time', 
-        'check_out_time', 
+        //'check_in_time', 
+        //'check_out_time', 
         'booking_status', 
         'guest_id', 
         'room_id', 
@@ -48,4 +48,15 @@ class Booking extends Model
     {
         return $this->belongsTo(Room::class, 'room_id');
     }
+
+    // In your Booking model (app/Models/Booking.php)
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->booking_reference = 'BOOK-' . time() . '-' . strtoupper(substr(uniqid(), -6));
+        });
+    }
+    
 }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('guests', function (Blueprint $table) {
             $table->id('guest_id');
-            $table->string('firstName');
-            $table->string('lastName');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->date('birthdate');
             $table->enum('gender', ['Male', 'Female', 'Rather Not Say']);
             $table->string('email');

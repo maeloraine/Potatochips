@@ -13,15 +13,18 @@ class Guest extends Model
 
 
     protected $fillable = [
-        'firstName',
-        'lastName',
+        'first_name',
+        'last_name',
         'birthdate',
         'gender',
         'email',
         'phone',
         'address',
-        'specialRequests'
+        'specialRequests',
+        'guest_id'
     ];
+
+
     public function bookings()
     {
         return $this->hasMany(Booking::class, 'guest_id');
