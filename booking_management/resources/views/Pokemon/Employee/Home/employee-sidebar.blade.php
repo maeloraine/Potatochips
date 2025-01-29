@@ -26,20 +26,20 @@
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('employee-dashboard') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-home') }}"></use>
                             </svg><span>Dashboard</span></a>
 
                     <!-- Guest Management -->
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('guest.index') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-user') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                             </svg><span>Guest Management</span></a>
                     </li>
 
@@ -47,14 +47,15 @@
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('room.index') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-table') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-table') }}"></use>
                             </svg><span>Room Management</span></a>
                     </li>
 
                     <!-- Booking Management -->
+
                     <li class="sidebar-list"> <a
                         class="sidebar-link sidebar-title link-nav" >
                         <svg class="stroke-icon">
@@ -75,10 +76,10 @@
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('billing') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-form') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-form') }}"></use>
                             </svg><span>Billing</span></a>
                     </li>
 
@@ -86,10 +87,10 @@
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('analytics') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-charts') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-charts') }}"></use>
                             </svg><span>Analytics</span></a>
                     </li>
                     <li class="sidebar-main-title">
@@ -101,10 +102,10 @@
                     <li class="sidebar-list"><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('usermanagement') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-tickets') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-tickets') }}"></use>
                             </svg><span>User Management</span></a>
                     </li>
 
