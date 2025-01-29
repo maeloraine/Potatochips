@@ -647,7 +647,8 @@
             }
 
             // If the form is valid, redirect to the payment route
-            window.location.href = '{{ route("pay") }}';
+            //window.location.href = '{{ route("pay") }}';
+            window.location.href = '{{ secure_url(route("pay")) }}';
 
             // Prepare booking data
             const bookingData = {
@@ -694,7 +695,7 @@
             //     alert('An error occurred while processing your request.');
             // });
 
-            fetch('{{ route("pay") }}', {
+            fetch('{{ secure_url(route("pay")) }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

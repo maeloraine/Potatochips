@@ -13,7 +13,10 @@ class PaymentController extends Controller
 {
     public function pay(Request $request, PayMongoService $payMongoService)
     {
+        
         Log::info('Incoming Booking Data:', $request->all());
+        Log::debug('Request Headers:', $request->headers->all());
+        Log::debug('Request Input:', $request->all());
     
         $validatedData = $request->validate([
             'bookings' => 'required|array',
@@ -67,8 +70,8 @@ class PaymentController extends Controller
                         'brankas_landbank',
                         'brankas_metrobank',
                     ],
-                    'success_url' => 'http://localhost:8000/success',
-                    'cancel_url' => 'http://localhost:8000/cancel',
+                    'success_url' => url(route('payment.success')),
+                    'cancel_url' => secure_url(route('customer-reservations')),
                     'description' => 'Online Booking',
                 ],
             ]
@@ -157,21 +160,21 @@ class PaymentController extends Controller
                 }
 
                 // Save payment
-                \App\Models\Payment::create([
-                    'guest_id' => $guest->guest_id,
-                    'session_id' => $sessionId,
-                    'payment_id' => $payment['payment_intent_id'] ?? $responseData['data']['id'],
-                    'amount' => $payment['amount'] / 100,
-                    'currency' => $payment['currency'],
-                    'status' => $paymentStatus,
-                    'payment_method' => $payment['source']['type'] ?? 'unknown',
-                    'description' => $payment['description'] ?? 'Online Booking',
-                ]);
+                // \App\Models\Payment::create([
+                //     'guest_id' => $guest->guest_id,
+                //     'session_id' => $sessionId,
+                //     'payment_id' => $payment['payment_intent_id'] ?? $responseData['data']['id'],
+                //     'amount' => $payment['amount'] / 100,
+                //     'currency' => $payment['currency'],
+                //     'status' => $paymentStatus,
+                //     'payment_method' => $payment['source']['type'] ?? 'unknown',
+                //     'description' => $payment['description'] ?? 'Online Booking',
+                // ]);
 
                 // Clear the session data after successful processing
                 Session::forget(['session_id', 'booking_data']);
-
-                return response()->json(['message' => 'Booking and payment details saved successfully.']);
+                return redirect()->route('customer-reservations')->with('success', 'Booking and payment successful!');
+                //return response()->json(['message' => 'Booking and payment details saved successfully.']);
             } else {
                 throw new Exception('Payment status is not successful. Status: ' . $paymentStatus);
             }
@@ -179,5 +182,11 @@ class PaymentController extends Controller
             Log::error('PayMongo Success Error:', ['error' => $e->getMessage()]);
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function cancel()
+    {
+        Session::forget(['session_id', 'booking_data']);
+        return redirect()->route('customer.booking')->with('error', 'Payment was cancelled');
     }
 }

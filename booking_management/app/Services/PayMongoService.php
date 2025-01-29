@@ -7,7 +7,7 @@ use Exception;
 
 class PayMongoService
 {
-    protected $baseUrl = 'https://api.paymongo.com';
+    private $baseUrl = 'https://api.paymongo.com';
     protected $authHeader;
 
     public function __construct()

@@ -450,9 +450,18 @@ Route::middleware(['auth:customer'])->group(function () {
     Route::get('/pay',[PaymentController::class,'pay'])->name('payment.index'); //Pwede naman wala na pero in case lang
 
     // Magbabayad ka na
-    Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
+    //Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
+    Route::post('/pay', [PaymentController::class, 'pay'])
+     ->name('pay');
+     //->middleware('secure'); // Add if you have security middleware
 
-    Route::get('/success',[PaymentController::class,'success'])->name('pay-success');
+    //Route::get('/success',[PaymentController::class,'success'])->name('pay-success');
+
+    Route::get('/success', [PaymentController::class, 'success'])
+     ->name('payment.success');
+
+    Route::get('/cancel', [PaymentController::class, 'cancel'])
+     ->name('payment.cancel');
 
     // Booking
     Route::post('/bookings',[BookingController::class,'store'])->name('booking.add');
