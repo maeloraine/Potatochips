@@ -16,8 +16,6 @@ use App\Http\Controllers\Auth\CustomerController;
 use App\Http\Controllers\CustomerGuestController;
 use App\Http\Controllers\BookingController;
 
-
-
 Route::get('/', function () {
     return view('Pokemon.Customer.Authentication.landing-page'); //replace to landing page
 })->name('/');
@@ -440,14 +438,16 @@ Route::get('/employee/home/room-management', [RoomController::class, 'index'])->
 // Create Rooms
 Route::post('/employee/home/room-management', [RoomController::class, 'addRoom'])->name('room.add');
 
-// Edit Rooms(GET method)
-Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('room.update');
+Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('room.delete');
+// // Edit Rooms(GET method)
+// Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
 
-// Update Rooms (PUT method)
-Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
+// // Update Rooms (PUT method)
+// Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
 
-// Delete Rooms
-Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+// // Delete Rooms
+// Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 
 // ==================================
 //      Admin Side Room Management

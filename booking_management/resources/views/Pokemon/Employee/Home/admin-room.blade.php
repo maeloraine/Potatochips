@@ -1,5 +1,9 @@
 @extends('layouts.simple.master')
 @section('title', 'Date Time Picker')
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- other head content -->
+</head>
 
 @section('css')
 @endsection
@@ -382,13 +386,12 @@
                                     data-room-rate="{{ $room->Room_Rate }}"
                                     data-room-description="{{ $room->Room_Description }}">Edit</button>
                                 <!-- Delete Button -->
-                                <form action="{{ route('rooms.destroy', $room->room_id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('room.delete', $room->room_id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this room?');">
                                     @csrf
-                                    @method('DELETE')  <!-- This is the method override for DELETE request -->
-                                    <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this room?')">Delete</button>
+                                    @method('DELETE')
+                                    <button type="submit" class="delete-button">Delete</button>
                                 </form>
-                            </td>
-                                
+                            </td>   
                         </tr>
                     @endforeach
                 </tbody>
@@ -402,23 +405,23 @@
             <h2>Add a Room</h2>
             <form id="createRoomForm" method="post" action="{{route('room.add')}}">
                 @csrf
-                @method('PUT') <!-- Add the PUT method override -->
-                <label> Room No <input type="text" name="Room_Number" id="roomNo" placeholder="Room Number" required></label>
-                <label> Room Type <select id="roomType" name="Room_Type" required>
-                    <option value="" disabled selected>Select Room Type</option>
-                    <option value="Cottage">Cottage</option>
-                    <option value="Kubo">Kubo</option>
-                    <option value="Cabin">Cabin</option>
-                </select></label>
-                <label> Room Capacity <input type="number" name="Room_Capacity" id="roomCapacity" placeholder="Room Capacity" value="0" required></label>
-                <label> Room Status <select id="roomStatus" name="Room_Status" required>
-                    <option value="" disabled selected>Select Room Status</option>
-                    <option value="Available" selected>Available</option>
-                    <option value="Occupied">Occupied</option>
-                    <option value="Reserved">Reserved</option>
-                </select></label>
-                <label> Room Rate <input type="decimal" id="roomRate" name="Room_Rate" placeholder="Room Rate" required></label>
-                <label> Room Description <input type="text" id="roomDescription" name="Room_Description" placeholder="Describe the room..."></label>
+                <input type="hidden" name="_method" value="PUT">
+                    <label> Room No <input type="text" name="Room_Number" id="roomNo" placeholder="Room Number" required></label>
+                    <label> Room Type <select id="roomType" name="Room_Type" required>
+                        <option value="" disabled selected>Select Room Type</option>
+                        <option value="Cottage">Cottage</option>
+                        <option value="Kubo">Kubo</option>
+                        <option value="Cabin">Cabin</option>
+                    </select></label>
+                    <label> Room Capacity <input type="number" name="Room_Capacity" id="roomCapacity" placeholder="Room Capacity" value="0" required></label>
+                    <label> Room Status <select id="roomStatus" name="Room_Status" required>
+                        <option value="" disabled selected>Select Room Status</option>
+                        <option value="Available" selected>Available</option>
+                        <option value="Occupied">Occupied</option>
+                        <option value="Reserved">Reserved</option>
+                    </select></label>
+                    <label> Room Rate <input type="decimal" id="roomRate" name="Room_Rate" placeholder="Room Rate" required></label>
+                    <label> Room Description <input type="text" id="roomDescription" name="Room_Description" placeholder="Describe the room..."></label>
                 <div class="button-container">
                     <button type="submit" id="createRoom">Add Room</button>
                 </div>
@@ -445,9 +448,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear the modal fields when adding a new room
         createRoomForm.reset();
         document.getElementById('createRoom').textContent = 'Add Room'; // Change button text
+        createRoomForm.action = "{{ route('room.add') }}"; // Set form action to the route for adding a room
+        document.querySelector('input[name="_method"]').remove(); // Remove any hidden method input from previous edit action
     });
 
-    // Open modal for editing a room
+    // Open modal for editing an existing room
     document.querySelectorAll('.edit-button').forEach(button => {
         button.addEventListener('click', function() {
             roomModal.style.display = 'block';
@@ -469,22 +474,18 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('roomRate').value = roomRate;
             document.getElementById('roomDescription').value = roomDescription;
             
-            // Update form action for editing
-            createRoomForm.action = `/rooms/${roomId}`; // Set the correct URL for editing
-            createRoomForm.method = 'POST'; // Method for updating (use PUT if you want)
+             // Update form action for editing
+            createRoomForm.action = `/rooms/${roomId}`; // Update action for editing specific room
+            createRoomForm.method = 'POST'; // Update method to POST for update
+            // Add method override input
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'PUT';
+            createRoomForm.appendChild(methodInput); // Append hidden method input for PUT request
             document.getElementById('createRoom').textContent = 'Update Room'; // Change button text to 'Update'
-            createRoomForm.appendChild(createHiddenInput('method', 'PUT')); // Add hidden input for PUT method
         });
     });
-
-    // Function to create hidden input for HTTP method override
-    function createHiddenInput(name, value) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = name;
-        input.value = value;
-        return input;
-    }
 
     // Close modal
     closeModalButton.addEventListener('click', () => {
@@ -497,6 +498,24 @@ document.addEventListener('DOMContentLoaded', function() {
             roomModal.style.display = 'none';
         }
     });
+
+    function deleteRoom(roomId) {
+        if (confirm("Are you sure you want to delete this room?")) {
+            fetch(`/rooms/${roomId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+}
 
 
     // Function to handle the search
