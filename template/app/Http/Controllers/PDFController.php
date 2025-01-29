@@ -18,8 +18,7 @@ class PDFController extends Controller
 
         // Load view and pass QR code
         $pdf = Pdf::loadView('pdf_view', compact('qrCode', 'referenceNumber'));
+        $pdf->setPaper('a4', 'landscape');
         return $pdf->download('receipt.pdf');
     }
 }
-
-
