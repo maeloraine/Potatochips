@@ -373,9 +373,22 @@
                             <td>{{ $room->Room_Rate }}</td>
                             <td>{{ $room->Room_Description }}</td>
                             <td>
-                                <button class="edit-button">Edit</button>
-                                <button class="delete-button">Delete</button>
+                                <button class="edit-button" 
+                                    data-room-id="{{ $room->room_id }}"
+                                    data-room-number="{{ $room->Room_Number }}"
+                                    data-room-type="{{ $room->Room_Type }}"
+                                    data-room-capacity="{{ $room->Room_Capacity }}"
+                                    data-room-status="{{ $room->Room_Status }}"
+                                    data-room-rate="{{ $room->Room_Rate }}"
+                                    data-room-description="{{ $room->Room_Description }}">Edit</button>
+                                <!-- Delete Button -->
+                                <form action="{{ route('rooms.destroy', $room->room_id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')  <!-- This is the method override for DELETE request -->
+                                    <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this room?')">Delete</button>
+                                </form>
                             </td>
+                                
                         </tr>
                     @endforeach
                 </tbody>
@@ -389,7 +402,7 @@
             <h2>Add a Room</h2>
             <form id="createRoomForm" method="post" action="{{route('room.add')}}">
                 @csrf
-                @method('post')
+                @method('PUT') <!-- Add the PUT method override -->
                 <label> Room No <input type="text" name="Room_Number" id="roomNo" placeholder="Room Number" required></label>
                 <label> Room Type <select id="roomType" name="Room_Type" required>
                     <option value="" disabled selected>Select Room Type</option>
@@ -420,11 +433,71 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
-    const addRoomButton = document.getElementById('addRoomButton');
+document.addEventListener('DOMContentLoaded', function() {
     const roomModal = document.getElementById('roomModal');
     const closeModalButton = document.getElementById('closeModalButton');
-    const createRoomButton = document.getElementById('createRoom');
+    const addRoomButton = document.getElementById('addRoomButton');
+    const createRoomForm = document.getElementById('createRoomForm');
     
+    // Open modal for adding a new room
+    addRoomButton.addEventListener('click', () => {
+        roomModal.style.display = 'block';
+        // Clear the modal fields when adding a new room
+        createRoomForm.reset();
+        document.getElementById('createRoom').textContent = 'Add Room'; // Change button text
+    });
+
+    // Open modal for editing a room
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function() {
+            roomModal.style.display = 'block';
+            
+            // Get data attributes from the clicked button
+            const roomId = this.getAttribute('data-room-id');
+            const roomNumber = this.getAttribute('data-room-number');
+            const roomType = this.getAttribute('data-room-type');
+            const roomCapacity = this.getAttribute('data-room-capacity');
+            const roomStatus = this.getAttribute('data-room-status');
+            const roomRate = this.getAttribute('data-room-rate');
+            const roomDescription = this.getAttribute('data-room-description');
+            
+            // Populate modal fields with the room data
+            document.getElementById('roomNo').value = roomNumber;
+            document.getElementById('roomType').value = roomType;
+            document.getElementById('roomCapacity').value = roomCapacity;
+            document.getElementById('roomStatus').value = roomStatus;
+            document.getElementById('roomRate').value = roomRate;
+            document.getElementById('roomDescription').value = roomDescription;
+            
+            // Update form action for editing
+            createRoomForm.action = `/rooms/${roomId}`; // Set the correct URL for editing
+            createRoomForm.method = 'POST'; // Method for updating (use PUT if you want)
+            document.getElementById('createRoom').textContent = 'Update Room'; // Change button text to 'Update'
+            createRoomForm.appendChild(createHiddenInput('method', 'PUT')); // Add hidden input for PUT method
+        });
+    });
+
+    // Function to create hidden input for HTTP method override
+    function createHiddenInput(name, value) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        return input;
+    }
+
+    // Close modal
+    closeModalButton.addEventListener('click', () => {
+        roomModal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === roomModal) {
+            roomModal.style.display = 'none';
+        }
+    });
+
 
     // Function to handle the search
     function searchItems() {
@@ -455,23 +528,7 @@
 
     // Add event listener to the search button
     document.getElementById('searchButton').addEventListener('click', searchItems);
-
-    // Open modal
-    addRoomButton.addEventListener('click', () => {
-        roomModal.style.display = 'block';
-    });
-
-    // Close modal
-    closeModalButton.addEventListener('click', () => {
-        roomModal.style.display = 'none';
-    });
-
-    // Close modal on clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target === roomModal) {
-            roomModal.style.display = 'none';
-        }
-    });
+});
 
 </script>
 @endsection

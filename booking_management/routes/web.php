@@ -406,6 +406,7 @@ Route::get('/employee/home/adminbooking', function () {
     return view('Pokemon.Employee.Home.admin-booking');
 })->name('booking');
 
+
 Route::get('/employee/home/adminanalytics', function () {
     return view('Pokemon.Employee.Home.admin-analytics');
 })->name('analytics');
@@ -428,11 +429,32 @@ Route::get('/employee/home/guest-information', [GuestController::class, 'index']
 // Add Guest
 Route::post('/employee/home/guest-information', [GuestController::class, 'addGuest'])->name('guest.add');
 
+
+// ==================================
+//      Admin Side Room Management
+// ==================================
+
 // ROOM
 Route::get('/employee/home/room-management', [RoomController::class, 'index'])->name('room.index');
 
-// Add Room
+// Create Rooms
 Route::post('/employee/home/room-management', [RoomController::class, 'addRoom'])->name('room.add');
+
+// Edit Rooms(GET method)
+Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+
+// Update Rooms (PUT method)
+Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
+
+// Delete Rooms
+Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy');
+
+// ==================================
+//      Admin Side Room Management
+// ==================================
+
+// Viewing booking
+Route::get('/employee/home/admin-add-booking', [BookingController::class, 'index'])->name('booking.index');
 
 // ==================================
 //      Customer Side

@@ -18,10 +18,30 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'EMP_Fname',
+        'EMP_Lname',
         'email',
         'password',
+        'role',
     ];
+    
+     // Method to check if the user is an admin
+     public function isAdmin()
+     {
+         return $this->role === 'admin';
+     }
+ 
+     // Method to check if the user is a manager
+     public function isManager()
+     {
+         return $this->role === 'manager';
+     }
+ 
+     // Method to check if the user is a receptionist
+     public function isReceptionist()
+     {
+         return $this->role === 'receptionist';
+     }
 
     /**
      * The attributes that should be hidden for serialization.
