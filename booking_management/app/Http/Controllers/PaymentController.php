@@ -173,10 +173,11 @@ class PaymentController extends Controller
 
                 // Clear the session data after successful processing
                 Session::forget(['session_id', 'booking_data']);
+                // for redirecting
                 return redirect()->route('customer-reservations')->with('success', 'Booking and payment successful!');
                 //return response()->json(['message' => 'Booking and payment details saved successfully.']);
             } else {
-                throw new Exception('Payment status is not successful. Status: ' . $paymentStatus);
+                throw new Exception('Payment status is not successful. Status: ' . $paymentStatus); //hello
             }
         } catch (Exception $e) {
             Log::error('PayMongo Success Error:', ['error' => $e->getMessage()]);
