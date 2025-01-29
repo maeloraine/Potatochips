@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Add constraints using raw SQL
+        // CHECK constraints using raw SQL
         DB::statement("ALTER TABLE rooms ADD CONSTRAINT CHK_Room_Type CHECK (Room_Type IN ('Cottage', 'Kubo', 'Cabin'))");
         DB::statement("ALTER TABLE rooms ADD CONSTRAINT CHK_Room_Status CHECK (Room_Status IN ('available', 'occupied'))");
         DB::statement("ALTER TABLE rooms ADD CONSTRAINT CHK_Room_Capacity CHECK (Room_Capacity > 0)");

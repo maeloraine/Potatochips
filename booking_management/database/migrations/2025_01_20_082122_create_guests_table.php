@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('firstName');
             $table->string('lastName');
             $table->date('birthdate');
-            $table->string('gender');  // Changed from enum
+            $table->string('gender');
             $table->string('email');
             $table->string('phone');
             $table->string('address');
@@ -22,9 +22,21 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Add CHECK constraint for gender
-        DB::statement("ALTER TABLE guests ADD CONSTRAINT CK_guests_gender 
-            CHECK (gender IN ('Male', 'Female', 'Rather Not Say'))");
+        //CHECK constraint
+        // for gender
+        DB::statement("ALTER TABLE guests ADD CONSTRAINT CHK_Gender CHECK (gender IN ('Male', 'Female', 'Rather Not Say'))");
+        // for phone (must be 11 digits)
+        DB::statement("ALTER TABLE guests ADD CONSTRAINT CHK_ContactNumber CHECK (LEN(phone) = 11)");
+
+        //UNIQUE constraint
+        // for email (must be unique)
+        DB::statement("ALTER TABLE guests ADD CONSTRAINT UQ_Email UNIQUE (email)");
+        DB::statement("ALTER TABLE guests ADD CONSTRAINT UQ_Guest UNIQUE (LastName, FirstName, email)");
+
+        // DEFAULT constraint
+        // if guest don't have special request, default value will be "none"
+        DB::statement("ALTER TABLE guests ADD CONSTRAINT DEF_SpecialRequest DEFAULT 'None' FOR specialRequests");
+        
     }
 
     public function down(): void

@@ -220,7 +220,7 @@
             }
         }
 
-        #contactNumber {
+        #phone {
             width: 265px;
         }
 
@@ -317,6 +317,12 @@
             width: 150px; /* Adjust the width as needed */
             min-width: 150px; /* Prevent the column from shrinking */
         }
+
+        .row {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
     </style>
 @endsection
 
@@ -345,12 +351,13 @@
                     <table id="guestTable">
                         <thead >
                             <tr>
-                                <th>Last Name</th>
                                 <th>First Name</th>
+                                <th>Last Name</th>
                                 <th>Gender</th>
                                 <th>Birthdate</th>
                                 <th>Email</th>
                                 <th>Contact Number</th>
+                                <th>Address</th>
                                 <th>Special Request</th>
                                 <th>Actions</th>
                             </tr>
@@ -364,10 +371,25 @@
                                 <td>{{$guest -> birthdate}}</td>
                                 <td>{{$guest -> email}}</td>
                                 <td>{{$guest -> phone}}</td>
+                                <td>{{$guest -> address}}</td>
                                 <td>{{$guest -> specialRequests}}</td>
                                 <td>
-                                    <button class="edit-button">Edit</button>
-                                    <button class="delete-button">Delete</button>
+                                    <button class="edit-button"
+                                    data-guest-id="{{ $guest->guest_id }}"
+                                    data-guest-lastName="{{ $guest->lastName }}"
+                                    data-guest-firstName="{{ $guest->firstName }}"
+                                    data-guest-gender="{{ $guest->gender }}"
+                                    data-guest-birthdate="{{ $guest->birthdate }}"
+                                    data-guest-email="{{ $guest->email }}"
+                                    data-guest-phone="{{ $guest->phone }}"
+                                    data-guest-address="{{ $guest->address }}"
+                                    data-guest-specialRequests="{{ $guest->specialRequests }}">Edit</button>
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('guest.delete', $guest->guest_id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this guest?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="delete-button">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
@@ -383,7 +405,7 @@
                 <h2>Add a Guest</h2>
                 <form id="addGuestForm" method="post" action="{{route('guest.add')}}">
                     @csrf
-                    @method('post')
+                    <input type="hidden" name="_method" value="PUT">
                     <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
                         <input type="text" name="lastName" id="lastName" placeholder="Last Name" required>
                     </label>
@@ -407,12 +429,15 @@
                     </label>
                     <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
                         margin-left: 5px;">*</span> 
-                        <input type="text" id="contactNumber" name="phone" placeholder="Contact Number" required></label>
-                    <div>
-                        <label> Address <input type="text" id="address" name="address" placeholder="Address"></label>
+                        <input type="text" id="phone" name="phone" placeholder="Contact Number" required></label>
+                    <div class="row">
+                        <label style="display: inline-block;"> Address <span style="color: red; font-size:16px; font-weight:bold;    
+                        margin-left: 5px;">*</span> 
+                            <input type="text" id="address" name="address" placeholder="Address"></label>
                     </div>
-                    <div>
-                        <label> Special Request <input type="text" id="specialRequest" name="specialRequests" placeholder="Special Request"></label>
+                    <div class="row">
+                        <label> Special Request
+                            <input type="text" id="specialRequest" name="specialRequests" placeholder="Special Request"></label>
                     </div>
                     
                     <div class="button-container">
@@ -436,9 +461,55 @@
     const guestTableBody = document.querySelector('#guestTable tbody');
     
 
-    // Open modal
+    // Open modal for adding a new guest
     addGuestButton.addEventListener('click', () => {
         guestModal.style.display = 'block';
+        // Clear the modal fields when adding a new guest
+        addGuestForm.reset();
+        document.getElementById('addGuest').textContent = 'Add Guest'; // Change button text
+        addGuestForm.action = "{{ route('guest.add') }}"; // Set form action to the route for adding a guest
+        document.querySelector('input[name="_method"]').remove(); // Remove any hidden method input from previous edit action
+    });
+
+    // Open modal for editing an existing guest
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function() {
+            guestModal.style.display = 'block';
+
+            // Get data attributes from the clicked button
+            const guestId = this.getAttribute('data-guest-id');
+            const lastName = this.getAttribute('data-guest-lastName');
+            const firstName = this.getAttribute('data-guest-firstName');
+            const gender = this.getAttribute('data-guest-gender');
+            const birthdate = this.getAttribute('data-guest-birthdate');
+            const email = this.getAttribute('data-guest-email');
+            const phone = this.getAttribute('data-guest-phone');
+            const address = this.getAttribute('data-guest-address');
+            const specialRequests = this.getAttribute('data-guest-specialRequests');
+
+            
+            // Populate modal fields with the guest data
+            document.getElementById('lastName').value = lastName;
+            document.getElementById('firstName').value = firstName;
+            document.getElementById('gender').value = gender;
+            document.getElementById('birthdate').value = birthdate;
+            document.getElementById('email').value = email;
+            document.getElementById('phone').value = phone;
+            document.getElementById('address').value = address;
+            document.getElementById('specialRequest').value = specialRequests;
+
+            
+             // Update form action for editing
+            addGuestForm.action = `/guests/${guestId}`; // Update action for editing specific guest
+            addGuestForm.method = 'POST'; // Update method to POST for update
+            // Add method override input
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'PUT';
+            addGuestForm.appendChild(methodInput); // Append hidden method input for PUT request
+            document.getElementById('addGuest').textContent = 'Update Guest'; // Change button text to 'Update'
+        });
     });
 
     // Close modal
@@ -451,8 +522,26 @@
         if (e.target === guestModal) {
              guestModal.style.display = 'none';
             }
-        });
- 
+    });
+
+    function deleteGuest(guestId) {
+        if (confirm("Are you sure you want to delete this guest?")) {
+            fetch(`/guests/${guestId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                location.reload(); // Reload the page to reflect changes
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+
     // Function to handle the search
     function searchItems() {
         const searchInput = document.getElementById('searchInput').value.toLowerCase();
@@ -525,7 +614,8 @@
     //             birthdate: rowData[4],
     //             email: rowData[5],
     //             contactNumber: rowData[6],
-    //             specialRequest: rowData[7]
+    //             address: rowData[7],
+    //             specialRequest: rowData[8]
     //         });
 
     //         // Redirect to another page with query parameters
@@ -544,7 +634,7 @@
             const gender = document.getElementById('gender').value;
             const birthdateInput = document.getElementById('birthdate').value;
             const email = document.getElementById('email').value.trim();
-            const contactNumber = document.getElementById('contactNumber').value.trim();
+            const phone = document.getElementById('phone').value.trim();
             const address = document.getElementById('address').value.trim();
             const specialRequest = document.getElementById('specialRequest').value.trim();
 
@@ -595,10 +685,10 @@
             }
 
             // Validate Contact Number
-            if (!contactNumber) {
+            if (!phone) {
                 valid = false;
                 errorMessages.push('Contact Number is required.');
-            } else if (contactNumber.length !== 11 || isNaN(contactNumber)) {
+            } else if (phone.length !== 11 || isNaN(phone)) {
                 valid = false;
                 errorMessages.push('Contact number must be exactly 11 digits.');
             }
@@ -637,7 +727,7 @@
             <td>${gender}</td>
             <td>${birthdate}</td>
             <td>${email}</td>
-            <td>${contactNumber}</td>
+            <td>${phone}</td>
             <td>${address}</td>
             <td>${specialRequest}</td>
             <td><button class="edit-button">Edit</button></td>

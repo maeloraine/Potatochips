@@ -427,6 +427,11 @@ Route::get('/employee/home/guest-information', [GuestController::class, 'index']
 // Add Guest
 Route::post('/employee/home/guest-information', [GuestController::class, 'addGuest'])->name('guest.add');
 
+// Update Guest
+Route::put('/guests/{id}', [GuestController::class, 'update'])->name('guest.update');
+
+Route::delete('/guests/{id}', [GuestController::class, 'destroy'])->name('guest.delete');
+
 
 // ==================================
 //      Admin Side Room Management
@@ -514,4 +519,3 @@ Route::get('/customer/account-settings', function () {
 // =================================
 //          PAYMENT SECTION
 // =================================
-
