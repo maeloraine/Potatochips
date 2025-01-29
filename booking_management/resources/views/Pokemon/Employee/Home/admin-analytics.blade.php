@@ -1,284 +1,264 @@
 @extends('layouts.simple.master')
-@section('title', 'Ecommerce')
+@section('title', 'Date Time Picker')
 
 @section('css')
-    
 @endsection
 
 @section('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Dashboard</h3>
+<h3><b>Analytics</b></h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Analytics</li>
+<li class="breadcrumb-item">General</li>
+<li class="breadcrumb-item active">Analytics</li>
 @endsection
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row size-column">
-            <div class="col-xxl-10 col-md-12 box-col-8 grid-ed-12">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container my-5">
+        <!-- Available Rooms Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Available Rooms</h3>
+            </div>
+            <div class="card-body">
                 <div class="row">
-                    <div class="col-xxl-5 col-md-7 box-col-7">
+                    <div class="col-md-4">
+                        <ul class="list-unstyled">
+                            <li><strong>Cottage:</strong> <span id="available-cottage">10</span></li>
+                            <li><strong>Function Hall:</strong> <span id="available-function-hall">2</span></li>
+                            <li><strong>Tent:</strong> <span id="available-tent">15</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-8">
+                        <canvas id="availableRoomsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Section -->
+        <div class="row">
+            <!-- Analytics Charts Section -->
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Analytics Charts</h3>
+                    </div>
+                    <div class="card-body">
                         <div class="row">
-                            <div class="col-6">
-                                <div class="card small-widget">
-                                    <div class="card-body primary"> <span class="f-light">New Bookings Today</span>
-                                        <div class="d-flex align-items-end gap-1">
-                                            <h4>21</h4><span class="font-primary f-12 f-w-500">
-                                        </div>
-                                        <div class="bg-gradient">
-                                            <svg class="stroke-icon svg-fill">
-                                                <use href="{{ asset('assets/svg/icon-sprite.svg#new-order') }}"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-6 mb-4">
+                                <canvas id="lineChart"></canvas>
                             </div>
-                            <div class="col-6">
-                                <div class="card small-widget">
-                                    <div class="card-body warning"><span class="f-light">Guests Today</span>
-                                        <div class="d-flex align-items-end gap-1">
-                                            <h4>2,908</h4><span class="font-warning f-12 f-w-500">
-                                        </div>
-                                        <div class="bg-gradient">
-                                            <svg class="stroke-icon svg-fill">
-                                                <use href="{{ asset('assets/svg/icon-sprite.svg#customers') }}"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-6 mb-4">
+                                <canvas id="radarChart"></canvas>
                             </div>
-                            <div class="col-6">
-                                <div class="card small-widget">
-                                    <div class="card-body secondary"><span class="f-light">Available Rooms (All Types)</span>
-                                        <div class="d-flex align-items-end gap-1">
-                                            <h4>389</h4><span class="font-secondary f-12 f-w-500">
-                                        </div>
-                                        <div class="bg-gradient">
-                                            <svg class="stroke-icon svg-fill">
-                                                <use href="{{ asset('assets/svg/icon-sprite.svg#sale') }}"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <canvas id="doughnutChart"></canvas>
                             </div>
-                            <div class="col-6">
-                                <div class="card small-widget">
-                                    <div class="card-body success"><span class="f-light">Pending Payments</span>
-                                        <div class="d-flex align-items-end gap-1">
-                                            <h4>5</h4><span class="font-success f-12 f-w-500">
-                                        </div>
-                                        <div class="bg-gradient">
-                                            <svg class="stroke-icon svg-fill">
-                                                <use href="{{ asset('assets/svg/icon-sprite.svg#profit') }}"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="card small-widget">
-                                    <div class="card-body primary"> <span class="f-light">Successful Payments</span>
-                                        <div class="d-flex align-items-end gap-1">
-                                            <h4>11</h4><span class="font-primary f-12 f-w-500">
-                                        </div>
-                                        <div class="bg-gradient">
-                                            <svg class="stroke-icon svg-fill">
-                                                <use href="{{ asset('assets/svg/icon-sprite.svg#profit') }}"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="card small-widget">
-                                    <div class="card-body warning"><span class="f-light">Failed Payments</span>
-                                        <div class="d-flex align-items-end gap-1">
-                                            <h4>3</h4><span class="font-warning f-12 f-w-500">
-                                        </div>
-                                        <div class="bg-gradient">
-                                            <svg class="stroke-icon svg-fill">
-                                                <use href="{{ asset('assets/svg/icon-sprite.svg#doller-return') }}"></use>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-6 mb-4">
+                                <canvas id="polarAreaChart"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xxl-3 col-md-5 col-sm-6 box-col-5">
-                        <div class="appointment">
-                            <div class="card" id="roomStatusCardAnalytics">
-                                <div class="card-header card-no-border">
-                                    <div class="header-top">
-                                        <h5 class="m-0">Room Status</h5>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0">
-                                    <div class="chart-container" style="position: relative; height:250px;">
-                                        <canvas id="roomsStatusChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+            </div>
+
+            <!-- Guest Demographics Section -->
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>Guest Demographics</h3>
                     </div>
-                    <div class="col-xxl-9 box-col-12">
-                        <div class="card">
-                            <div class="card-header card-no-border">
-                                <h5>Monthly Bookings Overview</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <canvas id="ageGroupChart"></canvas>
                             </div>
-                            <div class="card-body pt-0">
-                                <div class="row m-0 overall-card overview-card">
-                                    <div class="col-xl-9 col-md-8 col-sm-7 p-0 box-col-7">
-                                        <div class="chart-right">
-                                            <div class="row">
-                                                <div class="col-xl-12">
-                                                    <div class="card-body p-0">
-                                                        <ul class="balance-data">
-                                                            <li><span class="circle bg-secondary"></span><span
-                                                                    class="f-light ms-1">Cottage</span></li>
-                                                            <li><span class="circle bg-primary"> </span><span
-                                                                    class="f-light ms-1">Kubo</span></li>
-                                                            <li><span class="circle bg-success"> </span><span
-                                                                    class="f-light ms-1">Cabin</span></li>
-                                                        </ul>
-                                                        <div class="current-sale-container order-container">
-                                                            <div class="overview-wrapper" id="orderoverview"></div>
-                                                            <div class="back-bar-container">
-                                                                <div id="order-bar"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-md-4 col-sm-5 p-0 box-col-5">
-                                        <div class="row g-sm-3 g-2">
-                                            <div class="col-md-12">
-                                                <div class="light-card balance-card widget-hover">
-                                                    <div class="svg-box">
-                                                        <svg class="svg-fill">
-                                                            <use href="{{ asset('assets/svg/icon-sprite.svg#fill-board') }}"></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div> <span class="f-light">Cottage</span>
-                                                        <h6 class="mt-1 mb-0">34 </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="light-card balance-card widget-hover">
-                                                    <div class="svg-box">
-                                                        <svg class="svg-fill">
-                                                            <use href="{{ asset('assets/svg/icon-sprite.svg#fill-home') }}"></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div> <span class="f-light">Kubo</span>
-                                                        <h6 class="mt-1 mb-0">5</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="light-card balance-card widget-hover">
-                                                    <div class="svg-box">
-                                                        <svg class="svg-fill">
-                                                            <use href="{{ asset('assets/svg/icon-sprite.svg#fill-builders') }}"></use>
-                                                        </svg>
-                                                    </div>
-                                                    <div> <span class="f-light">Cabin</span>
-                                                        <h6 class="mt-1 mb-0">10</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-md-12 mb-4">
+                                <canvas id="genderChart"></canvas>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-xl-6 box-col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Monthly Guests Age Group</h5>
-                            </div>
-                            <div class="card-body chart-block">
-                                <div id="bar-chart2"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-xl-6 box-col-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5> Monthly Guests Gender Chart <span class="digits"></span></h5>
-                            </div>
-                            <div class="card-body p-0 chart-block">
-                                <div class="chart-overflow" id="pie-chart2"></div>
+                            <div class="col-md-12 mb-4">
+                                <canvas id="nationalityChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Marketing Trends Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Marketing Trends</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <canvas id="socialMediaChart"></canvas>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <canvas id="bookingSourceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Available Rooms Chart
+        const availableRoomsCtx = document.getElementById('availableRoomsChart').getContext('2d');
+        new Chart(availableRoomsCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Cottage', 'Function Hall', 'Tent'],
+                datasets: [{
+                    data: [10, 2, 15],
+                    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Line Chart
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: ['July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Monthly Bookings',
+                    data: [65, 59, 80, 81, 56, 75],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            }
+        });
+
+        // Radar Chart
+        const radarCtx = document.getElementById('radarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Cottage', 'Function Hall', 'Tent'],
+                datasets: [{
+                    label: 'Average Usage',
+                    data: [70, 30, 90],
+                    backgroundColor: 'rgba(153, 102, 255, 0.4)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Doughnut Chart
+        const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+        new Chart(doughnutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Cottage', 'Function Hall', 'Tent'],
+                datasets: [{
+                    data: [300, 50, 100],
+                    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'],
+                    hoverOffset: 4
+                }]
+            }
+        });
+
+        // Polar Area Chart
+        const polarAreaCtx = document.getElementById('polarAreaChart').getContext('2d');
+        new Chart(polarAreaCtx, {
+            type: 'polarArea',
+            data: {
+                labels: ['Weekend', 'Weekday', 'Holiday'],
+                datasets: [{
+                    data: [120, 80, 50],
+                    backgroundColor: ['rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'],
+                    hoverOffset: 4
+                }]
+            }
+        });
+
+        // Age Group Chart
+        const ageGroupCtx = document.getElementById('ageGroupChart').getContext('2d');
+        new Chart(ageGroupCtx, {
+            type: 'bar',
+            data: {
+                labels: ['18-25', '26-35', '36-45', '46-60', '60+'],
+                datasets: [{
+                    label: 'Guests by Age Group',
+                    data: [50, 100, 75, 40, 10],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)'
+                }]
+            }
+        });
+
+        // Gender Chart
+        const genderCtx = document.getElementById('genderChart').getContext('2d');
+        new Chart(genderCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Male', 'Female', 'Other'],
+                datasets: [{
+                    data: [120, 100, 10],
+                    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(153, 102, 255, 0.5)']
+                }]
+            }
+        });
+        // Nationality Chart
+        new Chart(document.getElementById('nationalityChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['American', 'Filipino', 'Chinese', 'Japanese', 'Others'],
+                datasets: [{
+                    label: 'Nationalities',
+                    data: [40, 120, 30, 20, 10],
+                    backgroundColor: 'rgba(255, 159, 64, 0.5)'
+                }]
+            }
+        });
+
+        // Social Media Chart
+        const socialMediaCtx = document.getElementById('socialMediaChart').getContext('2d');
+        new Chart(socialMediaCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Facebook', 'Instagram', 'Twitter', 'LinkedIn'],
+                datasets: [{
+                    label: 'Leads',
+                    data: [100, 80, 40, 20],
+                    backgroundColor: 'rgba(255, 159, 64, 0.5)'
+                }]
+            }
+        });
+
+        // Booking Source Chart
+        const bookingSourceCtx = document.getElementById('bookingSourceChart').getContext('2d');
+        new Chart(bookingSourceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Website', 'Mobile App', 'Third Party'],
+                datasets: [{
+                    data: [200, 100, 50],
+                    backgroundColor: ['rgba(75, 192, 192, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(255, 99, 132, 0.5)']
+                }]
+            }
+        });
+    </script>
 @endsection
 
 @section('script')
-    <script src="{{ asset('assets/js/chart/apex-chart/apex-chart.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/stock-prices.js') }}"></script>
-    <script src="{{ asset('assets/js/counter/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('assets/js/counter/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('assets/js/counter/counter-custom.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard/dashboard_2.js') }}"></script>
-    <script src="{{ asset('assets/js/animation/wow/wow.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{asset('assets/js/datepicker/date-time-picker/moment.min.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const ctx = document.getElementById('roomsStatusChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Available Rooms', 'Occupied Rooms'],
-                    datasets: [{
-                        data: [389, 611], 
-                        backgroundColor: ['#e1bb80', '#83d0cb'],
-                        hoverBackgroundColor: ['#c08552', '#5bc0eb'],
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom', 
-                        },
-                        title: {
-                            display: true, 
-                            text: 'Number of Rooms Available and Occupied', 
-                            font: {
-                                size: 12,
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 20,
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function (tooltipItem) {
-                                    return `${tooltipItem.label}: ${tooltipItem.raw} rooms`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-    <script src="{{asset('assets/js/chart/google/google-chart-loader.js')}}"></script>
-    <script src="{{asset('assets/js/chart/google/google-chart.js')}}"></script> 
 @endsection

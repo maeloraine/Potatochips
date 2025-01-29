@@ -26,23 +26,18 @@
           </div>
           <div class="form-group">
             <label class="col-form-label">Birthdate</label>
-            <input class="form-control" type="date" name="CU_Birthdate" id="birthdate" required>
-            <!-- Age error message -->
-            <div id="ageError" class="text-danger mb-3" style="display: none;">
-              You must be at least 18 years old to create an account.
-            </div>
+            <input class="form-control" type="date" name="CU_Birthdate" id="birthdate" required="">
           </div>
           <div class="form-group">
             <label class="col-form-label">Email Address</label>
             <input class="form-control" type="email" name="email" required="" placeholder="Test@gmail.com">
           </div>
           <div class="form-group">
-            <label class="col-form-label">Password</label>  
-            <input class="form-control" type="password" name="password" required="" placeholder="*********" minlength="8">
-              <!-- Password error message -->
-              <div id="passwordError" class="text-danger mt-2" style="display: none;">
-                The password must be at least 8 characters.
-              </div>
+            <label class="col-form-label">Password</label>
+            <input class="form-control" type="password" name="password" required="" placeholder="*********">
+          </div>
+          <div id="ageError" class="text-danger mb-3" style="display: none;">
+            You must be at least 18 years old to create an account.
           </div>
           <div class="form-group mb-0">
             <button class="btn btn-primary btn-block" type="submit">Create Account</button>
@@ -54,55 +49,49 @@
   </div>
 </div>
 
-
+<!-- JavaScript for Age Validation and Modal Close -->
 <script>
-  // Function para maclose ang modal
-  document.addEventListener('DOMContentLoaded', function () {
-      // Close modal when X button is clicked
-      document.querySelector('#customerSignUpModal .close').addEventListener('click', function () {
-      $('#customerSignUpModal').modal('hide');
-    });
-  });
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('signupForm');
+  const ageError = document.getElementById('ageError');
 
-  document.getElementById('signupForm').addEventListener('submit', function (event) {
-    // Get form inputs
+  form.addEventListener('submit', function (e) {
     const birthdateInput = document.getElementById('birthdate');
-    const passwordInput = document.getElementById('password');
-    const ageError = document.getElementById('ageError');
-    const passwordError = document.getElementById('passwordError');
 
-    // Hide previous error messages
-    ageError.style.display = 'none';
-    passwordError.style.display = 'none';
+    // Check if birthdate is filled
+    if (!birthdateInput.value) {
+      alert('Please enter your birthdate.');
+      e.preventDefault(); // Prevent form submission
+      return;
+    }
 
-    let valid = true;
-
-    // Validate age
+    // Calculate age
     const birthdate = new Date(birthdateInput.value);
     const today = new Date();
-    const age = today.getFullYear() - birthdate.getFullYear();
-    const isBirthdayPassedThisYear = 
-      today.getMonth() > birthdate.getMonth() || 
-      (today.getMonth() === birthdate.getMonth() && today.getDate() >= birthdate.getDate());
+    let age = today.getFullYear() - birthdate.getFullYear();
+    const monthDifference = today.getMonth() - birthdate.getMonth();
 
-    if (!birthdateInput.value) {
-        ageError.style.display = 'none';
-        valid = false;
-      }
-
-    // Adjust age if the user hasn't had their birthday this year
-    const calculatedAge = isBirthdayPassedThisYear ? age : age - 1;
-
-    if (calculatedAge < 18) {
-      ageError.style.display = 'block';
-      valid = false;
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
+      age--;
     }
 
-    // Prevent form submission if validation fails
-    if (!valid) {
-      event.preventDefault();
+    // Validate age
+    if (age < 18) {
+      ageError.style.display = 'block'; // Show error message
+      e.preventDefault(); // Prevent form submission
+    } else {
+      ageError.style.display = 'none'; // Hide error message
+      // Allow form submission (no need for form.submit() since the form will submit naturally)
     }
   });
+
+     // Close modal when X button is clicked
+    document.querySelector('#customerSignUpModal .close').addEventListener('click', function () {
+      $('#customerSignUpModal').modal('hide'); // Use Bootstrap's modal method
+  });
+});
+</script>
+
 </script>
 
 <!-- Include jQuery -->

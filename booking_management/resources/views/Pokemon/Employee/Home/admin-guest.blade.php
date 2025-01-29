@@ -497,6 +497,7 @@
                 // Get the full name from the row cells
                 const lastName = row.cells[0].textContent.trim();
                 const firstName = row.cells[1].textContent.trim();
+                const middleName = row.cells[2].textContent.trim();
                     
                 // Create the full name
                 const fullName = `${firstName} ${lastName}`.trim();
@@ -535,98 +536,94 @@
 
     
         // Handle guest addition
-        addGuestSubmitButton.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent form submission
+    addGuestSubmitButton.addEventListener('click', (e) => {
+        //e.preventDefault();
 
-            // Get form data
-            const lastName = document.getElementById('lastName').value.trim();
-            const firstName = document.getElementById('firstName').value.trim();
-            const gender = document.getElementById('gender').value;
-            const birthdateInput = document.getElementById('birthdate').value;
-            const email = document.getElementById('email').value.trim();
-            const contactNumber = document.getElementById('contactNumber').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const specialRequest = document.getElementById('specialRequest').value.trim();
+        // Get form data
+        const lastName = document.getElementById('lastName').value.trim();
+        const firstName = document.getElementById('firstName').value.trim();
+        const middleName = document.getElementById('middleName').value.trim();
+        const gender = document.getElementById('gender').value;
+        const birthdate = document.getElementById('birthdate').value;
+        const email = document.getElementById('email').value.trim();
+        const contactNumber = document.getElementById('contactNumber').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const specialRequest = document.getElementById('specialRequest').value.trim();
 
-            // Validate inputs
-            let valid = true;
-            let errorMessages = [];
+        // Validate inputs
+        let valid = true;
+        let errorMessages = [];
 
-            // Validate Last Name
-            if (!lastName) {
+        if (!lastName) {
+            valid = false;
+            errorMessages.push('Last Name is required.');
+        } else if (lastName.length > 25) {
+            valid = false;
+            errorMessages.push('Last Name must not exceed 25 characters.');
+        }
+
+        // Validate First Name
+        if (!firstName) {
+            valid = false;
+            errorMessages.push('First Name is required.');
+        } else if (firstName.length > 50) {
+            valid = false;
+            errorMessages.push('First Name must not exceed 50 characters.');
+        }
+
+        // Validate Birthdate
+        if (!birthdate) {
+            valid = false;
+            errorMessages.push('Birth Date is required.');
+        } else {
+            const age = new Date().getFullYear() - new Date(birthdate).getFullYear();
+            if (age < 18) {
                 valid = false;
-                errorMessages.push('Last Name is required.');
-            } else if (lastName.length > 25) {
-                valid = false;
-                errorMessages.push('Last Name must not exceed 25 characters.');
+                errorMessages.push('Guest must be 18 or above.');
             }
+        }
+        // Validate Contact Number
+        if (contactNumber.length !== 11 || isNaN(contactNumber)) {
+            valid = false;
+            errorMessages.push('Contact number must be exactly 11 digits.');
+        }
 
-            // Validate First Name
-            if (!firstName) {
-                valid = false;
-                errorMessages.push('First Name is required.');
-            } else if (firstName.length > 50) {
-                valid = false;
-                errorMessages.push('First Name must not exceed 50 characters.');
-            }
+        if (middleName.length > 25) {
+            valid = false;
+            errorMessages.push('Middle Name must not exceed 25 characters.');
+        }
 
-            // Validate Gender
-            if (!gender) {
-                valid = false;
-                errorMessages.push('Gender is required.');
-            }
+        // Validate Gender
+        if (!gender) {
+            valid = false;
+            errorMessages.push('Gender is required.');
+        }
 
-            // Validate Birthdate
-            if (!birthdateInput) {
-                valid = false;
-                errorMessages.push('Birth Date is required.');
-            } else {
-                const birthdate = new Date(birthdateInput);
-                const today = new Date();
-                let age = today.getFullYear() - birthdate.getFullYear();
-                const monthDifference = today.getMonth() - birthdate.getMonth();
-                if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
-                    age--;
-                }
-                if (age < 18) {
-                    valid = false;
-                    errorMessages.push('Guest must be 18 or above.');
-                }
-            }
+        // Validate Age (must be above 18)
+        const age = new Date().getFullYear() - new Date(birthdate).getFullYear();
+        if (age < 18) {
+            valid = false;
+            errorMessages.push('Guest must be 18 or above.');
+        }
 
-            // Validate Contact Number
-            if (!contactNumber) {
-                valid = false;
-                errorMessages.push('Contact Number is required.');
-            } else if (contactNumber.length !== 11 || isNaN(contactNumber)) {
-                valid = false;
-                errorMessages.push('Contact number must be exactly 11 digits.');
-            }
+        // Validate Email
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailPattern.test(email)) {
+            valid = false;
+            errorMessages.push('Email must be in a valid format (e.g., example@domain.com).');
+        }
 
-            // Validate Email
-            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            if (!email) {
-                valid = false;
-                errorMessages.push('Email is required.');
-            } else if (!emailPattern.test(email)) {
-                valid = false;
-                errorMessages.push('Email must be in a valid format (e.g., example@domain.com).');
-            }
+        // Validate Special Request length
+        if (specialRequest.length > 100) {
+            valid = false;
+            errorMessages.push('Special request cannot exceed 100 characters.');
+        }
 
-            // Validate Special Request (if applicable)
-            if (specialRequest && specialRequest.length > 100) {
-                valid = false;
-                errorMessages.push('Special request cannot exceed 100 characters.');
-            }
-
-            // Display error messages if validation fails
-            if (!valid) {
-                alert(errorMessages.join('\n'));
-                return;
-            }
-
-            // If all validations pass, submit the form
-            addGuestForm.submit();
+        // Display error messages if validation fails
+        if (!valid) {
+            alert(errorMessages.join('\n'));
+            return;
+        }
 
         // If all validations pass, proceed with the form submission (e.g., adding the guest)
         // Add the new guest to the table
@@ -634,6 +631,7 @@
         newRow.innerHTML = `
             <td>${lastName}</td>
             <td>${firstName}</td>
+            <td>${middleName}</td>
             <td>${gender}</td>
             <td>${birthdate}</td>
             <td>${email}</td>
