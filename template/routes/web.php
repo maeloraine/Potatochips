@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\PDFController;
+
 
 
 Route::get('/', function () {
@@ -398,3 +400,5 @@ Route::get('/customer-login', function () {
 Route::get('/customer/forgot-password', function () {
     return view('Pokemon.Customer.Authentication.customer-forgot-password');
 })->name('customer-forgot-password');
+
+Route::get('/generate-pdf', [PDFController::class, 'generatePdfWithQrCode']);
