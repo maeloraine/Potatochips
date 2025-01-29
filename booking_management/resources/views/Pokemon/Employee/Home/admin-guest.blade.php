@@ -317,12 +317,6 @@
             width: 150px; /* Adjust the width as needed */
             min-width: 150px; /* Prevent the column from shrinking */
         }
-
-        .row {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
     </style>
 @endsection
 
@@ -430,15 +424,12 @@
                     <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold;    
                         margin-left: 5px;">*</span> 
                         <input type="text" id="phone" name="phone" placeholder="Contact Number" required></label>
-                    <div class="row">
-                        <label style="display: inline-block;"> Address <span style="color: red; font-size:16px; font-weight:bold;    
+                    <label style="display: inline-block;"> Address <span style="color: red; font-size:16px; font-weight:bold;    
                         margin-left: 5px;">*</span> 
-                            <input type="text" id="address" name="address" placeholder="Address"></label>
-                    </div>
-                    <div class="row">
-                        <label> Special Request
-                            <input type="text" id="specialRequest" name="specialRequests" placeholder="Special Request"></label>
-                    </div>
+                        <input type="text" id="address" name="address" placeholder="Address"></label>
+                    <label style="display: inline-block;"> Special Request <span style="color: red; font-size:16px; font-weight:bold;    
+                        margin-left: 5px;"></span> 
+                        <input type="text" id="specialRequest" name="specialRequests" placeholder="Special Request"></label>
                     
                     <div class="button-container">
                         <button id="addGuest" type="submit">Add Guest</button>
