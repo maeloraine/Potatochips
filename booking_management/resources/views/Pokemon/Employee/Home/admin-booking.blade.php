@@ -277,6 +277,7 @@
                         <th>Check-In Time</th>
                         <th>Check-Out Date</th>
                         <th>Check-Out Time</th>
+                        <th>Booking Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -288,6 +289,7 @@
                         <td>14:00</td>
                         <td>2025-01-15</td>
                         <td>12:00</td>
+                        <td>Reserved</td>
                         <td><button class="edit-button">Edit</button></td>
                     </tr>
                     <tr>
@@ -297,6 +299,8 @@
                         <td>15:00</td>
                         <td>2025-01-16</td>
                         <td>11:00</td>
+                        <td>Checked In</td>
+
                         <td><button class="edit-button">Edit</button></td>
                     </tr>
                 </tbody>

@@ -157,6 +157,21 @@
                             <label for="check-out-date" class="form-label">Check-Out Date</label>
                             <input type="date" class="form-control" id="check-out-date" required readonly>
                         </div>
+                          <!-- Check-In Time -->
+                        <div>
+                            <label for="check-in-time" class="form-label">Check-In Time</label>
+                            <select class="form-control" id="check-in-time" required>
+                                <option value="08:00">8:00 AM</option>
+                                <option value="19:00">7:00 PM</option>
+                            </select>
+                        </div>
+                        <!-- Check-Out Time -->
+                        
+                        <div>
+                            <label for="check-out-time" class="form-label">Check-Out Time</label>
+                            <input type="time" class="form-control" id="check-out-time" readonly>
+                        </div>
+
                         <div style="width: 135px;">
                             <label for="adults" class="form-label">Adults</label>
                             <div class="input-group">
@@ -312,6 +327,12 @@
                         <div class="d-flex justify-content-between">
                             <p><strong>Check-In:</strong> <span id="summary-check-in">Not set</span></p>
                             <p><strong>Check-Out:</strong> <span id="summary-check-out">Not set</span></p>
+                        </div>
+
+                        <!-- Check-In and Check-Out Times -->
+                        <div class="d-flex justify-content-between">
+                            <p><strong>Check-In Time:</strong> <span id="summary-check-in-time">Not set</span></p>
+                            <p><strong>Check-Out Time:</strong> <span id="summary-check-out-time">Not set</span></p>
                         </div>
 
                         <!-- Adults and Children (Below Dates) -->
@@ -496,8 +517,14 @@
 
         // Update booking summary when dates or number of guests change
         function updateBookingSummaryDetails() {
+            // Fetch current check-in and check-out times from their inputs
+            const currentCheckInTime = document.getElementById('check-in-time').value;
+            const currentCheckOutTime = document.getElementById('check-out-time').value;
+            
             summaryCheckIn.textContent = checkInDateInput.value || 'Not set';
             summaryCheckOut.textContent = checkOutDateInput.value || 'Not set';
+            document.getElementById('summary-check-in-time').textContent = currentCheckInTime || 'Not set';
+            document.getElementById('summary-check-out-time').textContent = currentCheckOutTime || 'Not set';
             summaryAdults.textContent = adultsInput.value;
             summaryChildren.textContent = childrenInput.value;
 
@@ -507,7 +534,37 @@
 
         // Add event listeners for date inputs
         checkInDateInput.addEventListener('change', updateBookingSummaryDetails);
+        document.getElementById('check-in-time').addEventListener('change', updateBookingSummaryDetails);
         checkOutDateInput.addEventListener('change', updateBookingSummaryDetails);
+
+        // Event listeners
+        document.getElementById("check-in-date").addEventListener("change", calculateCheckOut);
+        document.getElementById("check-in-time").addEventListener("change", calculateCheckOut);
+
+        function calculateCheckOut() {
+            const checkInDate = document.getElementById("check-in-date").value;
+            const checkInTime = document.getElementById("check-in-time").value;
+
+            if (checkInDate && checkInTime) {
+                const checkInDateTime = new Date(`${checkInDate}T${checkInTime}`);
+                const checkOutDateTime = new Date(checkInDateTime);
+
+                // Set checkout time based on check-in time
+                if (checkInTime === "08:00") {
+                    checkOutDateTime.setHours(checkInDateTime.getHours() + 22); // 8:00 AM + 22 hours = 6:00 AM next day
+                } else if (checkInTime === "19:00") {
+                    checkOutDateTime.setHours(checkInDateTime.getHours() + 22); // 7:00 PM + 22 hours = 5:00 PM next day
+                }
+
+                // Set checkout date and time fields
+                // document.getElementById("check-out-date").value = checkOutDateTime.toISOString().split("T")[0];
+                const checkOutTime = checkOutDateTime.toTimeString().split(":").slice(0, 2).join(":");
+                
+                document.getElementById("check-out-time").value = checkOutTime;
+
+                updateBookingSummaryDetails();
+            }
+        }
 
         // Add event listeners for number of guests
         increaseAdultsBtn.addEventListener('click', function () {
