@@ -19,14 +19,14 @@ class CustomerGuestController extends Controller
         }
     
         $validatedData = $request->validate([
-            'Guest_FName' => 'required|max:50',
-            'Guest_LName' => 'required|max:25',
-            'Guest_Birthdate' => 'required',
-            'Guest_Gender' => 'required',
-            'Guest_Email' => 'required',
-            'Guest_ContactNumber' => 'required',
-            'Guest_Address' => 'required|max:255',
-            'Special_Request' => 'nullable'
+            'firstName' => 'required|max:50',
+            'lastName' => 'required|max:25',
+            'birthdate' => 'required',
+            'gender' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'specialRequests' => 'nullable'
         ]);
     
         $guest = Guest::create($validatedData);

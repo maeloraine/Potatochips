@@ -22,12 +22,16 @@ return new class extends Migration
             $table->unsignedBigInteger('guest_id');
             $table->unsignedBigInteger('room_id');
             $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('payment_id');
+
             $table->timestamps();
 
             // Foreign keys
             $table->foreign('guest_id')->references('guest_id')->on('guests')->onDelete('cascade');
             $table->foreign('room_id')->references('room_id')->on('rooms')->onDelete('cascade');
             $table->foreign('customer_id')->references('customer_id')->on('customers')->onDelete('cascade');
+            $table->foreign('payment_id')->references('payment_id')->on('payments')->onDelete('cascade');
+
         });
     }
 
