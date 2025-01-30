@@ -145,8 +145,8 @@
         <!-- Available Offers Section (Left Side) -->
         <div class="col-md-8" id="available-offers">
             <div class="card">
-                <form id="guest-info-form" method="POST" action="{{ route('booking.store') }}">
-                @csrf
+                <form id="booking-info-form" method="POST" action="{{ route('booking.store') }}">
+                    @csrf
                     <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
                         <h5>Available Offers</h5>
                         <!-- Check-In/Check-Out and Number of Guests Form -->
@@ -254,11 +254,11 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="first-name" class="form-label">First Name</label>
-                                <input type="text" name="first_name" class="form-control" id="first-name" value="{{ $firstName }}" required>
+                                <input type="text" name="first_name" class="form-control" id="first-name" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="last-name" class="form-label">Last Name</label>
-                                <input type="text" name="last_name" class="form-control" id="last-name" value="{{ $lastName }}" required>
+                                <input type="text" name="last_name" class="form-control" id="last-name" required>
                             </div>
                         </div>
 
@@ -268,13 +268,13 @@
                                 <label for="gender" class="form-label">Gender</label>
                                 <select name="gender" class="form-select" id="gender" required>
                                     <option value="">Select Gender</option>
-                                    <option value="male" {{ $gender === 'male' ? 'selected' : '' }}>Male</option>
-                                    <option value="female" {{ $gender === 'female' ? 'selected' : '' }}>Female</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="birthdate" class="form-label">Birthdate</label>
-                                <input type="date" name="birthdate" class="form-control" id="birthdate" value="{{ $birthdate }}" required>
+                                <input type="date" name="birthdate" class="form-control" id="birthdate" required>
                                 <small class="text-danger" id="age-error" style="display: none;">The primary guest must be at least 18 years old to confirm your booking.</small>
                             </div>
                         </div>
@@ -283,11 +283,11 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input type="email" name="email" class="form-control" id="email" value="{{ $email }}" required>
+                                <input type="email" name="email" class="form-control" id="email" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">Phone Number</label>
-                                <input type="tel" name="phone" class="form-control" id="phone" value="{{ $phone }}" required>
+                                <input type="tel" name="phone" class="form-control" id="phone" required>
                             </div>
                         </div>
 
@@ -295,7 +295,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label for="address" class="form-label">Address</label>
-                                <input type="text" name="address" class="form-control" id="address" value="{{ $address }}" required>
+                                <input type="text" name="address" class="form-control" id="address" required>
                             </div>
                         </div>
 
@@ -303,7 +303,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label for="special-requests" class="form-label">Special Requests</label>
-                                <textarea name="special_requests" class="form-control" id="special-requests" rows="3">{{ $specialRequests }}</textarea>
+                                <textarea name="special_requests" class="form-control" id="special-requests" rows="3"></textarea>
                             </div>
                         </div>
 
@@ -788,6 +788,66 @@
 
             // Initial update of Confirm Booking button state
             updateConfirmBookingButtonState();
+
+            document.getElementById('book-now').addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                // Collect data from the booking-info-form
+                const bookingData = {
+                    checkInDate: document.getElementById('check-in-date').value,
+                    checkOutDate: document.getElementById('check-out-date').value,
+                    checkInTime: document.getElementById('check-in-time').value,
+                    checkOutTime: document.getElementById('check-out-time').value,
+                    adults: document.getElementById('adults').value,
+                    children: document.getElementById('children').value,
+                    bookings: bookings, // Array of booked offers
+                    totalPrice: parseFloat(document.getElementById('total-price').textContent.replace('₱', '')), // Total price
+                };
+
+                // Collect data from the guest-info-form
+                const guestData = {
+                    firstName: document.getElementById('first-name').value,
+                    lastName: document.getElementById('last-name').value,
+                    gender: document.getElementById('gender').value,
+                    birthdate: document.getElementById('birthdate').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value,
+                    specialRequests: document.getElementById('special-requests').value,
+                };
+
+                // Combine booking and guest data
+                const payload = {
+                    ...bookingData,
+                    guestInfo: guestData,
+                };
+
+                // Log the payload for debugging
+                console.log('Payload:', payload);
+
+                // Send the payload to the backend
+                fetch("{{ route('booking.store') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify(payload),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        window.location.href = '/admin/booking'; // Redirect to the booking list page
+                    } else {
+                        alert('Booking failed: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while submitting the booking.');
+                });
+            });
     });
 </script>
 @endsection

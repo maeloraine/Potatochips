@@ -10,6 +10,7 @@ class Room extends Model
     use HasFactory;
 
     protected $primaryKey = 'room_id';
+
     protected $fillable = [
         'Room_Number',
         'Room_Type',
@@ -18,6 +19,7 @@ class Room extends Model
         'Room_Rate',
         'Room_Description'
     ];
+
     public function bookings()
     {
         return $this->belongsToMany(Booking::class, 'room_id');

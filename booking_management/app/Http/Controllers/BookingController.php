@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Services\BookingService;
 use Illuminate\Http\Request;
+use App\Models\Room;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log; // Add the Log facade
 
 class BookingController extends Controller
 {
     protected $bookingService;
+
+    public function index() {
+        $rooms = Room::all();
+        return view('Pokemon.Employee.Home.admin-add-booking', ['rooms' => $rooms]);
+    }
 
     public function __construct(BookingService $bookingService)
     {
@@ -62,45 +68,166 @@ class BookingController extends Controller
         }
     }
 
-    /**
-     * Create a new booking.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+    // /**
+    //  * Create a new booking.
+    //  *
+    //  * @param Request $request
+    //  * @return \Illuminate\Http\JsonResponse
+    //  */
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         Log::info('Store booking request received.', [
+    //             'request_data' => $request->all()
+    //         ]);
+
+    //         $validated = $request->validate([
+    //             'check_in_date' => 'required|date',
+    //             'check_out_date' => 'required|date|after:check_in_date',
+    //             'check_in_time' => 'required|date_format:H:i',
+    //             'check_out_time' => 'required|date_format:H:i',
+    //             'guest_id' => 'required|integer|exists:guests,guest_id',
+    //             'room_id' => 'required|integer|exists:rooms,room_id',
+    //         ]);
+
+    //         Log::info('Booking request validated successfully.', ['validated_data' => $validated]);
+
+    //         // Delegate to BookingService
+    //         $bookingReference = $this->bookingService->createBooking($validated);
+
+    //         Log::info('Booking created successfully.', ['reference' => $bookingReference]);
+
+    //         return response()->json([
+    //             'message' => 'Booking created!',
+    //             'reference' => $bookingReference
+    //         ], 201);
+
+    //     } catch (\Exception $e) {
+    //         Log::error('Error creating booking.', ['error' => $e->getMessage()]);
+    //         return response()->json([
+    //             'error' => 'Booking failed: ' . $e->getMessage()
+    //         ], 400);
+    //     }
+    // }
+
     public function store(Request $request)
     {
         try {
             Log::info('Store booking request received.', [
                 'request_data' => $request->all()
             ]);
-
+    
+            // Validate the request payload
             $validated = $request->validate([
-                'check_in_date' => 'required|date',
-                'check_out_date' => 'required|date|after:check_in_date',
-                'check_in_time' => 'required|date_format:H:i',
-                'check_out_time' => 'required|date_format:H:i',
-                'guest_id' => 'required|integer|exists:guests,guest_id',
-                'room_id' => 'required|integer|exists:rooms,room_id',
+                'checkInDate' => 'required|date',
+                'checkOutDate' => 'required|date|after:checkInDate',
+                'checkInTime' => 'required',
+                'checkOutTime' => 'required',
+                'adults' => 'required|integer|min:1',
+                'children' => 'required|integer|min:0',
+                'bookings' => 'required|array|min:1',
+                'bookings.*.id' => 'required|exists:rooms,room_id',
+                'bookings.*.price' => 'required|numeric|min:0',
+                'totalPrice' => 'required|numeric|min:0',
+                'guestInfo' => 'required|array',
+                'guestInfo.firstName' => 'required|string|max:255',
+                'guestInfo.lastName' => 'required|string|max:255',
+                'guestInfo.gender' => 'required|in:male,female',
+                'guestInfo.birthdate' => 'required|date|before:today',
+                'guestInfo.email' => 'required|email',
+                'guestInfo.phone' => 'required|string',
+                'guestInfo.address' => 'required|string',
+                'guestInfo.specialRequests' => 'nullable|string',
             ]);
-
-            Log::info('Booking request validated successfully.', ['validated_data' => $validated]);
-
-            // Delegate to BookingService
-            $bookingReference = $this->bookingService->createBooking($validated);
-
-            Log::info('Booking created successfully.', ['reference' => $bookingReference]);
-
+    
+            // Start database transaction
+            DB::beginTransaction();
+    
+            // Create guest record
+            $guestId = DB::table('guests')->insertGetId([
+                'firstName' => $validated['guestInfo']['firstName'],
+                'lastName' => $validated['guestInfo']['lastName'],
+                'birthdate' => $validated['guestInfo']['birthdate'],
+                'gender' => $validated['guestInfo']['gender'],
+                'email' => $validated['guestInfo']['email'],
+                'phone' => $validated['guestInfo']['phone'],
+                'address' => $validated['guestInfo']['address'],
+                'specialRequests' => $validated['guestInfo']['specialRequests'] ?? 'None',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    
+            // Generate a unique booking reference
+            $bookingReference = 'BOOK-' . strtoupper(uniqid());
+    
+            // Create booking record
+            $bookingId = DB::table('bookings')->insertGetId([
+                'booking_reference' => $bookingReference,
+                'check_in_date' => $validated['checkInDate'],
+                'check_out_date' => $validated['checkOutDate'],
+                'check_in_time' => $validated['checkInTime'],
+                'check_out_time' => $validated['checkOutTime'],
+                'adults' => $validated['adults'],
+                'children' => $validated['children'],
+                'total_price' => $validated['totalPrice'],
+                'guest_id' => $guestId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+    
+            // Create booking items (rooms)
+            foreach ($validated['bookings'] as $bookingItem) {
+                DB::table('booking_items')->insert([
+                    'booking_id' => $bookingId,
+                    'room_id' => $bookingItem['id'],
+                    'price' => $bookingItem['price'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+    
+            // Commit the transaction
+            DB::commit();
+    
             return response()->json([
-                'message' => 'Booking created!',
-                'reference' => $bookingReference
+                'message' => 'Booking created successfully!',
+                'booking_reference' => $bookingReference,
             ], 201);
-
+    
         } catch (\Exception $e) {
-            Log::error('Error creating booking.', ['error' => $e->getMessage()]);
+            DB::rollBack();
+            Log::error('Error creating booking.', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+    
             return response()->json([
                 'error' => 'Booking failed: ' . $e->getMessage()
             ], 400);
         }
+    }
+
+    private function checkRoomAvailability($roomId, $checkIn, $checkOut)
+    {
+        // Convert dates to Carbon instances for comparison
+        $checkIn = Carbon::parse($checkIn);
+        $checkOut = Carbon::parse($checkOut);
+
+        // Check if room is already booked for the given dates
+        $conflictingBookings = DB::table('booking_items')
+            ->join('bookings', 'booking_items.booking_id', '=', 'bookings.booking_id')
+            ->where('booking_items.room_id', $roomId)
+            ->where(function ($query) use ($checkIn, $checkOut) {
+                $query->whereBetween('check_in_date', [$checkIn, $checkOut])
+                    ->orWhereBetween('check_out_date', [$checkIn, $checkOut])
+                    ->orWhere(function ($q) use ($checkIn, $checkOut) {
+                        $q->where('check_in_date', '<=', $checkIn)
+                            ->where('check_out_date', '>=', $checkOut);
+                    });
+            })
+            ->where('bookings.status', '!=', 'cancelled')
+            ->count();
+
+        return $conflictingBookings === 0;
     }
 }

@@ -572,81 +572,81 @@
 
 
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const guestTableBody = document.querySelector('#guestTable tbody');
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     const guestTableBody = document.querySelector('#guestTable tbody');
     
-        // Add double-click event listener to table rows
-        guestTableBody.addEventListener('dblclick', (e) => {
+    //     // Add double-click event listener to table rows
+    //     guestTableBody.addEventListener('dblclick', (e) => {
             
-            const row = e.target.closest('tr');
-            if (row) {
-                console.log('Row element found:', row);
+    //         const row = e.target.closest('tr');
+    //         if (row) {
+    //             console.log('Row element found:', row);
                 
-                // Extract guest data from the row cells
-                const cells = row.cells;
-                console.log('Row cells:', cells);
+    //             // Extract guest data from the row cells
+    //             const cells = row.cells;
+    //             console.log('Row cells:', cells);
 
-                // Log individual cell values
-                const firstName = cells[0].textContent.trim();
-                console.log('Extracted firstName:', firstName);
+    //             // Log individual cell values
+    //             const firstName = cells[0].textContent.trim();
+    //             console.log('Extracted firstName:', firstName);
                 
-                const lastName = cells[1].textContent.trim();
-                console.log('Extracted lastName:', lastName);
+    //             const lastName = cells[1].textContent.trim();
+    //             console.log('Extracted lastName:', lastName);
                 
-                const gender = cells[2].textContent.trim();
-                console.log('Extracted gender:', gender);
+    //             const gender = cells[2].textContent.trim();
+    //             console.log('Extracted gender:', gender);
                 
-                const birthdate = cells[3].textContent.trim();
-                console.log('Extracted birthdate:', birthdate);
+    //             const birthdate = cells[3].textContent.trim();
+    //             console.log('Extracted birthdate:', birthdate);
                 
-                const email = cells[4].textContent.trim();
-                console.log('Extracted email:', email);
+    //             const email = cells[4].textContent.trim();
+    //             console.log('Extracted email:', email);
                 
-                const phone = cells[5].textContent.trim();
-                console.log('Extracted phone:', phone);
+    //             const phone = cells[5].textContent.trim();
+    //             console.log('Extracted phone:', phone);
                 
-                const address = cells[6].textContent.trim();
-                console.log('Extracted address:', address);
+    //             const address = cells[6].textContent.trim();
+    //             console.log('Extracted address:', address);
                 
-                const specialRequests = cells[7].textContent.trim();
-                console.log('Extracted specialRequests:', specialRequests);
+    //             const specialRequests = cells[7].textContent.trim();
+    //             console.log('Extracted specialRequests:', specialRequests);
 
-                const queryParams = [
-                `firstName=${encodeURIComponent(firstName)}`,
-                `lastName=${encodeURIComponent(lastName)}`,
-                `gender=${encodeURIComponent(gender)}`,
-                `birthdate=${encodeURIComponent(birthdate)}`,
-                `email=${encodeURIComponent(email)}`,
-                `phone=${encodeURIComponent(phone)}`,
-                `address=${encodeURIComponent(address)}`,
-                `specialRequests=${encodeURIComponent(specialRequests)}`
-                ].join('&');
+    //             const queryParams = [
+    //             `firstName=${encodeURIComponent(firstName)}`,
+    //             `lastName=${encodeURIComponent(lastName)}`,
+    //             `gender=${encodeURIComponent(gender)}`,
+    //             `birthdate=${encodeURIComponent(birthdate)}`,
+    //             `email=${encodeURIComponent(email)}`,
+    //             `phone=${encodeURIComponent(phone)}`,
+    //             `address=${encodeURIComponent(address)}`,
+    //             `specialRequests=${encodeURIComponent(specialRequests)}`
+    //             ].join('&');
 
 
-                // Construct query parameters
-                // const queryParams = new URLSearchParams({
-                //     firstName: firstName,
-                //     lastName: lastName,
-                //     gender: gender,
-                //     birthdate: birthdate,
-                //     email: email,
-                //     phone: phone,
-                //     address: address,
-                //     specialRequests: specialRequests
-                // });
+    //             // Construct query parameters
+    //             // const queryParams = new URLSearchParams({
+    //             //     firstName: firstName,
+    //             //     lastName: lastName,
+    //             //     gender: gender,
+    //             //     birthdate: birthdate,
+    //             //     email: email,
+    //             //     phone: phone,
+    //             //     address: address,
+    //             //     specialRequests: specialRequests
+    //             // });
 
-                console.log('Constructed query parameters:', queryParams.toString());
+    //             console.log('Constructed query parameters:', queryParams.toString());
                 
-                // Redirect to admin-add-booking with the guest's data
-                const redirectURL = `/admin/add-booking?${queryParams.toString()}`;
-                console.log('Attempting redirect to:', redirectURL);
+    //             // Redirect to admin-add-booking with the guest's data
+    //             const redirectURL = `/admin/add-booking?${queryParams.toString()}`;
+    //             console.log('Attempting redirect to:', redirectURL);
                 
-                window.location.href = redirectURL;
-            } else {
-                console.warn('Double-click event did not originate from a table row');
-            }
-        });
-    });
+    //             window.location.href = redirectURL;
+    //         } else {
+    //             console.warn('Double-click event did not originate from a table row');
+    //         }
+    //     });
+    // });
 
    //     // Get the table body
     // const guestTable = document.getElementById('guestTable');

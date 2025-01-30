@@ -13,8 +13,8 @@ return new class extends Migration
             $table->id('room_id');
             $table->string('Room_Number');
             $table->string('Room_Type');
-            $table->integer('Room_Capacity');
             $table->string('Room_Status');
+            $table->integer('Room_Capacity');
             $table->decimal('Room_Rate', 10, 2);
             $table->text('Room_Description')->nullable();
             $table->timestamps();

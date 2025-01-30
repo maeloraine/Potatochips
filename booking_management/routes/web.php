@@ -466,6 +466,8 @@ Route::get('/employee/home/admin-add-booking', [BookingController::class, 'index
 
 Route::get('/admin/add-booking', [BookingController::class, 'create'])->name('admin.add.booking');
 
+Route::get('/admin/booking', [BookingController::class, 'adminBooking'])->name('admin.booking');
+
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
 Route::patch('/bookings/{booking_reference}/status', [BookingController::class, 'updateStatus']);

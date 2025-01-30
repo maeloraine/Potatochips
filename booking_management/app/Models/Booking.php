@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
+    use HasFactory;
+
     protected $primaryKey = 'booking_id';
 
     protected $fillable = [
@@ -15,6 +18,8 @@ class Booking extends Model
         'check_in_time',
         'check_out_time',
         'booking_status',
+        'adults',
+        'children',
         'guest_id',
         'room_id',
         'invoice_id'
@@ -24,7 +29,8 @@ class Booking extends Model
         'check_in_date' => 'date',
         'check_out_date' => 'date',
         'check_in_time' => 'datetime',
-        'check_out_time' => 'datetime'
+        'check_out_time' => 'datetime',
+        'total_price',
     ];
 
     public static function boot()
@@ -41,6 +47,7 @@ class Booking extends Model
         return $this->belongsTo(Guest::class, 'guest_id');
     }
 
+    
     public function room()
     {
         return $this->belongsTo(Room::class, 'room_id');

@@ -11,17 +11,17 @@ class Guest extends Model
     protected $table = 'guests';
     protected $primaryKey = 'guest_id';
 
-
     protected $fillable = [
         'firstName',
         'lastName',
-        'birthdate',
         'gender',
+        'birthdate',
         'email',
         'phone',
         'address',
-        'specialRequests'
+        'specialRequests',
     ];
+    
     public function bookings()
     {
         return $this->hasMany(Booking::class, 'guest_id');
