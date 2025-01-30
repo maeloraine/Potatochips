@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\DB;
 class GuestController extends Controller
 {
     public function index() {
-        $guests = Guest::all();
-        return view('Pokemon.Employee.Home.admin-guest', ['guests' => $guests]);
+        $guests = DB::select('EXEC SP_GetAllGuests'); // Call the stored procedure
+
+        return view('Pokemon.Employee.Home.admin-guest', compact('guests'));
+        // $guests = Guest::all();
+        // return view('Pokemon.Employee.Home.admin-guest', ['guests' => $guests]);
+        
         
     }
 
