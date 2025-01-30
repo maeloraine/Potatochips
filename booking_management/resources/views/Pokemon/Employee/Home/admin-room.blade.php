@@ -405,7 +405,7 @@
             <h2>Add a Room</h2>
             <form id="createRoomForm" method="post" action="{{route('room.add')}}">
                 @csrf
-                <input type="hidden" name="_method" value="PUT">
+                <!-- <input type="hidden" name="_method" value="PUT"> -->
                     <label> Room No <input type="text" name="Room_Number" id="roomNo" placeholder="Room Number" required></label>
                     <label> Room Type <select id="roomType" name="Room_Type" required>
                         <option value="" disabled selected>Select Room Type</option>
@@ -449,7 +449,12 @@ document.addEventListener('DOMContentLoaded', function() {
         createRoomForm.reset();
         document.getElementById('createRoom').textContent = 'Add Room'; // Change button text
         createRoomForm.action = "{{ route('room.add') }}"; // Set form action to the route for adding a room
-        document.querySelector('input[name="_method"]').remove(); // Remove any hidden method input from previous edit action
+        const methodInputs = document.querySelectorAll('input[name="_method"]');
+        methodInputs.forEach(input => input.remove());
+        
+        // Explicitly set method to POST (optional, but safe)
+        addGuestForm.method = 'POST';
+        //document.querySelector('input[name="_method"]').remove(); // Remove any hidden method input from previous edit action
     });
 
     // Open modal for editing an existing room

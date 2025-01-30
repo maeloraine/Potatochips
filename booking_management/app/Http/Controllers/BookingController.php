@@ -2,94 +2,105 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Guest;
-use App\Models\Room;
-use App\Models\Booking;
-use App\Models\Customer;
+use App\Services\BookingService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log; // Add the Log facade
 
 class BookingController extends Controller
 {
-    public function index() {
-        $rooms = Room::all();
-        return view('Pokemon.Employee.Home.admin-add-booking', ['rooms' => $rooms]);
+    protected $bookingService;
+
+    public function __construct(BookingService $bookingService)
+    {
+        $this->bookingService = $bookingService;
     }
-    // public function store(Request $request)
-    // {
-    //     dd($request->all());
-    //    // Ensure the customer is authenticated
-    //     if (!Auth::guard('customer')->check()) {
-    //         return response()->json([
-    //             'message' => 'Unauthorized. Please log in to proceed.',
-    //         ], 401);
-    //     }
-        
-    //     // Validate the request
-    //     $validatedData = $request->validate([
-    //         'check_in_date' => 'required|date',
-    //         'check_out_date' => 'required|date|after:check_in_date',
-    //         'room_id' => 'required|exists:rooms,room_id',
-    //         'guestInfo.Guest_FName' => 'required|string|max:50',
-    //         'guestInfo.Guest_LName' => 'required|string|max:25',
-    //         'guestInfo.Guest_Birthdate' => 'required|date',
-    //         'guestInfo.Guest_Gender' => 'required|in:Male,Female,Rather Not Say',
-    //         'guestInfo.Guest_Email' => 'required|email',
-    //         'guestInfo.Guest_ContactNumber' => 'required|string|max:20',
-    //         'guestInfo.Guest_Address' => 'required|string|max:255',
-    //         'guestInfo.Special_Request' => 'nullable|string',
 
-    //     ]);
+    /**
+     * Show the form for creating a new booking.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function create(Request $request)
+    {
+        try {
+            Log::info('Create booking form accessed.', [
+                'query_parameters' => $request->query()
+            ]);
 
-    //     // Get the logged-in customer
-    //     $customer = Auth::guard('customer')->user();
+            // Retrieve guest data from query parameters
+            $firstName = $request->query('firstName');
+            $lastName = $request->query('lastName');
+            $gender = $request->query('gender');
+            $birthdate = $request->query('birthdate');
+            $email = $request->query('email');
+            $phone = $request->query('phone');
+            $address = $request->query('address');
+            $specialRequests = $request->query('specialRequests');
 
-    //     // Create the guest
-    //     $guest = Guest::create([
-    //         'Guest_FName' => $validatedData['guestInfo']['Guest_FName'],
-    //         'Guest_LName' => $validatedData['guestInfo']['Guest_LName'],
-    //         'Guest_Birthdate' => $validatedData['guestInfo']['Guest_Birthdate'],
-    //         'Guest_Gender' => $validatedData['guestInfo']['Guest_Gender'],
-    //         'Guest_Email' => $validatedData['guestInfo']['Guest_Email'],
-    //         'Guest_ContactNumber' => $validatedData['guestInfo']['Guest_ContactNumber'],
-    //         'Guest_Addres' => $validatedData['guestInfo']['Guest_Address'],
-    //         'Special_Request' => $validatedData['guestInfo']['Special_Request'],
-    //     ]);
+            // Fetch rooms from the database
+            $rooms = DB::table('rooms')->get();
 
-    //     // Generate a unique booking reference
-    //     $bookingReference = 'BOOK-' . strtoupper(Str::random(6)); // Example: BOOK-ABC123
+            Log::info('Rooms fetched successfully.', ['rooms_count' => $rooms->count()]);
 
-    //     // Create the booking
-    //     $booking = Booking::create([
-    //         'booking_reference' => $bookingReference,
-    //         'check_in_date' => $validatedData['check_in_date'],
-    //         'check_out_date' => $validatedData['check_out_date'],
-    //         'check_in_time' => '14:00:00', // Default check-in time (2:00 PM)
-    //         'check_out_time' => '12:00:00', // Default check-out time (12:00 PM)
-    //         'booking_status' => 'pending',
-    //         'guest_id' => $guest->guest_id,         // Associate with the created guest
-    //         'room_id' => $validatedData['room_id'], // Associate with the selected room
-    //         'customer_id' => $customer->customer_id, // Associate with the logged-in customer
-    //     ]);
+            // Pass guest and room data to the view
+            return view('Pokemon.Employee.Home.admin-add-booking', [
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'gender' => $gender,
+                'birthdate' => $birthdate,
+                'email' => $email,
+                'phone' => $phone,
+                'address' => $address,
+                'specialRequests' => $specialRequests,
+                'rooms' => $rooms,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error in create booking form.', ['error' => $e->getMessage()]);
+            abort(500, 'An error occurred while accessing the booking form.');
+        }
+    }
 
-    //     // Associate rooms with the booking
-    //     foreach ($validatedData['bookings'] as $room) {
-    //         $booking->rooms()->attach($room['id'], [
-    //             'price' => $room['price'],
-    //             'created_at' => now(),
-    //             'updated_at' => now(),
-    //         ]);
-    //     }
+    /**
+     * Create a new booking.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        try {
+            Log::info('Store booking request received.', [
+                'request_data' => $request->all()
+            ]);
 
-    //     // Redirect to payment page or return a response
-    //     return response()->json([
-    //         'message' => 'Booking created successfully',
-    //         'booking' => $booking,
-    //         'guest' => $guest,
-    //         'customer' => $customer,
-    //     ], 201);
-    //     }
+            $validated = $request->validate([
+                'check_in_date' => 'required|date',
+                'check_out_date' => 'required|date|after:check_in_date',
+                'check_in_time' => 'required|date_format:H:i',
+                'check_out_time' => 'required|date_format:H:i',
+                'guest_id' => 'required|integer|exists:guests,guest_id',
+                'room_id' => 'required|integer|exists:rooms,room_id',
+            ]);
+
+            Log::info('Booking request validated successfully.', ['validated_data' => $validated]);
+
+            // Delegate to BookingService
+            $bookingReference = $this->bookingService->createBooking($validated);
+
+            Log::info('Booking created successfully.', ['reference' => $bookingReference]);
+
+            return response()->json([
+                'message' => 'Booking created!',
+                'reference' => $bookingReference
+            ], 201);
+
+        } catch (\Exception $e) {
+            Log::error('Error creating booking.', ['error' => $e->getMessage()]);
+            return response()->json([
+                'error' => 'Booking failed: ' . $e->getMessage()
+            ], 400);
+        }
+    }
 }

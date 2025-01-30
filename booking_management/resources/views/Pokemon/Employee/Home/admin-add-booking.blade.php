@@ -145,50 +145,54 @@
         <!-- Available Offers Section (Left Side) -->
         <div class="col-md-8" id="available-offers">
             <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
-                    <h5>Available Offers</h5>
-                    <!-- Check-In/Check-Out and Number of Guests Form -->
-                    <div class="booking-details d-flex gap-3 flex-wrap">
-                        <div>
-                            <label for="check-in-date" class="form-label">Check-In Date</label>
-                            <input type="date" class="form-control" id="check-in-date" required>
-                        </div>
-                        <div>
-                            <label for="check-out-date" class="form-label">Check-Out Date</label>
-                            <input type="date" class="form-control" id="check-out-date" required readonly>
-                        </div>
-                          <!-- Check-In Time -->
-                        <div>
-                            <label for="check-in-time" class="form-label">Check-In Time</label>
-                            <select class="form-control" id="check-in-time" required>
-                                <option value="08:00">8:00 AM</option>
-                                <option value="19:00">7:00 PM</option>
-                            </select>
-                        </div>
-                        <!-- Check-Out Time -->
-                        
-                        <div>
-                            <label for="check-out-time" class="form-label">Check-Out Time</label>
-                            <input type="time" class="form-control" id="check-out-time" readonly>
-                        </div>
+                <form id="guest-info-form" method="POST" action="{{ route('booking.store') }}">
+                @csrf
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                        <h5>Available Offers</h5>
+                        <!-- Check-In/Check-Out and Number of Guests Form -->
+                        <div class="booking-details d-flex gap-3 flex-wrap">
+                            <div>
+                                <label for="check-in-date" class="form-label">Check-In Date</label>
+                                <input type="date" class="form-control" id="check-in-date" required>
+                            </div>
+                            <div>
+                                <label for="check-out-date" class="form-label">Check-Out Date</label>
+                                <input type="date" class="form-control" id="check-out-date" required readonly>
+                            </div>
+                            <!-- Check-In Time -->
+                            <div>
+                                <label for="check-in-time" class="form-label">Check-In Time</label>
+                                <select class="form-control" id="check-in-time" required>
+                                    <option value="08:00">8:00 AM</option>
+                                    <option value="19:00">7:00 PM</option>
+                                </select>
+                            </div>
+                            <!-- Check-Out Time -->
+                            
+                            <div>
+                                <label for="check-out-time" class="form-label">Check-Out Time</label>
+                                <input type="time" class="form-control" id="check-out-time" readonly>
+                            </div>
 
-                        <div style="width: 135px;">
-                            <label for="adults" class="form-label">Adults</label>
-                            <div class="input-group">
-                                <button type="button" class="btn btn-outline-secondary" id="decrease-adults">-</button>
-                                <input type="number" class="form-control text-center" id="adults" value="1" min="1" readonly>
-                                <button type="button" class="btn btn-outline-secondary" id="increase-adults">+</button>
+                            <div style="width: 135px;">
+                                <label for="adults" class="form-label">Adults</label>
+                                <div class="input-group">
+                                    <button type="button" class="btn btn-outline-secondary" id="decrease-adults">-</button>
+                                    <input type="number" class="form-control text-center" id="adults" value="1" min="1" readonly>
+                                    <button type="button" class="btn btn-outline-secondary" id="increase-adults">+</button>
+                                </div>
+                            </div>
+                            <div style="width: 135px;">
+                                <label for="children" class="form-label">Children (under 12)</label>
+                                <div class="input-group">
+                                    <button type="button" class="btn btn-outline-secondary" id="decrease-children">-</button>
+                                    <input type="number" class="form-control text-center" id="children" value="0" min="0" readonly>
+                                    <button type="button" class="btn btn-outline-secondary" id="increase-children">+</button>
+                                </div>
                             </div>
                         </div>
-                        <div style="width: 135px;">
-                            <label for="children" class="form-label">Children (under 12)</label>
-                            <div class="input-group">
-                                <button type="button" class="btn btn-outline-secondary" id="decrease-children">-</button>
-                                <input type="number" class="form-control text-center" id="children" value="0" min="0" readonly>
-                                <button type="button" class="btn btn-outline-secondary" id="increase-children">+</button>
-                            </div>
-                        </div>
-                    </div>
+                </form>
+
                 </div>
                 <div class="card-body">
                     <!-- Category Buttons -->
@@ -244,16 +248,17 @@
                     <h5>Guest Information</h5>
                 </div>
                 <div class="card-body">
-                    <form id="guest-info-form">
+                    <form id="guest-info-form" method="POST" action="{{ route('booking.store') }}">
+                        @csrf
                         <!-- First Name and Last Name -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="first-name" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="first-name" required>
+                                <input type="text" name="first_name" class="form-control" id="first-name" value="{{ $firstName }}" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="last-name" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="last-name" required>
+                                <input type="text" name="last_name" class="form-control" id="last-name" value="{{ $lastName }}" required>
                             </div>
                         </div>
 
@@ -261,15 +266,15 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="gender" class="form-label">Gender</label>
-                                <select class="form-select" id="gender" required>
+                                <select name="gender" class="form-select" id="gender" required>
                                     <option value="">Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="male" {{ $gender === 'male' ? 'selected' : '' }}>Male</option>
+                                    <option value="female" {{ $gender === 'female' ? 'selected' : '' }}>Female</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="birthdate" class="form-label">Birthdate</label>
-                                <input type="date" class="form-control" id="birthdate" required>
+                                <input type="date" name="birthdate" class="form-control" id="birthdate" value="{{ $birthdate }}" required>
                                 <small class="text-danger" id="age-error" style="display: none;">The primary guest must be at least 18 years old to confirm your booking.</small>
                             </div>
                         </div>
@@ -278,11 +283,11 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="email" required>
+                                <input type="email" name="email" class="form-control" id="email" value="{{ $email }}" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" id="phone" required>
+                                <input type="tel" name="phone" class="form-control" id="phone" value="{{ $phone }}" required>
                             </div>
                         </div>
 
@@ -290,7 +295,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label for="address" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="address" required>
+                                <input type="text" name="address" class="form-control" id="address" value="{{ $address }}" required>
                             </div>
                         </div>
 
@@ -298,14 +303,14 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label for="special-requests" class="form-label">Special Requests</label>
-                                <textarea class="form-control" id="special-requests" rows="3"></textarea>
+                                <textarea name="special_requests" class="form-control" id="special-requests" rows="3">{{ $specialRequests }}</textarea>
                             </div>
                         </div>
 
                         <!-- Proceed to Payment Button -->
                         <div class="row">
                             <div class="col-md-12">
-                                <button type="button" id="proceed-to-payment" class="btn btn-primary">Proceed to Payment</button>
+                                <button type="submit" id="book-now" class="btn btn-primary">Book now</button>
                             </div>
                         </div>
                     </form>
@@ -387,6 +392,43 @@
 @section('script')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Function to get query parameters from the URL
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const pairs = queryString.split('&');
+            pairs.forEach(pair => {
+                const [key, value] = pair.split('=');
+                params[decodeURIComponent(key)] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        // Extract guest data from query parameters
+        const queryParams = getQueryParams();
+        const guestData = {
+            firstName: queryParams.firstName || '',
+            lastName: queryParams.lastName || '',
+            gender: queryParams.gender || '',
+            birthdate: queryParams.birthdate || '',
+            email: queryParams.email || '',
+            phone: queryParams.phone || '',
+            address: queryParams.address || '',
+            specialRequests: queryParams.specialRequests || ''
+        };
+
+        // Populate guest information fields if data is available
+        if (guestData.firstName) {
+            document.getElementById('first-name').value = guestData.firstName;
+            document.getElementById('last-name').value = guestData.lastName;
+            document.getElementById('gender').value = guestData.gender.toLowerCase(); // Ensure gender matches select options
+            document.getElementById('birthdate').value = guestData.birthdate;
+            document.getElementById('email').value = guestData.email;
+            document.getElementById('phone').value = guestData.phone;
+            document.getElementById('address').value = guestData.address;
+            document.getElementById('special-requests').value = guestData.specialRequests;
+        }
+
         const bookingDetails = document.getElementById('booking-details');
         const confirmBookingBtn = document.getElementById('confirm-booking');
         const offerModal = new bootstrap.Modal(document.getElementById('offerModal'));

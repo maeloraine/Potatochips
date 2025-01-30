@@ -433,6 +433,7 @@ Route::put('/guests/{id}', [GuestController::class, 'update'])->name('guest.upda
 Route::delete('/guests/{id}', [GuestController::class, 'destroy'])->name('guest.delete');
 
 
+
 // ==================================
 //      Admin Side Room Management
 // ==================================
@@ -445,6 +446,8 @@ Route::post('/employee/home/room-management', [RoomController::class, 'addRoom']
 
 Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('room.update');
 Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('room.delete');
+
+
 // // Edit Rooms(GET method)
 // Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
 
@@ -460,6 +463,12 @@ Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('room.del
 
 // Viewing booking
 Route::get('/employee/home/admin-add-booking', [BookingController::class, 'index'])->name('booking.index');
+
+Route::get('/admin/add-booking', [BookingController::class, 'create'])->name('admin.add.booking');
+
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+
+Route::patch('/bookings/{booking_reference}/status', [BookingController::class, 'updateStatus']);
 
 // ==================================
 //      Customer Side

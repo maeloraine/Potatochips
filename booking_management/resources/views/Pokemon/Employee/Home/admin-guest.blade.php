@@ -358,7 +358,7 @@
                         </thead>
                         <tbody>
                             @foreach($guests as $guest)
-                            <tr>
+                            <tr data-guest-id="{{ $guest->guest_id }}">
                                 <td>{{$guest -> firstName}}</td>
                                 <td>{{$guest -> lastName}}</td>
                                 <td>{{$guest -> gender}}</td>
@@ -459,7 +459,13 @@
         addGuestForm.reset();
         document.getElementById('addGuest').textContent = 'Add Guest'; // Change button text
         addGuestForm.action = "{{ route('guest.add') }}"; // Set form action to the route for adding a guest
-        document.querySelector('input[name="_method"]').remove(); // Remove any hidden method input from previous edit action
+        const methodInputs = document.querySelectorAll('input[name="_method"]');
+        methodInputs.forEach(input => input.remove());
+        
+        // Explicitly set method to POST (optional, but safe)
+        addGuestForm.method = 'POST';
+        //document.querySelector('input[name="_method"]').remove(); // Remove any hidden method input from previous edit action
+        // Remove all existing _method inputs
     });
 
     // Open modal for editing an existing guest
@@ -571,18 +577,73 @@
     
         // Add double-click event listener to table rows
         guestTableBody.addEventListener('dblclick', (e) => {
-            // Get the row that was double-clicked
+            
             const row = e.target.closest('tr');
             if (row) {
-                // Get the full name from the row cells
-                const lastName = row.cells[0].textContent.trim();
-                const firstName = row.cells[1].textContent.trim();
-                    
-                // Create the full name
-                const fullName = `${firstName} ${lastName}`.trim();
-                    
-                // Show the alert with the full name
-                alert(`Full Name: ${fullName}`);
+                console.log('Row element found:', row);
+                
+                // Extract guest data from the row cells
+                const cells = row.cells;
+                console.log('Row cells:', cells);
+
+                // Log individual cell values
+                const firstName = cells[0].textContent.trim();
+                console.log('Extracted firstName:', firstName);
+                
+                const lastName = cells[1].textContent.trim();
+                console.log('Extracted lastName:', lastName);
+                
+                const gender = cells[2].textContent.trim();
+                console.log('Extracted gender:', gender);
+                
+                const birthdate = cells[3].textContent.trim();
+                console.log('Extracted birthdate:', birthdate);
+                
+                const email = cells[4].textContent.trim();
+                console.log('Extracted email:', email);
+                
+                const phone = cells[5].textContent.trim();
+                console.log('Extracted phone:', phone);
+                
+                const address = cells[6].textContent.trim();
+                console.log('Extracted address:', address);
+                
+                const specialRequests = cells[7].textContent.trim();
+                console.log('Extracted specialRequests:', specialRequests);
+
+                const queryParams = [
+                `firstName=${encodeURIComponent(firstName)}`,
+                `lastName=${encodeURIComponent(lastName)}`,
+                `gender=${encodeURIComponent(gender)}`,
+                `birthdate=${encodeURIComponent(birthdate)}`,
+                `email=${encodeURIComponent(email)}`,
+                `phone=${encodeURIComponent(phone)}`,
+                `address=${encodeURIComponent(address)}`,
+                `specialRequests=${encodeURIComponent(specialRequests)}`
+                ].join('&');
+
+
+                // Construct query parameters
+                // const queryParams = new URLSearchParams({
+                //     firstName: firstName,
+                //     lastName: lastName,
+                //     gender: gender,
+                //     birthdate: birthdate,
+                //     email: email,
+                //     phone: phone,
+                //     address: address,
+                //     specialRequests: specialRequests
+                // });
+
+                console.log('Constructed query parameters:', queryParams.toString());
+                
+                // Redirect to admin-add-booking with the guest's data
+                const redirectURL = `/admin/add-booking?${queryParams.toString()}`;
+                console.log('Attempting redirect to:', redirectURL);
+                
+                window.location.href = redirectURL;
+            } else {
+                console.warn('Double-click event did not originate from a table row');
             }
         });
     });
@@ -723,6 +784,7 @@
             <td>${specialRequest}</td>
             <td><button class="edit-button">Edit</button></td>
         `;
+
 
         // Close the modal
         guestModal.style.display = 'none';

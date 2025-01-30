@@ -6,39 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('bookings', function (Blueprint $table) {
-            $table->id('booking_id'); // Primary Key
-            $table->string('booking_reference')->unique();; 
+            $table->id('booking_id');
+            $table->string('booking_reference')->unique();
             $table->date('check_in_date');
             $table->date('check_out_date');
             $table->time('check_in_time');
             $table->time('check_out_time');
-            $table->string('booking_status')->default('pending'); 
-            $table->unsignedBigInteger('guest_id');
-            $table->unsignedBigInteger('room_id');
-            $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('payment_id');
-
+            $table->enum('booking_status', ['reserved', 'checked_in', 'checked_out']) ->default('reserved'); // Auto-set to "reserved";
+            $table->foreignId('guest_id')->constrained('guests', 'guest_id'); // Explicitly reference 'guest_id'
+            $table->foreignId('room_id')->constrained('rooms', 'room_id');   // Explicitly reference 'room_id'
             $table->timestamps();
-
-            // Foreign keys
-            $table->foreign('guest_id')->references('guest_id')->on('guests')->onDelete('cascade');
-            $table->foreign('room_id')->references('room_id')->on('rooms')->onDelete('cascade');
-            $table->foreign('customer_id')->references('customer_id')->on('customers')->onDelete('cascade');
-            $table->foreign('payment_id')->references('payment_id')->on('payments')->onDelete('cascade');
-
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('bookings');
     }
