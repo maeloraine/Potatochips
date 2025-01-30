@@ -7,14 +7,13 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\CustomerRoomController;
-
 use App\Http\Controllers\PaymentController;
-
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\CustomerController;
 use App\Http\Controllers\CustomerGuestController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\EmployeeAuthController;
 
 
 
@@ -382,17 +381,11 @@ Route::get('employee/sign-up', function () {
     return view('Pokemon.Employee.Authentication.sign-up');
 })->name('sign-up');
 
-Route::get('/employee-login', function () {
-    return view('Pokemon.Employee.Authentication.login');
-})->name('login');
 
 Route::get('/employee/forgot-password', function () {
     return view('Pokemon.Employee.Authentication.forgot-password');
 })->name('forgot-password');
 
-Route::get('/employee/home/dashboard', function () {
-    return view('Pokemon.Employee.Home.employee-dashboard');
-})->name('employee-dashboard');
 
 Route::get('/employee/home/usermanagement', function () {
     return view('Pokemon.Employee.Home.admin-usermanagement');
@@ -421,6 +414,18 @@ Route::get('/employee/home/admindashboard', function () {
 // ============================================
 //    Admin and Employee Side w/ Controllers Added
 // ============================================
+Route::get('/employee/authentication/employee-login', function () {
+    return view('Pokemon.Employee.Authentication.login');
+})->name('login');
+
+Route::get('/employee/login', [EmployeeAuthController::class, 'loginForm'])->name('employee.login');
+Route::post('/employee/login', [EmployeeAuthController::class, 'login'])->name('employee.login');
+
+Route::middleware(['auth:employee'])->group(function () {
+    Route::get('/employee/home/dashboard', function () {
+        return view('Pokemon.Employee.Home.employee-dashboard');
+    })->name('employee-dashboard');
+});
 
 // GUEST
 Route::get('/employee/home/guest-information', [GuestController::class, 'index'])->name('guest.index');

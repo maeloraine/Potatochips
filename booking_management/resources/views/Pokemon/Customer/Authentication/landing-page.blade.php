@@ -473,7 +473,7 @@
               <div class="content text-center">
                 <div>
                     <div class="d-flex justify-content-center mt-4">
-                      <a class="buy-btn rounded-pill" target="_blank" href="{{ route('login') }}" style="padding: 20px 40px; width: 300px; height: 65px; font-size: 18px; text-align: center; color: #ffffff; margin-top: 50px">
+                      <a class="buy-btn rounded-pill" target="_self" href="{{ route('employee.login') }}" style="padding: 20px 40px; width: 300px; height: 65px; font-size: 18px; text-align: center; color: #ffffff; margin-top: 50px">
                         Log in as Employee
                       </a>
                     </div>

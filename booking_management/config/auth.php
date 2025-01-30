@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'customer',
-        'passwords' => 'customers',
+        'passwords' => 'employees',
     ],
 
     /*
@@ -44,6 +44,10 @@ return [
             'driver' => 'session',
             'provider' => 'customers',
         ],
+        'employee' => [
+            'driver' => 'session',
+            'provider' => 'employees',
+        ],
     ],
 
     /*
@@ -68,11 +72,19 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Customer::class,
         ],
+        
+        'employees' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Employee::class,
+        ],
+        
 
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        
+
     ],
 
     /*
@@ -97,7 +109,14 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'employees' => [ // Add this block
+            'provider' => 'employees',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
