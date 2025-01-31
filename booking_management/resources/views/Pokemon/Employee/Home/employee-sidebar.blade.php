@@ -57,7 +57,7 @@
                     <!-- Booking Management -->
 
                     <li class="sidebar-list"> <a
-                        class="sidebar-link sidebar-title link-nav" href="{{ route('admin.booking') }}">
+                        class="sidebar-link sidebar-title link-nav" href="{{ route('admin.bookings') }}">
                         <svg class="stroke-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                         </svg>

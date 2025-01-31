@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
 use App\Models\Room;
+use App\Models\Booking;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log; // Add the Log facade
 
@@ -13,8 +15,34 @@ class BookingController extends Controller
     protected $bookingService;
 
     public function index() {
-        $rooms = Room::all();
+        $rooms = Room::all(); //To fetch the available rooms for booking
         return view('Pokemon.Employee.Home.admin-add-booking', ['rooms' => $rooms]);
+    }
+
+        public function showBooking()
+    {
+       // Fetch available rooms
+    $availableRooms = Room::where('Room_Status', 'Available')->get();
+
+    // Fetch all bookings with related guest and room details
+    $bookings = DB::table('bookings')
+        ->join('rooms', 'bookings.room_id', '=', 'rooms.room_id')
+        ->join('guests', 'bookings.guest_id', '=', 'guests.guest_id')
+        ->select(
+            'bookings.booking_reference',
+            'guests.firstName',
+            'guests.lastName',
+            'rooms.Room_Number',
+            'bookings.check_in_date',
+            'bookings.check_in_time',
+            'bookings.check_out_date',
+            'bookings.check_out_time',
+            'bookings.booking_status'
+        )
+        ->get();
+
+    // Pass both $availableRooms and $bookings to the view
+    return view('Pokemon.Employee.Home.admin-booking', compact('availableRooms', 'bookings'));
     }
 
     public function availRooms()
@@ -27,6 +55,49 @@ class BookingController extends Controller
     public function __construct(BookingService $bookingService)
     {
         $this->bookingService = $bookingService;
+    }
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'firstName' => 'required|string|max:50',
+            'lastName' => 'required|string|max:25',
+            'birthdate' => 'required|date',
+            'gender' => 'required|string',
+            'email' => 'required|email|unique:guests,email',
+            'phone' => 'required|string|size:11',
+            'address' => 'required|string|max:255',
+            'specialRequests' => 'nullable|string|max:255',
+            'room_id' => 'required|integer|exists:rooms,room_id',
+            'check_in_date' => 'required|date',
+            'check_out_date' => 'required|date|after:check_in_date',
+            'check_in_time' => 'required',
+            'check_out_time' => 'required',
+            'adults' => 'required|integer|min:1',
+            'children' => 'required|integer|min:0',
+            'booking_status' => 'required|string|in:reserved,checked_in,checked_out'
+        ]);
+        $specialRequests = $request->input('specialRequests', 'None'); // Default to "None" if empty
+
+        DB::statement('EXEC sp_CreateGuestBooking ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [
+            $validatedData['firstName'],        // @firstName
+            $validatedData['lastName'],         // @lastName
+            $validatedData['birthdate'],        // @birthdate
+            $validatedData['gender'],           // @gender
+            $validatedData['email'],            // @email
+            $validatedData['phone'],            // @phone
+            $validatedData['address'],          // @address
+            $specialRequests,                   // @specialRequests
+            $validatedData['room_id'],          // @room_id
+            $validatedData['check_in_date'],    // @check_in_date
+            $validatedData['check_out_date'],   // @check_out_date
+            $validatedData['check_in_time'],    // @check_in_time
+            $validatedData['check_out_time'],   // @check_out_time
+            $validatedData['adults'],           // @adults
+            $validatedData['children'],         // @children
+            1000,                               // @total_price (You might need to calculate this dynamically)
+            $validatedData['booking_status']    // @booking_status 
+        ]);
+        return redirect()->route('admin.bookings')->with('success', 'Your booking was successfully created!');
     }
 
     /**

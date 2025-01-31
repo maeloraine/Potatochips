@@ -282,16 +282,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>101</td>
-                        <td>2025-01-10</td>
-                        <td>14:00</td>
-                        <td>2025-01-15</td>
-                        <td>12:00</td>
-                        <td>Reserved</td>
-                        <td><button class="edit-button">Edit</button></td>
-                    </tr>
+                    @foreach ($bookings as $booking)
+                        <tr>
+                            <td>{{ $booking->firstName }} {{ $booking->lastName }}</td> <!-- Guest Name -->
+                            <td>{{ $booking->Room_Number }}</td>                          <!-- Room No -->
+                            <td>{{ $booking->check_in_date }}</td>                        <!-- Check-In Date -->
+                            <td>{{ $booking->check_in_time }}</td>                        <!-- Check-In Time -->
+                            <td>{{ $booking->check_out_date }}</td>                       <!-- Check-Out Date -->
+                            <td>{{ $booking->check_out_time }}</td>                       <!-- Check-Out Time -->
+                            <td>{{ ucfirst($booking->booking_status) }}</td>              <!-- Booking Status -->
+    
+                            <td><button class="edit-button">Edit</button></td>
+                        </tr>
+                    @endforeach
                     <tr>
                         <td>Jane Smith</td>
                         <td>102</td>
@@ -316,7 +319,92 @@
         <div class="modal-content">
             <button class="close-button" id="closeBookingModal">&times;</button>
             <h2>Booking Information</h2>
-            <form id="bookingForm">
+            <form action="{{ route('booking.store') }}" method="POST">
+            @csrf
+            <label>
+                First Name
+                <input type="text" name="firstName" required maxlength="50">
+            </label>
+            <label>
+                Last Name
+                <input type="text" name="lastName" required maxlength="25">
+            </label>
+            <label>
+                Gender
+                <select name="gender" required>
+                    <option value="" selected disabled>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Rather Not Say">Rather Not Say</option>
+                </select>
+            </label>
+            <label>
+                Birthdate
+                <input type="date" name="birthdate" required>
+            </label>
+            <label>
+                Email
+                <input type="email" name="email" required>
+            </label>
+            <label>
+                Phone
+                <input type="tel" name="phone" required pattern="\d{11}">
+            </label>
+            <label>
+                Address
+                <input type="text" name="address" required>
+            </label>
+            <label>
+                Special Requests
+                <input type="text" name="specialRequests" required>
+            </label>
+            <label>
+                Room No.
+                <select name="room_id" required>
+                    <option value="" selected disabled>Select Room</option>
+                    @foreach ($availableRooms as $room)
+                        <option value="{{ $room->room_id }}">{{ $room->Room_Number }} - {{ $room->Room_Type }}</option>
+                    @endforeach
+                </select>
+            </label>
+            <label>
+                Check-In Date
+                <input type="date" name="check_in_date" required>
+            </label>
+            <label>
+                Check-Out Date
+                <input type="date" name="check_out_date" required>
+            </label>
+            <label>
+                Check-In Time
+                <select name="check_in_time" required>
+                    <option value="08:00">8:00 AM</option>
+                    <option value="19:00">7:00 PM</option>
+                </select>
+            </label>
+            <label>
+                Check-Out Time
+                <input type="time" name="check_out_time" required>
+            </label>
+            <label>
+                Adults
+                <input type="number" name="adults" min="1" value="1" required>
+            </label>
+            <label>
+                Children
+                <input type="number" name="children" min="0" value="0" required>
+            </label>
+            <label>
+                Booking Status
+                <select name="booking_status" required>
+                <option value="reserved" selected>Reserved</option>
+                    <option value="checked_in">Checked-in</option>
+                    <option value="checked_out">Checked-out</option>
+                </select>
+            </label>
+            <button type="submit">Book Now</button>
+        </form>
+            <!-- <form id="bookingForm">
                 <div class="row">
                     <label>
                         Room No.
@@ -374,12 +462,12 @@
                     </label>
                 </div>
                 <button type="button" id="nextButton">Next</button>
-            </form>
+            </form> -->
         </div>
     </div>
 
     <!-- Guest Information Modal -->
-    <div class="modal" id="guestModal">
+    <!-- <div class="modal" id="guestModal">
         <div class="modal-content">
             <button class="close-button" id="closeGuestModal">&times;</button>
             <h2>Guest Information</h2>
@@ -435,7 +523,7 @@
                 <button type="submit" id="bookNowButton">Book Now</button>
             </form>
         </div>
-    </div>
+    </div> -->
 </div>
 @endsection
 
