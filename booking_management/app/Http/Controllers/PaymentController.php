@@ -107,7 +107,8 @@ class PaymentController extends Controller
                 throw new Exception('No payments found in the response.');
             }
 
-            $payment = $attributes['payments'][0]['attributes'];
+            $payment = $attributes['payments'][0];
+            $paymentAttributes = $payment['attributes'];
             $paymentStatus = $payment['status'] ?? 'unknown';
 
             if ($paymentStatus === 'paid') {
@@ -156,17 +157,26 @@ class PaymentController extends Controller
                     ]);
                 }
 
+                // Get PayMongo response and log it
+                $responseData = $payMongoService->getCheckoutSession($sessionId);
+                
+                // Add this log entry to see raw PayMongo response
+                Log::debug('Raw PayMongo Response:', $responseData);
+
+                $attributes = $responseData['data']['attributes'];
                 // Save payment
+    // Save payment with corrected fields
                 \App\Models\Payment::create([
                     'guest_id' => $guest->guest_id,
                     'session_id' => $sessionId,
-                    'payment_id' => $payment['payment_intent_id'] ?? $responseData['data']['id'],
-                    'amount' => $payment['amount'] / 100,
-                    'currency' => $payment['currency'],
-                    'status' => $paymentStatus,
-                    'payment_method' => $payment['source']['type'] ?? 'unknown',
-                    'description' => $payment['description'] ?? 'Online Booking',
+                    'payment_ref_number' => $payment['id'],
+                    'amount' => $paymentAttributes['amount'] / 100,
+                    'currency' => $paymentAttributes['currency'],
+                    'payment_status' => $paymentStatus,
+                    'payment_method' => $paymentAttributes['source']['type'] ?? 'unknown',
+                    'description' => $paymentAttributes['description'] ?? 'Online Booking',
                 ]);
+
 
                 // Clear the session data after successful processing
                 Session::forget(['session_id', 'booking_data']);

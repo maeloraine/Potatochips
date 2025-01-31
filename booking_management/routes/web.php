@@ -452,8 +452,7 @@ Route::middleware(['auth:customer'])->group(function () {
     // Magbabayad ka na
     Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
 
-    Route::get('/success',[PaymentController::class,'success'])->name('pay-success');
-
+    Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
     // Booking
     Route::post('/bookings',[BookingController::class,'store'])->name('booking.add');
     

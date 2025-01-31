@@ -22,12 +22,14 @@ class Payment extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'payment_ref_number',
-        'total_amount',
-        'description',
+        'guest_id',
+        'session_id',
+        'payment_ref_number', // Added
+        'amount',
         'currency',
+        'payment_status', // Updated from 'status'
         'payment_method',
-        'payment_status',
+        'description'
     ];
 
     /**
