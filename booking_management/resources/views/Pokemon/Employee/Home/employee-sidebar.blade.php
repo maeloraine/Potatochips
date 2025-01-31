@@ -57,19 +57,17 @@
                     <!-- Booking Management -->
 
                     <li class="sidebar-list"> <a
-                        class="sidebar-link sidebar-title link-nav" >
+                        class="sidebar-link sidebar-title link-nav" href="{{ route('admin.booking') }}">
                         <svg class="stroke-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                         </svg>
                         <svg class="fill-icon">
                             <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
                         </svg><span>Booking Management</span></a>
-                        <ul class="sidebar-submenu">
+                        <!-- <ul class="sidebar-submenu">
                             <li><a href="{{ route('booking.index') }}">Add Booking</a></li>
                             <li><a href="{{ route('admin.booking') }}">Bookings</a></li>
-                            
-              
-                        </ul>
+                        </ul> -->
                     </li>
 
                     <!-- Billing -->
