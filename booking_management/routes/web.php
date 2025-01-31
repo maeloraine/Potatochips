@@ -463,6 +463,7 @@ Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('room.del
 
 // Viewing booking
 Route::get('/employee/home/admin-add-booking', [BookingController::class, 'index'])->name('booking.index');
+
 Route::get('/admin/add-booking', [BookingController::class, 'create'])->name('admin.add.booking');
 
 Route::get('/admin/bookings', [BookingController::class, 'showBooking'])->name('admin.bookings');

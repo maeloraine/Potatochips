@@ -78,7 +78,7 @@ class BookingController extends Controller
         ]);
         $specialRequests = $request->input('specialRequests', 'None'); // Default to "None" if empty
 
-        DB::statement('EXEC sp_CreateGuestBooking ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [
+        DB::statement('EXEC SP_CreateGuestBooking ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [
             $validatedData['firstName'],        // @firstName
             $validatedData['lastName'],         // @lastName
             $validatedData['birthdate'],        // @birthdate
