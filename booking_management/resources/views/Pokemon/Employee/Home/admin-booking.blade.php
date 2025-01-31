@@ -397,6 +397,13 @@
                 <button>Submit</button>
             </div>
         </div>
+        <div class="overlay" id="qrCheckInOverlay">
+            <div class="modal-content">
+                <button class="close-button" onclick="closeQRCheckInModal()">&times;</button>
+                <h2>QR Check-In</h2>
+                <canvas id="qrCanvas" style="background: white;"></canvas>
+            </div>
+        </div>
 
         <!-- Add this inside the check-Out options modal -->
 <div class="overlay" id="checkOutOverlay">
