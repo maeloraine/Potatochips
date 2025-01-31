@@ -308,46 +308,130 @@
         </div>
 
         <button class="add-button" id="addBookingButton">Add Booking</button>
-    </div>
-    <div class="overlay" id="overlay">
+</div>
+
+<div class="overlay" id="overlay">
+    <!-- Booking Form Modal -->
     <div class="modal" id="bookingModal">
-    <div class="modal-content">
-        <button class="close-button" id="closeModalButton">&times;</button>
-        <h2>Add a Booking</h2>
-        <form id="addBookingForm">
-        <div class="row">
-            <label>
-                Room No.
-                <input type="text" id="roomNo" placeholder="Room No" required>
-            </label>
-            <label>
-                Guest Name
-                <input type="text" id="GuestName1" placeholder="Guest Name" required>
-            </label>
+        <div class="modal-content">
+            <button class="close-button" id="closeBookingModal">&times;</button>
+            <h2>Booking Information</h2>
+            <form id="bookingForm">
+                <div class="row">
+                    <label>
+                        Room No.
+                        <select id="roomNo" required>
+                            <option value="" selected disabled>Select Room</option>
+                            <option value="101">101</option>
+                            <option value="102">102</option>
+                        </select>
+                    </label>
+                    <label>
+                        Booking Status
+                        <select id="bookingStatus" required>
+                            <option value="checkedIn" selected>Checked-in</option>
+                            <option value="checkedOut">Checked-out</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Check-In Date
+                        <input type="date" id="checkInDate" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Check-In Time
+                        <select id="checkInTime" required>
+                            <option selected disabled>Select check-in time</option>
+                            <option value="08:00">8:00 AM</option>
+                            <option value="19:00">7:00 PM</option>
+                        </select>
+                    </label>
+                    <label>
+                        Check-Out Time
+                        <input type="time" id="checkOutTime" readonly>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Check-Out Date
+                        <input type="date" id="checkOutDate" required readonly>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Adults
+                        <input type="number" id="numAdults" min="1" value="1" required>
+                    </label>
+                    <label>
+                        Children (under 12)
+                        <input type="number" id="numChildren" min="0" value="0" required>
+                    </label>
+                </div>
+                <button type="button" id="nextButton">Next</button>
+            </form>
         </div>
-            <div class="row">
-                <label>
-                    Check-In Date
-                    <input type="date" id="checkInDate" placeholder="Check-In Date" required>
-                </label>
-                <label>
-                    Check-In Time
-                    <input type="time" id="checkInTime" placeholder="Check-In Time" required>
-                </label>
-            </div>
-            <div class="row">
-                <label>
-                    Check-Out Date
-                    <input type="date" id="checkOutDate" placeholder="Check-Out Date" required>
-                </label>
-                <label>
-                    Check-Out Time
-                    <input type="time" id="checkOutTime" placeholder="Check-Out Time" required>
-                </label>
-            </div>
-            <button type="submit" id="addBooking" >Add Booking</button>
-        </form>
     </div>
+
+    <!-- Guest Information Modal -->
+    <div class="modal" id="guestModal">
+        <div class="modal-content">
+            <button class="close-button" id="closeGuestModal">&times;</button>
+            <h2>Guest Information</h2>
+            <form id="guestForm">
+                <div class="row">
+                    <label>
+                        First Name
+                        <input type="text" id="firstName" required maxlength="50">
+                    </label>
+                    <label>
+                        Last Name
+                        <input type="text" id="lastName" required maxlength="25">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Gender
+                        <select id="gender" required>
+                            <option value="" selected disabled>Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Rather Not Say">Rather Not Say</option>
+                        </select>
+                    </label>
+                    <label>
+                        Birthdate
+                        <input type="date" id="birthdate" required>
+                        <small class="text-danger" id="age-error" style="display: none;">The primary guest must be at least 18 years old to confirm your booking.</small>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Email
+                        <input type="email" id="email" required>
+                    </label>
+                    <label>
+                        Phone
+                        <input type="tel" id="phone" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Address
+                        <input type="text" id="address" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Special Requests
+                        <textarea id="specialRequests"></textarea>
+                    </label>
+                </div>
+                <button type="submit" id="bookNowButton">Book Now</button>
+            </form>
+        </div>
     </div>
 </div>
 @endsection
@@ -357,65 +441,196 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
-    const addBookingButton = document.getElementById('addBookingButton');
     const bookingModal = document.getElementById('bookingModal');
-    const closeModalButton = document.getElementById('closeModalButton');
+    const guestModal = document.getElementById('guestModal');
     const overlay = document.getElementById('overlay');
 
-    // Open the modal
-    addBookingButton.addEventListener('click', () => {
+    // Open booking modal
+    document.getElementById('addBookingButton').addEventListener('click', () => {
         bookingModal.style.display = 'block';
         overlay.style.display = 'block';
+        // Set min date for check-in
+        document.getElementById('checkInDate').min = new Date().toISOString().split('T')[0];
     });
 
-    // Close the modal
-    closeModalButton.addEventListener('click', () => {
-        bookingModal.style.display = 'none';
+    // Close modals
+    document.querySelectorAll('.close-button').forEach(button => {
+        button.addEventListener('click', () => {
+            bookingModal.style.display = 'none';
+            guestModal.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+    });
+
+    //========================
+    // FUNCTION FOR DATES
+    // =======================
+
+    const checkInDateInput = document.getElementById('checkInDate');
+    const checkOutDateInput = document.getElementById('checkOutDate');
+    const today = new Date().toISOString().split('T')[0]; //Get the date today
+    checkInDateInput.setAttribute('min', today); // Set minimum date for Check-In (today)
+
+    // Function to check if dates are set
+    function areDatesSet() {
+        const checkInDate = checkInDateInput.value;
+        const checkOutDate = checkOutDateInput.value;
+        return checkInDate && checkOutDate; // Returns true if both dates are set
+    }
+
+    // Automatically set check-out date to the day after check-in date
+    checkInDateInput.addEventListener('change', function () {
+        const checkInDate = new Date(checkInDateInput.value); // Get the selected check-in date
+        if (checkInDate) {
+            const checkOutDate = new Date(checkInDate);
+            checkOutDate.setDate(checkOutDate.getDate() + 1); // Add 1 day to the check-in date
+
+            // Format the date as YYYY-MM-DD (required for input[type="date"])
+            const formattedCheckOutDate = checkOutDate.toISOString().split('T')[0];
+
+            // Set the check-out date input value
+            checkOutDateInput.value = formattedCheckOutDate;
+        }
+    });
+
+    //========================
+    // FUNCTION FOR TIME
+    // =======================
+
+    document.getElementById("checkInDate").addEventListener("change", calculateCheckOut);
+    document.getElementById("checkInTime").addEventListener("change", calculateCheckOut);
+
+    function calculateCheckOut() {
+        const checkInDate = document.getElementById("checkInDate").value;
+        const checkInTime = document.getElementById("checkInTime").value;
+
+        if (checkInDate && checkInTime) {
+            const checkInDateTime = new Date(`${checkInDate}T${checkInTime}`);
+            const checkOutDateTime = new Date(checkInDateTime);
+
+            // Set checkout time based on check-in time
+            if (checkInTime === "08:00") {
+                checkOutDateTime.setHours(checkInDateTime.getHours() + 22); // 8:00 AM + 22 hours = 6:00 AM next day
+            } else if (checkInTime === "19:00") {
+                checkOutDateTime.setHours(checkInDateTime.getHours() + 22); // 7:00 PM + 22 hours = 5:00 PM next day
+            }
+
+            // Set checkout time field
+            const checkOutTime = checkOutDateTime.toTimeString().split(":").slice(0, 2).join(":");
+            
+            document.getElementById("checkOutTime").value = checkOutTime;
+        }
+    }
+
+    // Next button handler
+    document.getElementById('nextButton').addEventListener('click', () => {
+        if (document.getElementById('bookingForm').checkValidity()) {
+            bookingModal.style.display = 'none';
+            guestModal.style.display = 'block';
+        } else {
+            alert('Please fill all required booking fields');
+        }
+    });
+
+    //===========================================
+    // FUNCTION FOR BIRTHDATE (AGE VALIDATION)
+    // ==========================================
+
+    function calculateAge(birthdate) {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+
+        // Adjust age if the birthday hasn't occurred yet this year
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        return age;
+    }
+
+    // Function to validate age
+    function validateAge() {
+        const birthdateInput = document.getElementById('birthdate');
+        const ageError = document.getElementById('age-error');
+        const birthdate = birthdateInput.value;
+
+        if (birthdate) {
+            const age = calculateAge(birthdate);
+            if (age < 18) {
+                ageError.style.display = 'block'; // Show error message
+                return false; // Guest is under 18
+            } else {
+                ageError.style.display = 'none'; // Hide error message
+                return true; // Guest is 18 or older
+            }
+        }
+        return false; // Birthdate is not set
+    }
+
+    // Event listener for birthdate input to validate age in real-time
+    document.getElementById('birthdate').addEventListener('change', function () {
+        validateAge();
+    });
+
+    //========================
+    // ON SUBMIT
+    // =======================
+        // Submit guest form
+        document.getElementById('bookNowButton').addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // // Collect all data
+        // const bookingData = {
+        //     roomNo: document.getElementById('roomNo').value,
+        //     checkInDate: document.getElementById('checkInDate').value,
+        //     checkInTime: document.getElementById('checkInTime').value,
+        //     checkOutDate: document.getElementById('checkOutDate').value,
+        //     checkOutTime: document.getElementById('checkOutTime').value,
+        //     numAdults: document.getElementById('numAdults').value,
+        //     numChildren: document.getElementById('numChildren').value,
+        //     guest: {
+        //         firstName: document.getElementById('firstName').value,
+        //         lastName: document.getElementById('lastName').value,
+        //         gender: document.getElementById('gender').value,
+        //         birthdate: document.getElementById('birthdate').value,
+        //         email: document.getElementById('email').value,
+        //         phone: document.getElementById('phone').value,
+        //         address: document.getElementById('address').value,
+        //         specialRequests: document.getElementById('specialRequests').value
+        //     }
+        // };
+
+        // // Add to table
+        // const tbody = document.querySelector('#bookingTable tbody');
+        // const newRow = tbody.insertRow();
+        // newRow.innerHTML = `
+        //     <td>${bookingData.guest.firstName} ${bookingData.guest.lastName}</td>
+        //     <td>${bookingData.roomNo}</td>
+        //     <td>${bookingData.checkInDate}</td>
+        //     <td>${bookingData.checkInTime}</td>
+        //     <td>${bookingData.checkOutDate}</td>
+        //     <td>${bookingData.checkOutTime}</td>
+        //     <td>Reserved</td>
+        //     <td><button class="edit-button">Edit</button></td>
+        // `;
+
+        // Reset forms and close modals
+        document.getElementById('bookingForm').reset();
+        document.getElementById('guestForm').reset();
+        guestModal.style.display = 'none';
         overlay.style.display = 'none';
     });
 
-    // Close the modal when clicking on the overlay
+    // Close on overlay click
     window.addEventListener('click', (e) => {
         if (e.target === overlay) {
             bookingModal.style.display = 'none';
+            guestModal.style.display = 'none';
             overlay.style.display = 'none';
         }
     });
 
-    // Handle the form submission
-    document.getElementById('addBookingForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const guestName1 = document.getElementById('GuestName1').value; // Corrected input ID
-        const roomNo = document.getElementById('roomNo').value;
-        const checkInDate = document.getElementById('checkInDate').value;
-        const checkInTime = document.getElementById('checkInTime').value;
-        const checkOutDate = document.getElementById('checkOutDate').value;
-        const checkOutTime = document.getElementById('checkOutTime').value;
-
-        const bookingTable = document.getElementById('bookingTable').getElementsByTagName('tbody')[0];
-        const newRow = bookingTable.insertRow();
-
-        // Populate table cells with input values
-        newRow.insertCell(0).textContent = guestName1; // Corrected variable usage
-        newRow.insertCell(1).textContent = roomNo;
-        newRow.insertCell(2).textContent = checkInDate;
-        newRow.insertCell(3).textContent = checkInTime;
-        newRow.insertCell(4).textContent = checkOutDate;
-        newRow.insertCell(5).textContent = checkOutTime;
-
-        // Add edit button to the new row
-        const editButton = document.createElement('button');
-        editButton.classList.add('edit-button');
-        editButton.textContent = 'Edit';
-        newRow.insertCell(6).appendChild(editButton);
-
-        // Reset the form fields
-        document.getElementById('addBookingForm').reset();
-
-        // Hide the modal and overlay
-        bookingModal.style.display = 'none';
-        overlay.style.display = 'none';
-    });
 </script>
 @endsection

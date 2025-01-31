@@ -458,7 +458,7 @@ Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('room.del
 // Route::delete('/rooms/{id}', [RoomController::class, 'destroy'])->name('rooms.destroy');
 
 // ==================================
-//      Admin Side Room Management
+//      Admin Side Booking Management
 // ==================================
 
 // Viewing booking
@@ -471,6 +471,9 @@ Route::get('/admin/booking', [BookingController::class, 'adminBooking'])->name('
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
 Route::patch('/bookings/{booking_reference}/status', [BookingController::class, 'updateStatus']);
+
+Route::get('/bookings', [BookingController::class, 'availRooms'])->name('bookings.availRooms');
+
 
 // ==================================
 //      Customer Side

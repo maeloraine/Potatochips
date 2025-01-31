@@ -17,6 +17,13 @@ class BookingController extends Controller
         return view('Pokemon.Employee.Home.admin-add-booking', ['rooms' => $rooms]);
     }
 
+    public function availRooms()
+    {
+        $availableRooms = Room::where('Room_Status', 'Available')->get();
+        
+        return view('Pokemon.Employee.Home.admin-booking', compact('availableRooms'));
+    }
+
     public function __construct(BookingService $bookingService)
     {
         $this->bookingService = $bookingService;
