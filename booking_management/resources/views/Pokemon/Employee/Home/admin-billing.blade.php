@@ -287,14 +287,14 @@
             </table>
         </div>
 
-        <button class="generate-invoice-button" id="generateInvoiceButton">Generate Invoice</button>
+        <button class="generate-invoice-button" id="generateInvoiceButton">Add Billing</button>
     </div>
 
     <!-- Modal for Generating Invoice -->
     <div class="modal" id="invoiceModal">
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>
-            <h2>Generate Invoice</h2>
+            <h2>Add Billing</h2>
             <form id="invoiceForm">
                 <label>Guest Name <input type="text" id="guestName" placeholder="Guest Name" required></label>
                 <label>Invoice Number <input type="text" id="invoiceNumber" placeholder="Invoice Number" required></label>
@@ -307,7 +307,7 @@
                     </select>
                 </label>
             </form>
-            <button type="submit" id="createInvoiceButton">Generate Invoice</button>
+            <button type="submit" id="createInvoiceButton">Add Billing</button>
         </div>
     </div>
 @endsection

@@ -184,7 +184,12 @@
             <li><a href="#"><i data-feather="mail"></i><span>Inbox</span></a></li>
             <li><a href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li>
             <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>
-            <li><a href="{{ route('/') }}"><i data-feather="log-in"> </i><span>Log out</span></a></li>
+            <li>
+  <a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+    <i data-feather="log-in"></i><span>Log out</span>
+  </a>
+</li>
+
           </ul>
         </li>
       </ul>
@@ -198,5 +203,23 @@
       </div>
     </script>
     <script class="empty-template" type="text/x-handlebars-template"><div class="EmptyMessage">Your search turned up 0 results. This most likely means the backend is down, yikes!</div></script>
+  </div>
+</div>
+<!-- Logout Confirmation Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to log out?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="{{ route('/') }}" class="btn btn-danger" id="confirmLogout">Log out</a>
+      </div>
+    </div>
   </div>
 </div>

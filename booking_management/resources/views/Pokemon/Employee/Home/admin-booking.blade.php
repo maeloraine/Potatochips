@@ -81,6 +81,39 @@
             background-color: #1976d2;
         }
 
+        .checkin-button {
+            background-color: #ffd500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 80px;
+            height: 40px;
+        }
+
+        .checkin-button:hover {
+            background-color: #ffbd00;
+        }
+
+        .optionsButton{
+            align-items: center; 
+            justify-content: center;
+            text-align: center;
+            padding-top: 30px;
+            display: flex;
+            gap: 20px;
+        }
+        .qrCanvas{
+            width: 250px; 
+            height: 250px;
+            border: 2px solid #ccc; 
+            border-radius: 10px; 
+            display: block;
+            margin: 10px auto;
+        }
+
+
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -266,6 +299,9 @@
             <div class="button-group">
                 <button class="filter-button" id="filterButton">Filter</button>
             </div>
+            <div class="checkIn">
+                <button class="checkin-button" onclick="openCheckInModal()">Check-In</button>
+            </div>
         </div>
         <div class="table-container">
             <table id="bookingTable">
@@ -305,6 +341,37 @@
 
         <button class="add-button" id="addBookingButton">Add Booking</button>
     </div>
+
+    <div class="overlay" id="overlay">
+        <div class="modal-content" id="checkInModal">
+            <button class="close-button" onclick="closeModal()">&times;</button>
+            <h2>Check-In Options</h2>
+            <div class="optionsButton">
+            <button onclick="openManualCheckInModal()" id="manualButton">Manual Check-In</button>
+            <button onclick="openQRCheckInModal()">QR Check-In</button></div>
+        </div>
+    </div>
+
+    <div class="overlay" id="manualCheckInModal">
+    <div class="modal-content">
+        <button class="close-button" onclick="closeModal()">&times;</button>
+        <h2>Manual Check-In</h2>
+        <label>Booking Reference:
+            <input type="text" placeholder="Enter Reference" required>
+        </label>
+        <button>Submit</button>
+    </div>
+</div>
+
+
+    <div class="overlay" id="qrCheckInModal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal()">&times;</button>
+            <h2>QR Check-In</h2>
+            <canvas id="qrCanvas" style="background: white;"></canvas>
+        </div>
+    </div>
+
     <div class="overlay" id="overlay">
     <div class="modal" id="bookingModal">
     <div class="modal-content">
@@ -342,6 +409,7 @@
                 </label>
             </div>
             <button type="submit" id="addBooking" >Add Booking</button>
+            
         </form>
     </div>
     </div>
@@ -393,7 +461,7 @@
         const newRow = bookingTable.insertRow();
 
         // Populate table cells with input values
-        newRow.insertCell(0).textContent = guestName1; // Corrected variable usage
+        newRow.insertCell(0).textContent = guestName1;
         newRow.insertCell(1).textContent = roomNo;
         newRow.insertCell(2).textContent = checkInDate;
         newRow.insertCell(3).textContent = checkInTime;
@@ -413,5 +481,29 @@
         bookingModal.style.display = 'none';
         overlay.style.display = 'none';
     });
+</script>
+<script>
+    function openCheckInModal() {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('checkInModal').style.display = 'block';
+    }
+
+    function openManualCheckInModal() {
+        closeModal();
+        document.getElementById('manualCheckInModal').style.display = 'block';
+    }
+
+    function openQRCheckInModal() {
+        closeModal();
+        document.getElementById('qrCheckInModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('checkInModal').style.display = 'none';
+        document.getElementById('manualCheckInModal').style.display = 'none';
+        document.getElementById('qrCheckInModal').style.display = 'none';
+    }
+
 </script>
 @endsection
