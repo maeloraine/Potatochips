@@ -279,7 +279,7 @@
         }
 
         .modal-content button:hover {
-            background-color: #560bad;
+            background-color: #dc3545;
         }
 
         .button-container {
@@ -299,7 +299,7 @@
         }
 
         #addGuest:hover {
-            background-color: #560bad;
+            background-color: #4caf50;
         }
 
         @media screen and (max-width: 768px) {
