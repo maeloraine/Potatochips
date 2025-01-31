@@ -404,9 +404,9 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/js/datepicker/date-time-picker/moment.min.js')}}"></script>
-<script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
-<script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
+<script src="assets/js/datepicker/date-time-picker/moment.min.js"></script>
+<script src="assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js"></script>
+<script src="assets/js/datepicker/date-time-picker/datetimepicker.custom.js"></script>
 <script>
     const addRoomButton = document.getElementById('addRoomButton');
     const roomModal = document.getElementById('roomModal');

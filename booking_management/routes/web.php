@@ -428,6 +428,8 @@ Route::get('/employee/home/guest-information', [GuestController::class, 'index']
 // Add Guest
 Route::post('/employee/home/guest-information', [GuestController::class, 'addGuest'])->name('guest.add');
 
+Route::put('/employee/home/guest-information/update', [GuestController::class, 'updateGuest'])->name('guest.update');
+
 // ROOM
 Route::get('/employee/home/room-management', [RoomController::class, 'index'])->name('room.index');
 

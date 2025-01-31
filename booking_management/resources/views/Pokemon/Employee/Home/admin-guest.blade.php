@@ -357,14 +357,14 @@
                         </thead>
                         <tbody>
                             @foreach($guests as $guest)
-                            <tr>
-                                <td>{{$guest -> firstName}}</td>
-                                <td>{{$guest -> lastName}}</td>
-                                <td>{{$guest -> gender}}</td>
-                                <td>{{$guest -> birthdate}}</td>
-                                <td>{{$guest -> email}}</td>
-                                <td>{{$guest -> phone}}</td>
-                                <td>{{$guest -> specialRequests}}</td>
+                            <tr data-id="{{ $guest->id }}">
+                                <td>{{ $guest->last_name }}</td>
+                                <td>{{ $guest->first_name }}</td>
+                                <td>{{ $guest->gender }}</td>
+                                <td>{{ $guest->birthdate }}</td>
+                                <td>{{ $guest->email }}</td>
+                                <td>{{ $guest->phone }}</td>
+                                <td>{{ $guest->specialRequests }}</td>
                                 <td>
                                     <button class="edit-button">Edit</button>
                                     <button class="delete-button">Delete</button>
@@ -421,12 +421,66 @@
                 </form>
             </div>
         </div>
+        <!-- Edit Guest Modal -->
+<div class="modal" id="editGuestModal">
+    <div class="modal-content">
+        <button class="close-button" id="closeEditModalButton">&times;</button>
+        <h2>Edit Guest Information</h2>
+        <form id="editGuestForm" method="post" action="{{ route('guest.update') }}">
+            @csrf
+            @method('put')
+            <input type="hidden" name="guest_id" id="editGuestId">
+            
+            <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                <input type="text" name="lastName" id="editLastName" placeholder="Last Name" required>
+            </label>
+            
+            <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                <input type="text" name="firstName" id="editFirstName" placeholder="First Name" required>
+            </label>
+            
+            <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                <select name="gender" class="date" id="editGender" required>
+                    <option value="" disabled selected>Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Rather Not Say">Rather Not Say</option>
+                </select>
+            </label>
+            
+            <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                <input class="date" name="birthdate" type="date" id="editBirthdate" required>
+            </label>
+            
+            <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                <input type="email" id="editEmail" name="email" required>
+            </label>
+            
+            <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                <input type="text" id="editPhone" name="phone" placeholder="Contact Number" required>
+            </label>
+            
+            <div>
+                <label> Address <input type="text" id="editAddress" name="address" placeholder="Address"></label>
+            </div>
+            
+            <div>
+                <label> Special Request <input type="text" id="editSpecialRequests" name="specialRequests" placeholder="Special Request"></label>
+            </div>
+            
+            <div class="button-container">
+                <button id="updateGuestButton" type="submit">Update Guest</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 @endsection
 
 @section('script')
-<script src="{{asset('assets/js/datepicker/date-time-picker/moment.min.js')}}"></script>
-<script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
-<script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
+<script src="assets/js/datepicker/date-time-picker/moment.min.js"></script>
+<script src="assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js"></script>
+<script src="assets/js/datepicker/date-time-picker/datetimepicker.custom.js"></script>
 <script>
     const addGuestButton = document.getElementById('addGuestButton');
     const guestModal = document.getElementById('guestModal');
@@ -434,6 +488,9 @@
     const addGuestForm = document.getElementById('addGuestForm');
     const addGuestSubmitButton = document.getElementById('addGuest');
     const guestTableBody = document.querySelector('#guestTable tbody');
+    const editGuestModal = document.getElementById("editGuestModal");
+    const closeEditModalButton = document.getElementById("closeEditModalButton");
+    const updateGuestButton = document.getElementById("updateGuestButton");
     
 
     // Open modal
@@ -449,7 +506,7 @@
     // Close modal when clicking outside
     window.addEventListener('click', (e) => {
         if (e.target === guestModal) {
-             guestModal.style.display = 'none';
+            guestModal.style.display = 'none';
             }
         });
  
@@ -643,6 +700,41 @@
 
         // Close the modal
         guestModal.style.display = 'none';
+    
+
+    // Open Edit Modal when clicking "Edit" button
+    document.querySelectorAll(".edit-button").forEach(button => {
+        button.addEventListener("click", function () {
+            const row = this.closest("tr"); // Get the clicked row
+            const guestId = row.dataset.id; // Retrieve guest ID
+            const cells = row.getElementsByTagName("td");
+
+            // Fill the modal form with existing guest data
+            document.getElementById("editGuestId").value = guestId;
+            document.getElementById("editLastName").value = cells[0].textContent.trim();
+            document.getElementById("editFirstName").value = cells[1].textContent.trim();
+            document.getElementById("editGender").value = cells[2].textContent.trim();
+            document.getElementById("editBirthdate").value = cells[3].textContent.trim();
+            document.getElementById("editEmail").value = cells[4].textContent.trim();
+            document.getElementById("editPhone").value = cells[5].textContent.trim();
+            document.getElementById("editSpecialRequests").value = cells[6].textContent.trim();
+
+            // Show the modal
+            editGuestModal.style.display = "block";
+        });
     });
+
+    // Close Modal when clicking the close button
+    closeEditModalButton.addEventListener("click", () => {
+        editGuestModal.style.display = "none";
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener("click", (e) => {
+        if (e.target === editGuestModal) {
+            editGuestModal.style.display = "none";
+        }
+    });
+});
 </script>
 @endsection

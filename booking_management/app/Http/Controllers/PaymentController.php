@@ -199,6 +199,6 @@ class PaymentController extends Controller
     public function cancel()
     {
         Session::forget(['session_id', 'booking_data']);
-        return redirect()->route('customer.booking')->with('error', 'Payment was cancelled');
+        return redirect()->route('customer.index')->with('error', 'Payment was cancelled');
     }
 }
