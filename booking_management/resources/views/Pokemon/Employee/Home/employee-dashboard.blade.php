@@ -186,6 +186,7 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @section('script')
@@ -238,5 +239,29 @@
             }
         });
     });
+</script>
+<script>
+    function openCheckInModal() {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('checkInModal').style.display = 'block';
+    }
+
+    function openManualCheckInModal() {
+        closeModal();
+        document.getElementById('manualCheckInModal').style.display = 'block';
+    }
+
+    function openQRCheckInModal() {
+        closeModal();
+        document.getElementById('qrCheckInModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('checkInModal').style.display = 'none';
+        document.getElementById('manualCheckInModal').style.display = 'none';
+        document.getElementById('qrCheckInModal').style.display = 'none';
+    }
+
 </script>
 @endsection

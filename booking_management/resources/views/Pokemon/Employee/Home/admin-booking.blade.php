@@ -227,7 +227,6 @@
         .modal-content button:hover {
             background-color: #560bad;
         }
-
         @media screen and (max-width: 768px) {
             .modal-content .row {
                 flex-direction: column; 
@@ -299,9 +298,6 @@
             <div class="button-group">
                 <button class="filter-button" id="filterButton">Filter</button>
             </div>
-            <div class="checkIn">
-                <button class="checkin-button" onclick="openCheckInModal()">Check-In</button>
-            </div>
         </div>
         <div class="table-container">
             <table id="bookingTable">
@@ -341,79 +337,143 @@
 
         <button class="add-button" id="addBookingButton">Add Booking</button>
     </div>
-
-    <div class="overlay" id="overlay">
-        <div class="modal-content" id="checkInModal">
-            <button class="close-button" onclick="closeModal()">&times;</button>
-            <h2>Check-In Options</h2>
-            <div class="optionsButton">
-            <button onclick="openManualCheckInModal()" id="manualButton">Manual Check-In</button>
-            <button onclick="openQRCheckInModal()">QR Check-In</button></div>
-        </div>
-    </div>
-
-    <div class="overlay" id="manualCheckInModal">
-    <div class="modal-content">
-        <button class="close-button" onclick="closeModal()">&times;</button>
-        <h2>Manual Check-In</h2>
-        <label>Booking Reference:
-            <input type="text" placeholder="Enter Reference" required>
-        </label>
-        <button>Submit</button>
-    </div>
-</div>
-
-
-    <div class="overlay" id="qrCheckInModal">
-        <div class="modal-content">
-            <button class="close-button" onclick="closeModal()">&times;</button>
-            <h2>QR Check-In</h2>
-            <canvas id="qrCanvas" style="background: white;"></canvas>
-        </div>
-    </div>
-
-    <div class="overlay" id="overlay">
-    <div class="modal" id="bookingModal">
-    <div class="modal-content">
-        <button class="close-button" id="closeModalButton">&times;</button>
-        <h2>Add a Booking</h2>
-        <form id="addBookingForm">
+    <div class="d-flex justify-content-center">
+    <div class="col-xxl-5 col-md-7 box-col-7">
         <div class="row">
-            <label>
-                Room No.
-                <input type="text" id="roomNo" placeholder="Room No" required>
-            </label>
-            <label>
-                Guest Name
-                <input type="text" id="GuestName1" placeholder="Guest Name" required>
-            </label>
+            <div class="col-6">
+                <div class="card small-widget">
+                    <div class="card-body primary" onclick="openCheckInModal()">
+                        <span class="f-light">A new guest? Check-In!</span>
+                        <div class="d-flex align-items-end gap-1">
+                            <h4>Check-In</h4>
+                        </div>
+                        <div class="bg-gradient">
+                            <svg class="stroke-icon svg-fill">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#new-order') }}"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card small-widget">
+                    <div class="card-body warning" onclick="openCheckOutModal()">
+                        <span class="f-light">A guest leaving? Check-Out!</span>
+                        <div class="d-flex align-items-end gap-1">
+                            <h4>Check-Out</h4>
+                        </div>
+                        <div class="bg-gradient">
+                            <svg class="stroke-icon svg-fill">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#customers') }}"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-            <div class="row">
-                <label>
-                    Check-In Date
-                    <input type="date" id="checkInDate" placeholder="Check-In Date" required>
-                </label>
-                <label>
-                    Check-In Time
-                    <input type="time" id="checkInTime" placeholder="Check-In Time" required>
-                </label>
-            </div>
-            <div class="row">
-                <label>
-                    Check-Out Date
-                    <input type="date" id="checkOutDate" placeholder="Check-Out Date" required>
-                </label>
-                <label>
-                    Check-Out Time
-                    <input type="time" id="checkOutTime" placeholder="Check-Out Time" required>
-                </label>
-            </div>
-            <button type="submit" id="addBooking" >Add Booking</button>
-            
-        </form>
-    </div>
     </div>
 </div>
+
+
+    <!-- Add this inside the check-in options modal -->
+<div class="overlay" id="checkInOverlay">
+    <div class="modal-content" id="checkInModal">
+        <button class="close-button" onclick="closeCheckInModal()">&times;</button>
+        <h2>Check-In Options</h2>
+        <div class="optionsButton">
+            <button onclick="openManualCheckInModal()" id="manualButton">Manual Check-In</button>
+            <button onclick="openQRCheckInModal()">QR Check-In</button>
+        </div>
+    </div>
+</div>
+    <!-- Separate overlays for modals -->
+        <div class="overlay" id="manualCheckInOverlay">
+            <div class="modal-content">
+                <button class="close-button" onclick="closeManualCheckInModal()">&times;</button>
+                <h2>Manual Check-In</h2>
+                <label>Booking Reference:
+                    <input type="text" placeholder="Enter Reference" required>
+                </label>
+                <button>Submit</button>
+            </div>
+        </div>
+
+        <!-- Add this inside the check-Out options modal -->
+<div class="overlay" id="checkOutOverlay">
+    <div class="modal-content" id="checkOutModal">
+        <button class="close-button" onclick="closeCheckOutModal()">&times;</button>
+        <h2>Check-Out Options</h2>
+        <div class="optionsButton">
+            <button onclick="openManualCheckOutModal()" id="manualButton">Manual Check-Out</button>
+            <button onclick="openQRCheckOutModal()">QR Check-Out</button>
+        </div>
+    </div>
+</div>
+    <!-- Separate overlays for modals -->
+        <div class="overlay" id="manualCheckOutOverlay">
+            <div class="modal-content">
+                <button class="close-button" onclick="closeManualCheckOutModal()">&times;</button>
+                <h2>Manual Check-Out</h2>
+                <label>Booking Reference:
+                    <input type="text" placeholder="Enter Reference" required>
+                </label>
+                <button>Submit</button>
+            </div>
+        </div>
+
+        <div class="overlay" id="qrCheckOutOverlay">
+            <div class="modal-content">
+                <button class="close-button" onclick="closeQRCheckOutModal()">&times;</button>
+                <h2>QR Check-Out</h2>
+                <canvas id="qrCanvas" style="background: white;"></canvas>
+            </div>
+        </div>
+
+        <!-- Separate overlay for adding a booking -->
+        <div class="overlay" id="addBookingOverlay">
+            <div class="modal" id="bookingModal">
+                <div class="modal-content">
+                    <button class="close-button" id="closeBookingModal">&times;</button>
+                    <h2>Add a Booking</h2>
+                    <form id="addBookingForm">
+                        <div class="row">
+                            <label>
+                                Room No.
+                                <input type="text" id="roomNo" placeholder="Room No" required>
+                            </label>
+                            <label>
+                                Guest Name
+                                <input type="text" id="GuestName" placeholder="Guest Name" required>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label>
+                                Check-In Date
+                                <input type="date" id="checkInDate" required>
+                            </label>
+                            <label>
+                                Check-In Time
+                                <input type="time" id="checkInTime" required>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label>
+                                Check-Out Date
+                                <input type="date" id="checkOutDate" required>
+                            </label>
+                            <label>
+                                Check-Out Time
+                                <input type="time" id="checkOutTime" required>
+                            </label>
+                        </div>
+                        <button type="submit" id="addBooking">Add Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('script')
@@ -421,36 +481,37 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
     const addBookingButton = document.getElementById('addBookingButton');
     const bookingModal = document.getElementById('bookingModal');
-    const closeModalButton = document.getElementById('closeModalButton');
-    const overlay = document.getElementById('overlay');
+    const closeBookingModal = document.getElementById('closeBookingModal');
+    const addBookingOverlay = document.getElementById('addBookingOverlay');
 
-    // Open the modal
+    // Open Add Booking Modal
     addBookingButton.addEventListener('click', () => {
         bookingModal.style.display = 'block';
-        overlay.style.display = 'block';
+        addBookingOverlay.style.display = 'block';
     });
 
-    // Close the modal
-    closeModalButton.addEventListener('click', () => {
+    // Close Add Booking Modal
+    closeBookingModal.addEventListener('click', () => {
         bookingModal.style.display = 'none';
-        overlay.style.display = 'none';
+        addBookingOverlay.style.display = 'none';
     });
 
-    // Close the modal when clicking on the overlay
-    window.addEventListener('click', (e) => {
-        if (e.target === overlay) {
+    // Close modal when clicking outside
+    addBookingOverlay.addEventListener('click', (e) => {
+        if (e.target === addBookingOverlay) {
             bookingModal.style.display = 'none';
-            overlay.style.display = 'none';
+            addBookingOverlay.style.display = 'none';
         }
     });
 
-    // Handle the form submission
+    // Add Booking Form Submission
     document.getElementById('addBookingForm').addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const guestName1 = document.getElementById('GuestName1').value; // Corrected input ID
+        const guestName = document.getElementById('GuestName').value;
         const roomNo = document.getElementById('roomNo').value;
         const checkInDate = document.getElementById('checkInDate').value;
         const checkInTime = document.getElementById('checkInTime').value;
@@ -460,50 +521,77 @@
         const bookingTable = document.getElementById('bookingTable').getElementsByTagName('tbody')[0];
         const newRow = bookingTable.insertRow();
 
-        // Populate table cells with input values
-        newRow.insertCell(0).textContent = guestName1;
+        newRow.insertCell(0).textContent = guestName;
         newRow.insertCell(1).textContent = roomNo;
         newRow.insertCell(2).textContent = checkInDate;
         newRow.insertCell(3).textContent = checkInTime;
         newRow.insertCell(4).textContent = checkOutDate;
         newRow.insertCell(5).textContent = checkOutTime;
 
-        // Add edit button to the new row
         const editButton = document.createElement('button');
         editButton.classList.add('edit-button');
         editButton.textContent = 'Edit';
         newRow.insertCell(6).appendChild(editButton);
 
-        // Reset the form fields
         document.getElementById('addBookingForm').reset();
 
-        // Hide the modal and overlay
         bookingModal.style.display = 'none';
-        overlay.style.display = 'none';
+        addBookingOverlay.style.display = 'none';
     });
-</script>
-<script>
-    function openCheckInModal() {
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('checkInModal').style.display = 'block';
-    }
+});
 
-    function openManualCheckInModal() {
-        closeModal();
-        document.getElementById('manualCheckInModal').style.display = 'block';
-    }
+// Check-In Modal Functions
+function openCheckInModal() {
+    document.getElementById('checkInOverlay').style.display = 'block';
+}
 
-    function openQRCheckInModal() {
-        closeModal();
-        document.getElementById('qrCheckInModal').style.display = 'block';
-    }
+function closeCheckInModal() {
+    document.getElementById('checkInOverlay').style.display = 'none';
+}
 
-    function closeModal() {
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('checkInModal').style.display = 'none';
-        document.getElementById('manualCheckInModal').style.display = 'none';
-        document.getElementById('qrCheckInModal').style.display = 'none';
-    }
+function openManualCheckInModal() {
+    closeCheckInModal();
+    document.getElementById('manualCheckInOverlay').style.display = 'block';
+}
 
+function closeManualCheckInModal() {
+    document.getElementById('manualCheckInOverlay').style.display = 'none';
+}
+
+function openQRCheckInModal() {
+    closeCheckInModal();
+    document.getElementById('qrCheckInOverlay').style.display = 'block';
+}
+
+function closeQRCheckInModal() {
+    document.getElementById('qrCheckInOverlay').style.display = 'none';
+}
+
+// Check-Out Modal Functions
+function openCheckOutModal() {
+    document.getElementById('checkOutOverlay').style.display = 'block';
+}
+
+function closeCheckOutModal() {
+    document.getElementById('checkOutOverlay').style.display = 'none';
+}
+
+function openManualCheckOutModal() {
+    closeCheckOutModal();
+    document.getElementById('manualCheckOutOverlay').style.display = 'block';
+}
+
+function closeManualCheckOutModal() {
+    document.getElementById('manualCheckOutOverlay').style.display = 'none';
+}
+
+function openQRCheckOutModal() {
+    closeCheckOutModal();
+    document.getElementById('qrCheckOutOverlay').style.display = 'block';
+}
+
+function closeQRCheckOutModal() {
+    document.getElementById('qrCheckOutOverlay').style.display = 'none';
+}
 </script>
 @endsection

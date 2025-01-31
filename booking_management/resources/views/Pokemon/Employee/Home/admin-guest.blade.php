@@ -320,7 +320,7 @@
                                     <td>john.doe@example.com</td>
                                     <td>09214170048</td>
                                     <td>Bed of roses</td>
-                                    <td><button class="edit-button">Edit</button></td>
+                                    <td><button class="edit-button" onclick="openEditModal(this)">Edit</button></td>
                                 </tr>
                                 <tr>
                                 <td>Doe</td>
@@ -331,7 +331,7 @@
                                     <td>john.doe@example.com</td>
                                     <td>09214170048</td>
                                     <td>Bed of roses</td>
-                                    <td><button class="edit-button">Edit</button></td>
+                                    <td><button class="edit-button" onclick="openEditModal(this)">Edit</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -339,6 +339,8 @@
                     <button type="button" class="add-button" id="addGuestButton">Add Guest</button>
             </div>
         </div>
+
+    <!-- guest modal  -->
     <div class="modal" id="guestModal">
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>
@@ -374,6 +376,47 @@
             <button id="addGuest" type="submit">Add Guest</button>
         </div>
     </div>
+
+    <!-- edit guest modal -->
+    <div class="modal" id="editGuestModal">
+    <div class="modal-content">
+        <button class="close-button" id="closeEditModalButton">&times;</button>
+        <h2>Edit Guest</h2>
+        <form id="editGuestForm">
+            <label>Last Name 
+                <input type="text" id="editLastName" required>
+            </label>
+            <label>First Name 
+                <input type="text" id="editFirstName" required>
+            </label>
+            <label>Middle Name
+                <input type="text" id="editMiddleName">
+            </label>
+            <label>Gender 
+                <select id="editGender" required>
+                    <option value="" disabled selected>Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Rather Not Say">Rather Not Say</option>
+                </select>
+            </label>
+            <label>Birth Date
+                <input type="date" id="editBirthdate" required>
+            </label>
+            <label>Email
+                <input type="email" id="editEmail" required>
+            </label>
+            <label>Contact Number 
+                <input type="text" id="editContactNumber" required>
+            </label>
+            <label>Special Request
+                <input type="text" id="editSpecialRequest">
+            </label>
+        </form>
+        <button id="saveGuest">Save Changes</button>
+    </div>
+</div>
+
 @endsection
 
 @section('script')
@@ -381,204 +424,144 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
-    const addGuestButton = document.getElementById('addGuestButton');
-    const guestModal = document.getElementById('guestModal');
-    const closeModalButton = document.getElementById('closeModalButton');
-    const addGuestForm = document.getElementById('addGuestForm');
-    const addGuestSubmitButton = document.getElementById('addGuest');
-    const guestTableBody = document.querySelector('#guestTable tbody');
-    
+document.addEventListener("DOMContentLoaded", () => {
+    const addGuestButton = document.getElementById("addGuestButton");
+    const guestModal = document.getElementById("guestModal");
+    const closeModalButton = document.getElementById("closeModalButton");
+    const addGuestForm = document.getElementById("addGuestForm");
+    const addGuestSubmitButton = document.getElementById("addGuest");
+    const guestTableBody = document.querySelector("#guestTable tbody");
+    const editGuestModal = document.getElementById("editGuestModal");
+    const closeEditModalButton = document.getElementById("closeEditModalButton");
+    const saveGuestButton = document.getElementById("saveGuest");
+    const searchButton = document.getElementById("searchButton");
+    const searchInput = document.getElementById("searchInput");
 
-    // Open modal
-    addGuestButton.addEventListener('click', () => {
-        guestModal.style.display = 'block';
+    let selectedRow = null; // Store row for editing
+
+    // Open Add Guest Modal
+    addGuestButton.addEventListener("click", () => {
+        guestModal.style.display = "block";
     });
 
-    // Close modal
-    closeModalButton.addEventListener('click', () => {
-        guestModal.style.display = 'none';
+    // Close Add Guest Modal
+    closeModalButton.addEventListener("click", () => {
+        guestModal.style.display = "none";
+        addGuestForm.reset();
     });
 
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
+    // Close modals when clicking outside
+    window.addEventListener("click", (e) => {
         if (e.target === guestModal) {
-             guestModal.style.display = 'none';
-            }
-        });
- 
-    // Function to handle the search
-    function searchItems() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#guestTable tbody tr'); // Get table rows
+            guestModal.style.display = "none";
+        }
+        if (e.target === editGuestModal) {
+            editGuestModal.style.display = "none";
+        }
+    });
 
-        rows.forEach(row => {
-            const cells = row.getElementsByTagName('td'); // Get cells in each row
-            let matchFound = false;
+    // Open Edit Modal
+    function openEditModal(row) {
+        selectedRow = row;
 
-            // Combine the text of specific columns (e.g., first name and last name)
-            const lastName = cells[0].textContent.toLowerCase(); // Last name is in the first column
-            const firstName = cells[1].textContent.toLowerCase(); // First name is in the second column
-            const fullName = `${firstName} ${lastName}`; // Combine first and last name
+        // Pre-fill form with existing data
+        document.getElementById("editLastName").value = row.cells[0].textContent;
+        document.getElementById("editFirstName").value = row.cells[1].textContent;
+        document.getElementById("editMiddleName").value = row.cells[2].textContent;
+        document.getElementById("editGender").value = row.cells[3].textContent;
+        document.getElementById("editBirthdate").value = row.cells[4].textContent;
+        document.getElementById("editEmail").value = row.cells[5].textContent;
+        document.getElementById("editContactNumber").value = row.cells[6].textContent;
+        document.getElementById("editSpecialRequest").value = row.cells[7].textContent;
 
-                // Check if the combined text matches the search input
-                if (fullName.includes(searchInput)) {
-                    matchFound = true;
-                }
-
-                // Show or hide the row based on whether a match is found
-                if (matchFound) {
-                    row.style.display = ''; // Show row
-                } else {
-                    row.style.display = 'none'; // Hide row
-                }
-        });
+        // Show modal
+        editGuestModal.style.display = "block";
     }
 
-    // Add event listener to the search button
-    document.getElementById('searchButton').addEventListener('click', searchItems);
-
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const guestTableBody = document.querySelector('#guestTable tbody');
-    
-        // Add double-click event listener to table rows
-        guestTableBody.addEventListener('dblclick', (e) => {
-            // Get the row that was double-clicked
-            const row = e.target.closest('tr');
-            if (row) {
-                // Get the full name from the row cells
-                const lastName = row.cells[0].textContent.trim();
-                const firstName = row.cells[1].textContent.trim();
-                const middleName = row.cells[2].textContent.trim();
-                    
-                // Create the full name
-                const fullName = `${firstName} ${middleName} ${lastName}`.trim();
-                    
-                // Show the alert with the full name
-                alert(`Full Name: ${fullName}`);
-            }
-        });
+    // Close Edit Modal
+    closeEditModalButton.addEventListener("click", () => {
+        editGuestModal.style.display = "none";
     });
 
-   //     // Get the table body
-    // const guestTable = document.getElementById('guestTable');
+    // Save Edited Guest
+    saveGuestButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!selectedRow) return;
 
-    // // Add double-click event listener to table rows
-    // guestTable.addEventListener('dblclick', (e) => {
-    //     const row = e.target.closest('tr'); // Get the row that was double-clicked
-    //     if (row && row.rowIndex !== 0) { // Exclude the header row
-    //         const rowData = [...row.children].map(cell => cell.textContent.trim());
-            
-    //         // Create query parameters from the row data
-    //         const queryParams = new URLSearchParams({
-    //             lastName: rowData[0],
-    //             firstName: rowData[1],
-    //             middleName: rowData[2],
-    //             gender: rowData[3],
-    //             birthdate: rowData[4],
-    //             email: rowData[5],
-    //             contactNumber: rowData[6],
-    //             specialRequest: rowData[7]
-    //         });
+        // Update row with new values
+        selectedRow.cells[0].textContent = document.getElementById("editLastName").value;
+        selectedRow.cells[1].textContent = document.getElementById("editFirstName").value;
+        selectedRow.cells[2].textContent = document.getElementById("editMiddleName").value;
+        selectedRow.cells[3].textContent = document.getElementById("editGender").value;
+        selectedRow.cells[4].textContent = document.getElementById("editBirthdate").value;
+        selectedRow.cells[5].textContent = document.getElementById("editEmail").value;
+        selectedRow.cells[6].textContent = document.getElementById("editContactNumber").value;
+        selectedRow.cells[7].textContent = document.getElementById("editSpecialRequest").value;
 
-    //         // Redirect to another page with query parameters
-    //         window.location.href = `/Pokemon/Employee/Home/admin-booking?${queryParams.toString()}`;
-    //     }
-    // });
+        // Close modal
+        editGuestModal.style.display = "none";
+    });
 
-    
-        // Handle guest addition
-    addGuestSubmitButton.addEventListener('click', (e) => {
+    // Search Guests
+    function searchItems() {
+        const filter = searchInput.value.toLowerCase();
+        document.querySelectorAll("#guestTable tbody tr").forEach((row) => {
+            const lastName = row.cells[0].textContent.toLowerCase();
+            const firstName = row.cells[1].textContent.toLowerCase();
+            const fullName = `${firstName} ${lastName}`;
+
+            row.style.display = fullName.includes(filter) ? "" : "none";
+        });
+    }
+    searchButton.addEventListener("click", searchItems);
+
+    // Double-click to show Full Name
+    guestTableBody.addEventListener("dblclick", (e) => {
+        const row = e.target.closest("tr");
+        if (row) {
+            const lastName = row.cells[0].textContent.trim();
+            const firstName = row.cells[1].textContent.trim();
+            const middleName = row.cells[2].textContent.trim();
+            alert(`Full Name: ${firstName} ${middleName} ${lastName}`);
+        }
+    });
+
+    // Add New Guest
+    addGuestSubmitButton.addEventListener("click", (e) => {
         e.preventDefault();
 
-        // Get form data
-        const lastName = document.getElementById('lastName').value.trim();
-        const firstName = document.getElementById('firstName').value.trim();
-        const middleName = document.getElementById('middleName').value.trim();
-        const gender = document.getElementById('gender').value;
-        const birthdate = document.getElementById('birthdate').value;
-        const email = document.getElementById('email').value.trim();
-        const contactNumber = document.getElementById('contactNumber').value.trim();
-        const specialRequest = document.getElementById('specialRequest').value.trim();
+        // Get form values
+        const lastName = document.getElementById("lastName").value.trim();
+        const firstName = document.getElementById("firstName").value.trim();
+        const middleName = document.getElementById("middleName").value.trim();
+        const gender = document.getElementById("gender").value;
+        const birthdate = document.getElementById("birthdate").value;
+        const email = document.getElementById("email").value.trim();
+        const contactNumber = document.getElementById("contactNumber").value.trim();
+        const specialRequest = document.getElementById("specialRequest").value.trim();
 
         // Validate inputs
-        let valid = true;
-        let errorMessages = [];
-
-        if (!lastName) {
-            valid = false;
-            errorMessages.push('Last Name is required.');
-        } else if (lastName.length > 25) {
-            valid = false;
-            errorMessages.push('Last Name must not exceed 25 characters.');
-        }
-
-        // Validate First Name
-        if (!firstName) {
-            valid = false;
-            errorMessages.push('First Name is required.');
-        } else if (firstName.length > 50) {
-            valid = false;
-            errorMessages.push('First Name must not exceed 50 characters.');
-        }
-
-        // Validate Birthdate
+        let errors = [];
+        if (!lastName || lastName.length > 25) errors.push("Last Name must be 1-25 characters.");
+        if (!firstName || firstName.length > 50) errors.push("First Name must be 1-50 characters.");
+        if (middleName.length > 25) errors.push("Middle Name must not exceed 25 characters.");
+        if (!gender) errors.push("Gender is required.");
         if (!birthdate) {
-            valid = false;
-            errorMessages.push('Birth Date is required.');
+            errors.push("Birth Date is required.");
         } else {
             const age = new Date().getFullYear() - new Date(birthdate).getFullYear();
-            if (age < 18) {
-                valid = false;
-                errorMessages.push('Guest must be 18 or above.');
-            }
+            if (age < 18) errors.push("Guest must be 18 or above.");
         }
-        // Validate Contact Number
-        if (contactNumber.length !== 11 || isNaN(contactNumber)) {
-            valid = false;
-            errorMessages.push('Contact number must be exactly 11 digits.');
-        }
+        if (!/^\d{11}$/.test(contactNumber)) errors.push("Contact number must be exactly 11 digits.");
+        if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email)) errors.push("Invalid email format.");
+        if (specialRequest.length > 100) errors.push("Special request cannot exceed 100 characters.");
 
-        if (middleName.length > 25) {
-            valid = false;
-            errorMessages.push('Middle Name must not exceed 25 characters.');
-        }
-
-        // Validate Gender
-        if (!gender) {
-            valid = false;
-            errorMessages.push('Gender is required.');
-        }
-
-        // Validate Age (must be above 18)
-        const age = new Date().getFullYear() - new Date(birthdate).getFullYear();
-        if (age < 18) {
-            valid = false;
-            errorMessages.push('Guest must be 18 or above.');
-        }
-
-        // Validate Email
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-        if (!emailPattern.test(email)) {
-            valid = false;
-            errorMessages.push('Email must be in a valid format (e.g., example@domain.com).');
-        }
-
-        // Validate Special Request length
-        if (specialRequest.length > 100) {
-            valid = false;
-            errorMessages.push('Special request cannot exceed 100 characters.');
-        }
-
-        // Display error messages if validation fails
-        if (!valid) {
-            alert(errorMessages.join('\n'));
+        if (errors.length > 0) {
+            alert(errors.join("\n"));
             return;
         }
 
-        // If all validations pass, proceed with the form submission (e.g., adding the guest)
-        // Add the new guest to the table
+        // Add new row to the table
         const newRow = guestTableBody.insertRow();
         newRow.innerHTML = `
             <td>${lastName}</td>
@@ -592,8 +575,17 @@
             <td><button class="edit-button">Edit</button></td>
         `;
 
-        // Close the modal
-        guestModal.style.display = 'none';
+        // Close modal and reset form
+        guestModal.style.display = "none";
+        addGuestForm.reset();
     });
+
+    // Event delegation for Edit Button
+    guestTableBody.addEventListener("click", (e) => {
+        if (e.target.classList.contains("edit-button")) {
+            openEditModal(e.target.closest("tr"));
+        }
+    });
+});
 </script>
 @endsection
