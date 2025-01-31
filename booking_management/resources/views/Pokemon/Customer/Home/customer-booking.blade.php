@@ -182,11 +182,11 @@
                         <button class="btn btn-primary" id="show-cabin">Cabin</button>
                     </div>
 
-                    <!-- Cottages Section -->
+                   <!-- Cottages Section -->
                     <div id="cottages-list">
                         <div class="category-header">Cottage</div>
                         <!-- Cottage Offers -->
-                        @foreach($rooms as $room)
+                        @foreach($rooms->where('Room_Type', 'Cottage') as $room)
                             <div class="offer-card" data-id="{{ $room->room_id }}" data-name="{{ $room->Room_Type }}" data-price="{{ $room->Room_Rate }}" data-details="{{ $room->Room_Description }}">
                                 <h6>{{ $room->Room_Type }}</h6>
                                 <p>Price: ₱{{ number_format($room->Room_Rate, 2) }}</p>
@@ -196,26 +196,29 @@
                     </div>
 
                     <!-- Kubo Section -->
-                    <div id="kubos-list" class="hidden">
+                    <div id="kubos-list">
                         <div class="category-header">Kubo</div>
                         <!-- Cottage Offers -->
-                        <div class="offer-card" data-id="6" data-name="Kubo with room" data-price="1800" data-details="A cozy kubo with a room, perfect for small families or groups.">
-                            <h6>Kubo with room</h6>
-                            <p>Price: ₱1,800.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
+                        @foreach($rooms->where('Room_Type', 'Kubo') as $room)
+                            <div class="offer-card" data-id="{{ $room->room_id }}" data-name="{{ $room->Room_Type }}" data-price="{{ $room->Room_Rate }}" data-details="{{ $room->Room_Description }}">
+                                <h6>{{ $room->Room_Type }}</h6>
+                                <p>Price: ₱{{ number_format($room->Room_Rate, 2) }}</p>
+                                <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
+                            </div>
+                        @endforeach
                     </div>
 
-                    <!-- Cabin Section -->
-                    <div id="cabins-list" class="hidden">
+                    <!-- Kubo Section -->
+                    <div id="cabins-list">
                         <div class="category-header">Cabin</div>
-                        <!-- Function Hall Offers -->
-                        <div class="offer-card" data-id="4" data-name="Duplex cabin" data-price="5000" data-details="A small cabin ideal for couples.">
-                            <h6>Duplex cabin</h6>
-                            <p>Price: ₱5,000.00</p>
-                            <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
-                        </div>
-
+                        <!-- Cottage Offers -->
+                        @foreach($rooms->where('Room_Type', 'Cabin') as $room)
+                            <div class="offer-card" data-id="{{ $room->room_id }}" data-name="{{ $room->Room_Type }}" data-price="{{ $room->Room_Rate }}" data-details="{{ $room->Room_Description }}">
+                                <h6>{{ $room->Room_Type }}</h6>
+                                <p>Price: ₱{{ number_format($room->Room_Rate, 2) }}</p>
+                                <button class="btn btn-info btn-sm see-details" data-bs-toggle="modal" data-bs-target="#offerModal">See Details</button>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

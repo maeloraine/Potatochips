@@ -14,6 +14,23 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+
+    public function customerReservations()
+    {
+        if (!Auth::guard('customer')->check()) {
+            return redirect()->route('customer.login')->with('error', 'Please log in to view your bookings.');
+        }
+
+        $customer = Auth::guard('customer')->user();
+        
+        // Fetch bookings along with their associated rooms
+        $bookings = Booking::where('customer_id', $customer->customer_id)
+                    ->with('room') // Make sure to define this relation in your Booking model
+                    ->get();
+
+        return view('Pokemon.Customer.Home.customer-reservations', compact('bookings'));
+    }
+
     public function store(Request $request)
     {
         dd($request->all());

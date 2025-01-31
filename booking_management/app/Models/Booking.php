@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Room;
 
 class Booking extends Model
 {
@@ -46,8 +47,9 @@ class Booking extends Model
 
     public function room()
     {
-        return $this->belongsTo(Room::class, 'room_id');
+        return $this->belongsTo(Room::class, 'room_id', 'room_id');
     }
+    
 
     // In your Booking model (app/Models/Booking.php)
     protected static function boot()

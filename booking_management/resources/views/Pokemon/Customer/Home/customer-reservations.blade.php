@@ -1,14 +1,6 @@
 @extends('layouts.simple.cust-master')
 
-@section('title', 'Default')
-
-@section('css')
-    
-@endsection
-
-@section('style')
-<link rel="stylesheet" type="text/css" href="/assets/css/vendors/animate.css">
-@endsection
+@section('title', 'My Reservations')
 
 @section('breadcrumb-title')
     <h3>My Bookings</h3>
@@ -32,27 +24,26 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Booking</th>
+                                    <th>Booking Reference</th>
+                                    <th>Room Type</th>
+                                    <th>Check-In Date</th>
+                                    <th>Check-Out Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Example static data, replace with dynamic data from your backend -->
-                                <tr>
-                                    <td>2023-10-01</td>
-                                    <td>Booking 1</td>
-                                </tr>
-                                <tr>
-                                    <td>2023-10-02</td>
-                                    <td>Booking 2</td>
-                                </tr>
-                                <tr>
-                                    <td>2023-10-03</td>
-                                    <td>Booking 3</td>
-                                </tr>
-                                <!-- End of example static data -->
+                                @foreach ($bookings as $booking)
+                                    <tr>
+                                        <td>{{ $booking->booking_reference }}</td>
+                                        <td>{{ $booking->room->Room_Type ?? 'N/A' }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($booking->check_in_date)->format('Y-m-d') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($booking->check_out_date)->format('Y-m-d') }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+                        @if($bookings->isEmpty())
+                            <p class="text-center">No bookings found.</p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -60,6 +51,7 @@
     </div>
 </div>
 @endsection
+
 
 @section('script')
 <script src="/assets/js/clock.js"></script>

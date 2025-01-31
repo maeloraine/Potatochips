@@ -421,59 +421,59 @@
                 </form>
             </div>
         </div>
-        <!-- Edit Guest Modal -->
-<div class="modal" id="editGuestModal">
-    <div class="modal-content">
-        <button class="close-button" id="closeEditModalButton">&times;</button>
-        <h2>Edit Guest Information</h2>
-        <form id="editGuestForm" method="post" action="{{ route('guest.update') }}">
-            @csrf
-            @method('put')
-            <input type="hidden" name="guest_id" id="editGuestId">
-            
-            <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                <input type="text" name="lastName" id="editLastName" placeholder="Last Name" required>
-            </label>
-            
-            <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                <input type="text" name="firstName" id="editFirstName" placeholder="First Name" required>
-            </label>
-            
-            <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                <select name="gender" class="date" id="editGender" required>
-                    <option value="" disabled selected>Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Rather Not Say">Rather Not Say</option>
-                </select>
-            </label>
-            
-            <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                <input class="date" name="birthdate" type="date" id="editBirthdate" required>
-            </label>
-            
-            <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                <input type="email" id="editEmail" name="email" required>
-            </label>
-            
-            <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
-                <input type="text" id="editPhone" name="phone" placeholder="Contact Number" required>
-            </label>
-            
-            <div>
-                <label> Address <input type="text" id="editAddress" name="address" placeholder="Address"></label>
-            </div>
-            
-            <div>
-                <label> Special Request <input type="text" id="editSpecialRequests" name="specialRequests" placeholder="Special Request"></label>
-            </div>
-            
-            <div class="button-container">
-                <button id="updateGuestButton" type="submit">Update Guest</button>
-            </div>
-        </form>
+            <!-- Edit Guest Modal -->
+    <div class="modal" id="editGuestModal">
+        <div class="modal-content">
+            <button class="close-button" id="closeEditModalButton">&times;</button>
+            <h2>Edit Guest Information</h2>
+            <form id="editGuestForm" method="post" action="{{ route('guest.update') }}">
+                @csrf
+                @method('put')
+                <input type="hidden" name="guest_id" id="editGuestId">
+                
+                <label style="display: inline-block;"> Last Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                    <input type="text" name="lastName" id="editLastName" placeholder="Last Name" required>
+                </label>
+                
+                <label style="display: inline-block;"> First Name <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                    <input type="text" name="firstName" id="editFirstName" placeholder="First Name" required>
+                </label>
+                
+                <label style="display: inline-block;"> Gender <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                    <select name="gender" class="date" id="editGender" required>
+                        <option value="" disabled selected>Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Rather Not Say">Rather Not Say</option>
+                    </select>
+                </label>
+                
+                <label style="display: inline-block;"> Birth Date <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                    <input class="date" name="birthdate" type="date" id="editBirthdate" required>
+                </label>
+                
+                <label style="display: inline-block;"> Email <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                    <input type="email" id="editEmail" name="email" required>
+                </label>
+                
+                <label style="display: inline-block;"> Contact Number <span style="color: red; font-size:16px; font-weight:bold; margin-left: 5px;">*</span> 
+                    <input type="text" id="editPhone" name="phone" placeholder="Contact Number" required>
+                </label>
+                
+                <div>
+                    <label> Address <input type="text" id="editAddress" name="address" placeholder="Address"></label>
+                </div>
+                
+                <div>
+                    <label> Special Request <input type="text" id="editSpecialRequests" name="specialRequests" placeholder="Special Request"></label>
+                </div>
+                
+                <div class="button-container">
+                    <button id="updateGuestButton" type="submit">Update Guest</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 @endsection
 

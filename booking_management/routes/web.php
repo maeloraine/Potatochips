@@ -454,22 +454,26 @@ Route::middleware(['auth:customer'])->group(function () {
     // Magbabayad ka na
     //Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
     Route::post('/pay', [PaymentController::class, 'pay'])
-     ->name('pay');
+    ->name('pay');
      //->middleware('secure'); // Add if you have security middleware
 
     //Route::get('/success',[PaymentController::class,'success'])->name('pay-success');
 
     Route::get('/success', [PaymentController::class, 'success'])
-     ->name('payment.success');
+    ->name('payment.success');
 
     Route::get('/cancel', [PaymentController::class, 'cancel'])
-     ->name('payment.cancel');
+    ->name('payment.cancel');
 
     // Booking
     Route::post('/bookings',[BookingController::class,'store'])->name('booking.add');
     
     // adding guest in customer side
     Route::post('/customer/guests', [CustomerGuestController::class, 'store'])->name('customerGuests.add');
+
+    Route::get('/customer/reservations', [BookingController::class, 'customerReservations'])
+    ->name('customer-reservations');
+
 });
 
 //Route::get('/customer/home/customer-booking', [CustomerRoomController::class, 'index'])->name('customer.index');
