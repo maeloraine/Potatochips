@@ -18,8 +18,8 @@
     <meta name="description" content="Hacienda Farm Resort offers a serene getaway surrounded by nature. Enjoy luxurious accommodations, organic farming, outdoor adventures, and unforgettable experiences.">
     <meta name="keywords" content="Hacienda Farm Resort, farm resort, nature getaway, eco-friendly resort, luxury farm stay, organic farming, outdoor activities, serene vacation, countryside retreat">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     <title>Hacienda Jensen Farm Resort Booking</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
@@ -27,18 +27,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font-awesome.css') }}">
-    <link rel="icon" href="{{ asset('assets/svg/landing-icons.svg') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/slick.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/slick-theme.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+    <link rel="icon" href="assets/svg/landing-icons.svg">
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/slick.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/slick-theme.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/animate.css">
     <!-- Bootstrap css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="assets/css/vendors/bootstrap.css">
     <!-- App css-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <!-- Responsive css-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 
     <!-- Add Bootstrap CSS if not already included -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -56,7 +56,7 @@
           <header>                       
             <nav class="navbar navbar-b navbar-dark navbar-trans navbar-expand-xl fixed-top nav-padding" id="sidebar-menu">
               <a class="navbar-brand p-0" href="#">
-                <img class="img-fluid" src="{{ asset('assets/images/landing/landing_logo.png') }}" alt="">
+                <img class="img-fluid" src="assets/images/landing/landing_logo.png" alt="">
               </a>
               <button class="navbar-toggler navabr_btn-set custom_nav" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span></span><span></span><span></span>
@@ -73,11 +73,11 @@
           </header>
 
           </div>
-          <div class="row justify-content-center"style="background-image: url('{{ asset('assets/images/jensonheaderfinal.jpg') }}'); background-size: cover; background-position: center;">
+          <div class="row justify-content-center"style="background-image: url('assets/images/jensonheaderfinal.jpg'); background-size: cover; background-position: center;">
             <div class="col-lg-8 col-sm-10">
               <div class="content text-center">
                 <div>
-                <h6 class="content-title"><img class="arrow-decore" src="{{ asset('assets/images/landing/decore/arrow.svg') }}" alt=""><span class="sub-title">A Nature's Escape for Relaxation and Adventure </span></h6>
+                <h6 class="content-title"><img class="arrow-decore" src="assets/images/landing/decore/arrow.svg" alt=""><span class="sub-title">A Nature's Escape for Relaxation and Adventure </span></h6>
                   <h1 class="wow fadeIn" id="home"> <span> Hacienda Jensen Farm Resort </span> </h1>
                   <p class="mt-3 wow fadeIn">Immerse yourself in the beauty of nature while enjoying our premium amenities and unforgettable experiences. Perfect for families, adventurers, and events of all kinds.</p><br/><br/>
                   <!-- Book Now Button -->
@@ -87,12 +87,12 @@
                       Book Now!
                     </a>
                   </div>
-                  <div class="btn-grp mt-4"><a class="wow pulse" href="{{ route('index')}}" data-bs-placement="top" title="HTML"> <img src="{{ asset('assets/images/landing/icon/html/html.png') }}" alt=""></a><a class="wow pulse" href="https://angular.pixelstrap.com/cuba/" target="_blank" data-bs-placement="top" title="Angular 13"> <img src="{{ asset('assets/images/landing/icon/angular/angular.png') }}" alt=""></a><a class="wow pulse" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank" data-bs-placement="top" title="Vue 2.6.10"> <img src="{{ asset('assets/images/landing/icon/vue/vue.png') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default/Dubai" target="_blank" data-bs-placement="top" title="React Redux"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="https://laravel.pixelstrap.com/cuba/dashboard/index" target="_blank" data-bs-placement="top" title="Laravel 9"> <img src="{{ asset('assets/images/landing/icon/laravel/laravel.png') }}" alt=""></a><a class="wow pulse" href="https://cubadjango.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Django 4.0.4"> <img src="{{ asset('assets/images/landing/icon/django/django.png') }}" alt=""></a><a class="wow pulse" href="http://cubaflask.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Flask 2.2.2"> <img src="{{ asset('assets/images/landing/stroke-icon/7.svg') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba-context/" target="_blank" data-bs-placement="top" title="React Context"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/8.svg') }}" alt=""></a><a class="wow pulse" href="https://codeigniter.pixelstrap.com/cuba/public/" target="_blank" data-bs-placement="top" title="Codeigniter"> <img src="{{ asset('assets/images/landing/icon/codeigniter/codeigniter-icon.png') }}" alt=""></a><a class="wow pulse" href="https://cuba-nodejs-pixelstrap.herokuapp.com/" target="_blank" data-bs-placement="top" title="Node"> <img src="{{ asset('assets/images/landing/stroke-icon/10.svg') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/11.svg') }}" alt=""></a></div>
+                  <div class="btn-grp mt-4"><a class="wow pulse" href="{{ route('index')}}" data-bs-placement="top" title="HTML"> <img src="assets/images/landing/icon/html/html.png" alt=""></a><a class="wow pulse" href="https://angular.pixelstrap.com/cuba/" target="_blank" data-bs-placement="top" title="Angular 13"> <img src="{{ asset('assets/images/landing/icon/angular/angular.png') }}" alt=""></a><a class="wow pulse" href="https://vue.pixelstrap.com/cuba/dashboard/default" target="_blank" data-bs-placement="top" title="Vue 2.6.10"> <img src="{{ asset('assets/images/landing/icon/vue/vue.png') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba/dashboard/default/Dubai" target="_blank" data-bs-placement="top" title="React Redux"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="https://laravel.pixelstrap.com/cuba/dashboard/index" target="_blank" data-bs-placement="top" title="Laravel 9"> <img src="{{ asset('assets/images/landing/icon/laravel/laravel.png') }}" alt=""></a><a class="wow pulse" href="https://cubadjango.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Django 4.0.4"> <img src="{{ asset('assets/images/landing/icon/django/django.png') }}" alt=""></a><a class="wow pulse" href="http://cubaflask.pixelstrap.com/" target="_blank" data-bs-placement="top" title="Flask 2.2.2"> <img src="{{ asset('assets/images/landing/stroke-icon/7.svg') }}" alt=""></a><a class="wow pulse" href="https://react.pixelstrap.com/cuba-context/" target="_blank" data-bs-placement="top" title="React Context"><img src="{{ asset('assets/images/landing/icon/react/react.png') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/8.svg') }}" alt=""></a><a class="wow pulse" href="https://codeigniter.pixelstrap.com/cuba/public/" target="_blank" data-bs-placement="top" title="Codeigniter"> <img src="{{ asset('assets/images/landing/icon/codeigniter/codeigniter-icon.png') }}" alt=""></a><a class="wow pulse" href="https://cuba-nodejs-pixelstrap.herokuapp.com/" target="_blank" data-bs-placement="top" title="Node"> <img src="{{ asset('assets/images/landing/stroke-icon/10.svg') }}" alt=""></a><a class="wow pulse" href="javascript:void(0)" data-bs-placement="top" title="Coming soon"> <img src="{{ asset('assets/images/landing/stroke-icon/11.svg') }}" alt=""></a></div>
                 </div>
               </div>
             </div>
             <div class="col-xl-7 col-lg-8 col-md-10">               
-              <img class="screen1 img-fluid" src="{{ asset('assets/images/landing/screen1.png') }}" alt=""></div>
+              <img class="screen1 img-fluid" src="assets/images/landing/screen1.png" alt=""></div>
           </div>
         </div>
       </div>
@@ -109,13 +109,13 @@
 
           <div class="image-gallery">
             <div class="gallery-item">
-              <img src="{{ asset('assets/images/campsite.jpg') }}" alt="Gallery Image 1">
+              <img src="assets/images/campsite.jpg" alt="Gallery Image 1">
             </div>
             <div class="gallery-item">
-              <img src="{{ asset('assets/images/atv.jpg') }}" alt="Gallery Image 2">
+              <img src="assets/images/atv.jpg" alt="Gallery Image 2">
             </div>
             <div class="gallery-item">
-              <img src="{{ asset('assets/images/event.jpg') }}" alt="Gallery Image 3">
+              <img src="assets/images/event.jpg" alt="Gallery Image 3">
             </div>
           </div>
 
@@ -344,14 +344,14 @@
                   <h1> <span class="gradient-3">ABOUT</span>  </h1>
                   <p>Operating for over 3 years, Hacienda Jensen Farm Resort has been a top destination for nature lovers and event planners.</p>
                 </div><br/></br>
-                <div class="vector-image"> <img src="{{ asset('assets/images/landing/vectors/1.svg') }}" alt=""></div>
+                <div class="vector-image"> <img src="assets/images/landing/vectors/1.svg" alt=""></div>
               </div>
               <div class="col-xxl-8">
                 <div class="row g-lg-5 g-3">
                   <div class="col-md-3 col-6">
                     <div class="benefit-box pink">
                       <svg>
-                        <use href="{{ asset('assets/svg/landing-icons.svg#tag') }}"></use>
+                        <use href="assets/svg/landing-icons.svg#tag"></use>
                       </svg>
                       <h2 class="mb-0">300+</h2>
                       <h6 class="mb-0">Annual Bookings</h6>
@@ -360,7 +360,7 @@
                   <div class="col-md-3 col-6">
                     <div class="benefit-box purple">
                       <svg>
-                        <use href="{{ asset('assets/svg/landing-icons.svg#ratings') }}"></use>
+                        <use href="assets/svg/landing-icons.svg#ratings"></use>
                       </svg>
                       <h2 class="mb-0">2,022</h2>
                       <h6 class="mb-0">5 Stars Ratings</h6>
@@ -369,7 +369,7 @@
                   <div class="col-md-3 col-6">
                     <div class="benefit-box red">
                       <svg>
-                        <use href="{{ asset('assets/svg/landing-icons.svg#user_circle') }}"></use>
+                        <use href="assets/svg/landing-icons.svg#user_circle"></use>
                       </svg>
                       <h2 class="mb-0">20+</h2>
                       <h6 class="mb-0">Unique Activities</h6>
@@ -378,7 +378,7 @@
                   <div class="col-md-3 col-6">
                     <div class="benefit-box warning">
                       <svg>
-                        <use href="{{ asset('assets/svg/landing-icons.svg#gear') }}"></use>
+                        <use href="assets/svg/landing-icons.svg#gear"></use>
                       </svg>
                       <h2 class="mb-0">3</h2>
                       <h6 class="mb-0">Years of Excellence</h6>
@@ -482,7 +482,7 @@
               </div>
             </div>
             <div class="col-xl-7 col-lg-8 col-md-10">               
-              <img class="screen1 img-fluid" src="{{ asset('assets/images/landing/screen1.png') }}" alt=""></div>
+              <img class="screen1 img-fluid" src="assets/images/landing/screen1.png" alt=""></div>
           </div>
         </div>
       </div>
@@ -515,7 +515,7 @@
                   <h4>Overall Best rated Template</h4><img src="{{ asset('assets/images/jensonheader.jpg') }}" alt="leaf golden">
                 </li>
                 <li> 
-                  <h4>Weekly Best Seller</h4><img src="{{ asset('assets/images/jensonheader.jpg') }}" alt="leaf golden">
+                  <h4>Weekly Best Seller</h4><img src="assets/images/jensonheader.jpg" alt="leaf golden">
                 </li>
               </ul>
             </div>
@@ -593,21 +593,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- latest jquery-->
-    <script src="{{ asset('assets/js/jquery-3.5.1.min.js') }}"></script>
+    <script src="/assets/js/jquery-3.5.1.min.js"></script>
     <!-- Bootstrap js-->
-    <script src="{{ asset('assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <!-- feather icon js-->
-    <script src="{{ asset('assets/js/icons/feather-icon/feather.min.js') }}"></script>
-    <script src="{{ asset('assets/js/icons/feather-icon/feather-icon.js') }}"></script>
+    <script src="/assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- Feather icon js-->
+    <script src="/assets/js/icons/feather-icon/feather.min.js"></script>
+    <script src="/assets/js/icons/feather-icon/feather-icon.js"></script>
     <!-- Plugins JS start-->
-    <script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
-    <script src="{{ asset('assets/js/animation/wow/wow.min.js') }}"></script>
-    <script src="{{ asset('assets/js/landing_sticky.js') }}"></script>
-    <script src="{{ asset('assets/js/landing.js') }}"></script>
-    <script src="{{ asset('assets/js/jarallax_libs/libs.min.js') }}"></script>
-    <script src="{{ asset('assets/js/slick/slick.min.js') }}"></script>
-    <script src="{{ asset('assets/js/slick/slick.js') }}"></script>
-    <script src="{{ asset('assets/js/landing-slick.js') }}"></script>
+    <script src="/assets/js/tooltip-init.js"></script>
+    <script src="/assets/js/animation/wow/wow.min.js"></script>
+    <script src="/assets/js/landing_sticky.js"></script>
+    <script src="/assets/js/landing.js"></script>
+    <script src="/assets/js/jarallax_libs/libs.min.js"></script>
+    <script src="/assets/js/slick/slick.min.js"></script>
+    <script src="/assets/js/slick/slick.js"></script>
+    <script src="/assets/js/landing-slick.js"></script>    
     <!-- Plugins JS Ends-->
     <script>
       // Select the navbar

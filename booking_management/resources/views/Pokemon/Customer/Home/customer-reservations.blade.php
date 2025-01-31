@@ -7,7 +7,7 @@
 @endsection
 
 @section('style')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
+<link rel="stylesheet" type="text/css" href="/assets/css/vendors/animate.css">
 @endsection
 
 @section('breadcrumb-title')
@@ -62,16 +62,16 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('assets/js/clock.js') }}"></script>
-<script src="{{ asset('assets/js/chart/apex-chart/moment.min.js') }}"></script>
-<script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
-<script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
-<script src="{{ asset('assets/js/notify/index.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
-<script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
-<script src="{{ asset('assets/js/height-equal.js') }}"></script>
-<script src="{{ asset('assets/js/animation/wow/wow.min.js') }}"></script>
+<script src="/assets/js/clock.js"></script>
+<script src="/assets/js/chart/apex-chart/moment.min.js"></script>
+<script src="/assets/js/notify/bootstrap-notify.min.js"></script>
+<script src="/assets/js/dashboard/default.js"></script>
+<script src="/assets/js/notify/index.js"></script>
+<script src="/assets/js/typeahead/handlebars.js"></script>
+<script src="/assets/js/typeahead/typeahead.bundle.js"></script>
+<script src="/assets/js/typeahead/typeahead.custom.js"></script>
+<script src="/assets/js/typeahead-search/handlebars.js"></script>
+<script src="/assets/js/typeahead-search/typeahead-custom.js"></script>
+<script src="/assets/js/height-equal.js"></script>
+<script src="/assets/js/animation/wow/wow.min.js"></script>
 @endsection

@@ -159,22 +159,34 @@ class PaymentController extends Controller
                     ]);
                 }
 
-                // Save payment
-                // \App\Models\Payment::create([
-                //     'guest_id' => $guest->guest_id,
-                //     'session_id' => $sessionId,
-                //     'payment_id' => $payment['payment_intent_id'] ?? $responseData['data']['id'],
-                //     'amount' => $payment['amount'] / 100,
-                //     'currency' => $payment['currency'],
-                //     'status' => $paymentStatus,
-                //     'payment_method' => $payment['source']['type'] ?? 'unknown',
-                //     'description' => $payment['description'] ?? 'Online Booking',
-                // ]);
+                // Get PayMongo response and log it
+                $responseData = $payMongoService->getCheckoutSession($sessionId);
+                
+                // Add this log entry to see raw PayMongo response
+                Log::debug('Raw PayMongo Response:', $responseData);
+
+                $attributes = $responseData['data']['attributes'];
+                
+                // Extract payment data correctly
+                $paymentData = $attributes['payments'][0]; // Get the entire payment object
+                $paymentId = $paymentData['id']; // Payment ID is at the root
+                $paymentAttributes = $paymentData['attributes']; // Other attributes are here
+                $paymentStatus = $paymentAttributes['status'] ?? 'unknown';
+
+                // Save payment with corrected fields
+                \App\Models\Payment::create([
+                    'guest_id' => $guest->guest_id,
+                    'payment_ref_number' => $paymentId, // Use the correct payment ID
+                    'total_amount' => isset($paymentAttributes['amount']) ? $paymentAttributes['amount'] / 100 : 0, // Convert cents to PHP currency
+                    'currency' => $paymentAttributes['currency'],
+                    'payment_status' => $paymentStatus,
+                    'payment_method' => $paymentAttributes['source']['type'] ?? 'unknown',
+                    'description' => $paymentAttributes['description'] ?? 'Online Booking',
+                ]);
 
                 // Clear the session data after successful processing
                 Session::forget(['session_id', 'booking_data']);
                 return redirect()->route('customer-reservations')->with('success', 'Booking and payment successful!');
-                //return response()->json(['message' => 'Booking and payment details saved successfully.']);
             } else {
                 throw new Exception('Payment status is not successful. Status: ' . $paymentStatus);
             }

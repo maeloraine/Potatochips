@@ -12,12 +12,12 @@
       </div>
     </form>
     <div class="header-logo-wrapper col-auto p-0">
-      <div class="logo-wrapper"><a href="{{ route('index')}}"><img class="img-fluid" src="{{ asset('assets/images/logo/logo.png') }}" alt=""></a></div>
+      <div class="logo-wrapper"><a href="{{ route('index')}}"><img class="img-fluid" src="assets/images/logo/logo.png" alt=""></a></div>
       <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
     </div>
     <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
       <div class="notification-slider">
-        <div class="d-flex h-100"> <img src="{{ asset('assets/images/giftools.gif') }}" alt="gif">
+        <div class="d-flex h-100"> <img src="assets/images/giftools.gif" alt="gif">
           <h6 class="mb-0 f-w-400"><span class="font-primary">Don't Miss Out! </span><span class="f-light">Out new update has been release.</span></h6><i class="icon-arrow-top-right f-light"></i>
         </div>
         <div class="d-flex h-100"><img src="{{ asset('assets/images/giftools.gif') }}" alt="gif">
