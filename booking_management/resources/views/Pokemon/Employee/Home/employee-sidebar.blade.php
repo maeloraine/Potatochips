@@ -66,7 +66,7 @@
                         </svg><span>Booking Management</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('booking.index') }}">Add Booking</a></li>
-                            <li><a href="{{ route('booking') }}">Bookings</a></li>
+                            <li><a href="{{ route('admin.booking') }}">Bookings</a></li>
                             
               
                         </ul>

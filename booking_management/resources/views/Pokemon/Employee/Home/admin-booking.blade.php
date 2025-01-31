@@ -322,8 +322,11 @@
                         Room No.
                         <select id="roomNo" required>
                             <option value="" selected disabled>Select Room</option>
-                            <option value="101">101</option>
-                            <option value="102">102</option>
+                            @foreach($availableRooms as $room)
+                                <option value="{{ $room->Room_Number }}">
+                                    {{ $room->Room_Number }} - {{ $room->Room_Type }}
+                                </option>
+                            @endforeach
                         </select>
                     </label>
                     <label>

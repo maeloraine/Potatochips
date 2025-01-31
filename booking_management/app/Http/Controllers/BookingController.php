@@ -35,45 +35,45 @@ class BookingController extends Controller
      * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function create(Request $request)
-    {
-        try {
-            Log::info('Create booking form accessed.', [
-                'query_parameters' => $request->query()
-            ]);
+    // public function create(Request $request)
+    // {
+    //     try {
+    //         Log::info('Create booking form accessed.', [
+    //             'query_parameters' => $request->query()
+    //         ]);
 
-            // Retrieve guest data from query parameters
-            $firstName = $request->query('firstName');
-            $lastName = $request->query('lastName');
-            $gender = $request->query('gender');
-            $birthdate = $request->query('birthdate');
-            $email = $request->query('email');
-            $phone = $request->query('phone');
-            $address = $request->query('address');
-            $specialRequests = $request->query('specialRequests');
+    //         // Retrieve guest data from query parameters
+    //         $firstName = $request->query('firstName');
+    //         $lastName = $request->query('lastName');
+    //         $gender = $request->query('gender');
+    //         $birthdate = $request->query('birthdate');
+    //         $email = $request->query('email');
+    //         $phone = $request->query('phone');
+    //         $address = $request->query('address');
+    //         $specialRequests = $request->query('specialRequests');
 
-            // Fetch rooms from the database
-            $rooms = DB::table('rooms')->get();
+    //         // Fetch rooms from the database
+    //         $rooms = DB::table('rooms')->get();
 
-            Log::info('Rooms fetched successfully.', ['rooms_count' => $rooms->count()]);
+    //         Log::info('Rooms fetched successfully.', ['rooms_count' => $rooms->count()]);
 
-            // Pass guest and room data to the view
-            return view('Pokemon.Employee.Home.admin-add-booking', [
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'gender' => $gender,
-                'birthdate' => $birthdate,
-                'email' => $email,
-                'phone' => $phone,
-                'address' => $address,
-                'specialRequests' => $specialRequests,
-                'rooms' => $rooms,
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error in create booking form.', ['error' => $e->getMessage()]);
-            abort(500, 'An error occurred while accessing the booking form.');
-        }
-    }
+    //         // Pass guest and room data to the view
+    //         return view('Pokemon.Employee.Home.admin-add-booking', [
+    //             'firstName' => $firstName,
+    //             'lastName' => $lastName,
+    //             'gender' => $gender,
+    //             'birthdate' => $birthdate,
+    //             'email' => $email,
+    //             'phone' => $phone,
+    //             'address' => $address,
+    //             'specialRequests' => $specialRequests,
+    //             'rooms' => $rooms,
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         Log::error('Error in create booking form.', ['error' => $e->getMessage()]);
+    //         abort(500, 'An error occurred while accessing the booking form.');
+    //     }
+    // }
 
     // /**
     //  * Create a new booking.
@@ -117,124 +117,124 @@ class BookingController extends Controller
     //     }
     // }
 
-    public function store(Request $request)
-    {
-        try {
-            Log::info('Store booking request received.', [
-                'request_data' => $request->all()
-            ]);
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         Log::info('Store booking request received.', [
+    //             'request_data' => $request->all()
+    //         ]);
     
-            // Validate the request payload
-            $validated = $request->validate([
-                'checkInDate' => 'required|date',
-                'checkOutDate' => 'required|date|after:checkInDate',
-                'checkInTime' => 'required',
-                'checkOutTime' => 'required',
-                'adults' => 'required|integer|min:1',
-                'children' => 'required|integer|min:0',
-                'bookings' => 'required|array|min:1',
-                'bookings.*.id' => 'required|exists:rooms,room_id',
-                'bookings.*.price' => 'required|numeric|min:0',
-                'totalPrice' => 'required|numeric|min:0',
-                'guestInfo' => 'required|array',
-                'guestInfo.firstName' => 'required|string|max:255',
-                'guestInfo.lastName' => 'required|string|max:255',
-                'guestInfo.gender' => 'required|in:male,female',
-                'guestInfo.birthdate' => 'required|date|before:today',
-                'guestInfo.email' => 'required|email',
-                'guestInfo.phone' => 'required|string',
-                'guestInfo.address' => 'required|string',
-                'guestInfo.specialRequests' => 'nullable|string',
-            ]);
+    //         // Validate the request payload
+    //         $validated = $request->validate([
+    //             'checkInDate' => 'required|date',
+    //             'checkOutDate' => 'required|date|after:checkInDate',
+    //             'checkInTime' => 'required',
+    //             'checkOutTime' => 'required',
+    //             'adults' => 'required|integer|min:1',
+    //             'children' => 'required|integer|min:0',
+    //             'bookings' => 'required|array|min:1',
+    //             'bookings.*.id' => 'required|exists:rooms,room_id',
+    //             'bookings.*.price' => 'required|numeric|min:0',
+    //             'totalPrice' => 'required|numeric|min:0',
+    //             'guestInfo' => 'required|array',
+    //             'guestInfo.firstName' => 'required|string|max:255',
+    //             'guestInfo.lastName' => 'required|string|max:255',
+    //             'guestInfo.gender' => 'required|in:male,female',
+    //             'guestInfo.birthdate' => 'required|date|before:today',
+    //             'guestInfo.email' => 'required|email',
+    //             'guestInfo.phone' => 'required|string',
+    //             'guestInfo.address' => 'required|string',
+    //             'guestInfo.specialRequests' => 'nullable|string',
+    //         ]);
     
-            // Start database transaction
-            DB::beginTransaction();
+    //         // Start database transaction
+    //         DB::beginTransaction();
     
-            // Create guest record
-            $guestId = DB::table('guests')->insertGetId([
-                'firstName' => $validated['guestInfo']['firstName'],
-                'lastName' => $validated['guestInfo']['lastName'],
-                'birthdate' => $validated['guestInfo']['birthdate'],
-                'gender' => $validated['guestInfo']['gender'],
-                'email' => $validated['guestInfo']['email'],
-                'phone' => $validated['guestInfo']['phone'],
-                'address' => $validated['guestInfo']['address'],
-                'specialRequests' => $validated['guestInfo']['specialRequests'] ?? 'None',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+    //         // Create guest record
+    //         $guestId = DB::table('guests')->insertGetId([
+    //             'firstName' => $validated['guestInfo']['firstName'],
+    //             'lastName' => $validated['guestInfo']['lastName'],
+    //             'birthdate' => $validated['guestInfo']['birthdate'],
+    //             'gender' => $validated['guestInfo']['gender'],
+    //             'email' => $validated['guestInfo']['email'],
+    //             'phone' => $validated['guestInfo']['phone'],
+    //             'address' => $validated['guestInfo']['address'],
+    //             'specialRequests' => $validated['guestInfo']['specialRequests'] ?? 'None',
+    //             'created_at' => now(),
+    //             'updated_at' => now(),
+    //         ]);
     
-            // Generate a unique booking reference
-            $bookingReference = 'BOOK-' . strtoupper(uniqid());
+    //         // Generate a unique booking reference
+    //         $bookingReference = 'BOOK-' . strtoupper(uniqid());
     
-            // Create booking record
-            $bookingId = DB::table('bookings')->insertGetId([
-                'booking_reference' => $bookingReference,
-                'check_in_date' => $validated['checkInDate'],
-                'check_out_date' => $validated['checkOutDate'],
-                'check_in_time' => $validated['checkInTime'],
-                'check_out_time' => $validated['checkOutTime'],
-                'adults' => $validated['adults'],
-                'children' => $validated['children'],
-                'total_price' => $validated['totalPrice'],
-                'guest_id' => $guestId,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+    //         // Create booking record
+    //         $bookingId = DB::table('bookings')->insertGetId([
+    //             'booking_reference' => $bookingReference,
+    //             'check_in_date' => $validated['checkInDate'],
+    //             'check_out_date' => $validated['checkOutDate'],
+    //             'check_in_time' => $validated['checkInTime'],
+    //             'check_out_time' => $validated['checkOutTime'],
+    //             'adults' => $validated['adults'],
+    //             'children' => $validated['children'],
+    //             'total_price' => $validated['totalPrice'],
+    //             'guest_id' => $guestId,
+    //             'created_at' => now(),
+    //             'updated_at' => now(),
+    //         ]);
     
-            // Create booking items (rooms)
-            foreach ($validated['bookings'] as $bookingItem) {
-                DB::table('booking_items')->insert([
-                    'booking_id' => $bookingId,
-                    'room_id' => $bookingItem['id'],
-                    'price' => $bookingItem['price'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
+    //         // Create booking items (rooms)
+    //         foreach ($validated['bookings'] as $bookingItem) {
+    //             DB::table('booking_items')->insert([
+    //                 'booking_id' => $bookingId,
+    //                 'room_id' => $bookingItem['id'],
+    //                 'price' => $bookingItem['price'],
+    //                 'created_at' => now(),
+    //                 'updated_at' => now(),
+    //             ]);
+    //         }
     
-            // Commit the transaction
-            DB::commit();
+    //         // Commit the transaction
+    //         DB::commit();
     
-            return response()->json([
-                'message' => 'Booking created successfully!',
-                'booking_reference' => $bookingReference,
-            ], 201);
+    //         return response()->json([
+    //             'message' => 'Booking created successfully!',
+    //             'booking_reference' => $bookingReference,
+    //         ], 201);
     
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error creating booking.', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         Log::error('Error creating booking.', [
+    //             'error' => $e->getMessage(),
+    //             'trace' => $e->getTraceAsString()
+    //         ]);
     
-            return response()->json([
-                'error' => 'Booking failed: ' . $e->getMessage()
-            ], 400);
-        }
-    }
+    //         return response()->json([
+    //             'error' => 'Booking failed: ' . $e->getMessage()
+    //         ], 400);
+    //     }
+    // }
 
-    private function checkRoomAvailability($roomId, $checkIn, $checkOut)
-    {
-        // Convert dates to Carbon instances for comparison
-        $checkIn = Carbon::parse($checkIn);
-        $checkOut = Carbon::parse($checkOut);
+    // private function checkRoomAvailability($roomId, $checkIn, $checkOut)
+    // {
+    //     // Convert dates to Carbon instances for comparison
+    //     $checkIn = Carbon::parse($checkIn);
+    //     $checkOut = Carbon::parse($checkOut);
 
-        // Check if room is already booked for the given dates
-        $conflictingBookings = DB::table('booking_items')
-            ->join('bookings', 'booking_items.booking_id', '=', 'bookings.booking_id')
-            ->where('booking_items.room_id', $roomId)
-            ->where(function ($query) use ($checkIn, $checkOut) {
-                $query->whereBetween('check_in_date', [$checkIn, $checkOut])
-                    ->orWhereBetween('check_out_date', [$checkIn, $checkOut])
-                    ->orWhere(function ($q) use ($checkIn, $checkOut) {
-                        $q->where('check_in_date', '<=', $checkIn)
-                            ->where('check_out_date', '>=', $checkOut);
-                    });
-            })
-            ->where('bookings.status', '!=', 'cancelled')
-            ->count();
+    //     // Check if room is already booked for the given dates
+    //     $conflictingBookings = DB::table('booking_items')
+    //         ->join('bookings', 'booking_items.booking_id', '=', 'bookings.booking_id')
+    //         ->where('booking_items.room_id', $roomId)
+    //         ->where(function ($query) use ($checkIn, $checkOut) {
+    //             $query->whereBetween('check_in_date', [$checkIn, $checkOut])
+    //                 ->orWhereBetween('check_out_date', [$checkIn, $checkOut])
+    //                 ->orWhere(function ($q) use ($checkIn, $checkOut) {
+    //                     $q->where('check_in_date', '<=', $checkIn)
+    //                         ->where('check_out_date', '>=', $checkOut);
+    //                 });
+    //         })
+    //         ->where('bookings.status', '!=', 'cancelled')
+    //         ->count();
 
-        return $conflictingBookings === 0;
-    }
+    //     return $conflictingBookings === 0;
+    // }
 }
