@@ -19,16 +19,22 @@ class BookingController extends Controller
         return view('Pokemon.Employee.Home.admin-add-booking', ['rooms' => $rooms]);
     }
 
-        public function showBooking()
+    public function showBooking(Request $request)
     {
-        // Fetch available rooms
-        // Fetch only rooms that are available
+        $search = $request->input('search'); // Retrieve search input from the request
         $availableRooms = Room::where('Room_Status', 'available')->get();
 
-        // Fetch bookings using stored procedure
-        $bookings = DB::select('EXEC SP_GetBookings');
+        // Fetch bookings from the view instead of stored procedure
+        $bookingsQuery = DB::table('VW_GetBookings');
 
-        return view('Pokemon.Employee.Home.admin-booking', compact('availableRooms', 'bookings'));
+        // If search is provided, filter by guest full name
+        if ($search) {
+            $bookingsQuery->where(DB::raw("CONCAT(GuestFirstName, ' ', GuestLastName)"), 'LIKE', "%{$search}%");
+        }
+
+        $bookings = $bookingsQuery->orderBy('check_in_date', 'DESC')->get();
+
+        return view('Pokemon.Employee.Home.admin-booking', compact('availableRooms', 'bookings', 'search'));
     }
 
     public function availRooms()

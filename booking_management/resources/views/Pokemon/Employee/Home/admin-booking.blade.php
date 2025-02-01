@@ -447,7 +447,7 @@
         <form id="editBookingForm" method="POST">
             @csrf
             @method('PUT')
-            <<input type="hidden" name="booking_id" id="editBookingId">
+            <input type="hidden" name="booking_id" id="editBookingId">
 
             <label>
                 Booking Status
