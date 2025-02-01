@@ -473,6 +473,8 @@ Route::post('/admin/bookings', [BookingController::class, 'store'])->name('booki
 Route::patch('/bookings/{booking_reference}/status', [BookingController::class, 'updateStatus']);
 
 Route::get('/employee/home/admin-booking', [BookingController::class, 'availRooms'])->name('admin.booking');
+Route::put('/bookings/{id}/update', [BookingController::class, 'update'])->name('booking.update');
+
 
 
 

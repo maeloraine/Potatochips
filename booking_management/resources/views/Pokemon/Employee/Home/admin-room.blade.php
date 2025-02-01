@@ -441,6 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModalButton = document.getElementById('closeModalButton');
     const addRoomButton = document.getElementById('addRoomButton');
     const createRoomForm = document.getElementById('createRoomForm');
+
     
     // Open modal for adding a new room
     addRoomButton.addEventListener('click', () => {

@@ -321,8 +321,10 @@
                             <td>{{ $booking->check_out_time }}</td>                               <!-- Check-Out Time -->
                             <td>{{ ucfirst($booking->booking_status) }}</td>            <!-- Booking Status -->   
                             <td>
-                                <button class="edit-button">Edit</button>
-                                <button class="delete-button">Delete</button>
+                                <button class="edit-button" 
+                                data-booking-id="{{ $booking->booking_id }}"
+                                data-booking-status="{{ $booking->booking_status }}"
+                                data-room-id="{{ $booking->room_id }}">Edit</button>
                             </td>
                         </tr>
                     @endforeach
@@ -437,6 +439,29 @@
             </form>
         </div>
     </div>
+<!-- Edit Booking Modal -->
+<div class="modal" id="editBookingModal">
+    <div class="modal-content">
+        <button class="close-button" id="closeEditBookingModal">&times;</button>
+        <h2 style="text-align:center;">Edit Booking</h2>
+        <form id="editBookingForm" method="POST">
+            @csrf
+            @method('PUT')
+            <<input type="hidden" name="booking_id" id="editBookingId">
+
+            <label>
+                Booking Status
+                <select name="booking_status" id="editBookingStatus" required>
+                    <option value="reserved">Reserved</option>
+                    <option value="checked_in">Checked In</option>
+                    <option value="checked_out">Checked Out</option>
+                </select>
+            </label>
+
+            <button type="submit" id="updateBookingButton">Update Booking</button>
+        </form>
+    </div>
+</div>
 @endsection
 
 @section('script')
@@ -449,6 +474,42 @@
         const addBookingButton = document.getElementById('addBookingButton');
         const closeBookingModal = document.getElementById('closeBookingModal');
         const bookingForm = document.querySelector('#bookingModal form');
+        const closeEditBookingModal = document.getElementById('closeEditBookingModal');
+        const editBookingForm = document.getElementById('editBookingForm');
+
+
+            // Open Modal when "Edit" button is clicked
+        document.querySelectorAll('.edit-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const bookingId = this.getAttribute('data-booking-id');
+                const bookingStatus = this.getAttribute('data-booking-status');
+                const roomId = this.getAttribute('data-room-id');
+
+                    // Set modal fields
+                document.getElementById('editBookingId').value = bookingId;
+                document.getElementById('editRoomId').value = roomId;
+                document.getElementById('editBookingStatus').value = bookingStatus;
+
+                    // Set form action dynamically
+                editBookingForm.action = `/bookings/${bookingId}/update`;
+
+                    // Show the modal
+                editBookingModal.style.display = 'block';
+            });
+        });
+
+            // Close Modal when "X" button is clicked
+        closeEditBookingModal.addEventListener('click', () => {
+                editBookingModal.style.display = 'none';
+        });
+
+            // Close Modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === editBookingModal) {
+                editBookingModal.style.display = 'none';
+            }
+        });
+    
 
 
         // const checkInTime = document.getElementById("checkInTime");
@@ -566,6 +627,58 @@
         // Event listener for birthdate input to validate age in real-time
         document.getElementById('birthdate').addEventListener('change', function () {
             validateAge();
+        });
+    });
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const bookingId = this.getAttribute('data-booking-id');
+            const bookingStatus = this.getAttribute('data-booking-status');
+
+            // Populate modal fields
+            document.getElementById('editBookingId').value = bookingId;
+            document.getElementById('editBookingStatus').value = bookingStatus;
+
+            // Set form action dynamically
+            document.getElementById('editBookingForm').action = `/bookings/${bookingId}/update`;
+
+            // Show the modal
+            document.getElementById('editBookingModal').style.display = 'block';
+        });
+    });
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const bookingId = this.getAttribute('data-booking-id');
+            const bookingStatus = this.getAttribute('data-booking-status');
+
+            // Populate modal fields
+            document.getElementById('editBookingId').value = bookingId;
+            document.getElementById('editBookingStatus').value = bookingStatus;
+
+            // Set form action dynamically
+            document.getElementById('editBookingForm').action = `/bookings/${bookingId}/update`;
+
+            // Show the modal
+            document.getElementById('editBookingModal').style.display = 'block';
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search');
+        const bookingTable = document.getElementById('bookingTable');
+
+        searchInput.addEventListener('keyup', function () {
+            const searchValue = searchInput.value.toLowerCase();
+            const rows = bookingTable.getElementsByTagName('tr');
+
+            Array.from(rows).forEach((row, index) => {
+                if (index === 0) return; // Skip the header row
+
+                const guestName = row.cells[0].textContent.toLowerCase(); // Get the Guest Name cell content
+                if (guestName.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         });
     });
 </script>

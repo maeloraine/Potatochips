@@ -22,12 +22,12 @@ class BookingController extends Controller
         public function showBooking()
     {
         // Fetch available rooms
-        // Fetch available rooms
-        $availableRooms = Room::where('Room_Status', 'Available')->get();
-        // Call the stored procedure to fetch bookings
+        // Fetch only rooms that are available
+        $availableRooms = Room::where('Room_Status', 'available')->get();
+
+        // Fetch bookings using stored procedure
         $bookings = DB::select('EXEC SP_GetBookings');
 
-        // Pass both $availableRooms and $bookings to the view
         return view('Pokemon.Employee.Home.admin-booking', compact('availableRooms', 'bookings'));
     }
 
@@ -64,27 +64,69 @@ class BookingController extends Controller
         ]);
         $specialRequests = $request->input('specialRequests', 'None'); // Default to "None" if empty
 
-        DB::statement('EXEC SP_CreateGuestBooking ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [
-            $validatedData['firstName'],        // @firstName
-            $validatedData['lastName'],         // @lastName
-            $validatedData['birthdate'],        // @birthdate
-            $validatedData['gender'],           // @gender
-            $validatedData['email'],            // @email
-            $validatedData['phone'],            // @phone
-            $validatedData['address'],          // @address
-            $specialRequests,                   // @specialRequests
-            $validatedData['room_id'],          // @room_id
-            $validatedData['check_in_date'],    // @check_in_date
-            $validatedData['check_out_date'],   // @check_out_date
-            $validatedData['check_in_time'],    // @check_in_time
-            $validatedData['check_out_time'],   // @check_out_time
-            $validatedData['adults'],           // @adults
-            $validatedData['children'],         // @children
-            1000,                               // @total_price (You might need to calculate this dynamically)
-            $validatedData['booking_status']    // @booking_status 
-        ]);
-        return redirect()->route('admin.bookings')->with('success', 'Your booking was successfully created!');
+        DB::beginTransaction(); // Start Transaction
+
+        try {
+            // Execute the stored procedure for booking
+            DB::statement('EXEC SP_CreateGuestBooking ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?', [
+                $validatedData['firstName'],
+                $validatedData['lastName'],
+                $validatedData['birthdate'],
+                $validatedData['gender'],
+                $validatedData['email'],
+                $validatedData['phone'],
+                $validatedData['address'],
+                $specialRequests,
+                $validatedData['room_id'],
+                $validatedData['check_in_date'],
+                $validatedData['check_out_date'],
+                $validatedData['check_in_time'],
+                $validatedData['check_out_time'],
+                $validatedData['adults'],
+                $validatedData['children'],
+                1000, // Example price, should be dynamically calculated
+                $validatedData['booking_status']
+            ]);
+    
+            // Update the room status if the booking is "checked_in"
+            if ($validatedData['booking_status'] == 'checked_in') {
+                Room::where('room_id', $validatedData['room_id'])
+                    ->update(['Room_Status' => 'occupied']);
+            }
+    
+            DB::commit(); // Commit transaction
+    
+            return redirect()->route('admin.bookings')->with('success', 'Your booking was successfully created!');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback transaction if any error occurs
+            return redirect()->route('admin.bookings')->with('error', 'An error occurred while processing your booking.');
+        }
     }
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'booking_status' => 'required|string|in:reserved,checked_in,checked_out'
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            // Execute the stored procedure
+            DB::statement('EXEC SP_UpdateBookingStatus ?, ?', [
+                $id,
+                $validatedData['booking_status']
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('admin.bookings')->with('success', 'Booking updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('admin.bookings')->with('error', 'An error occurred while updating the booking.');
+        }
+    }
+
+
 
     /**
      * Show the form for creating a new booking.
