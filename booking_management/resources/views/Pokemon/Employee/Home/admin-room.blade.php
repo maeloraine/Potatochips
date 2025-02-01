@@ -198,8 +198,10 @@
             flex-direction: column;
             gap: 15px;
             padding: 20px;
-            background-color: #023e8a;
-            color: white;
+            background-color: #edede9;
+            color: black;
+            border-color: #3d5a80;
+            border-width: 2px;
             border-radius: 10px;
             max-width: 600px;
             width: 90%;
@@ -234,18 +236,17 @@
 
         .modal-content button {
             padding: 10px;
-            background-color: #800080;
+            background-color: #0096c7;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
             align-self: center;
-            justify-content: center;
         }
 
         .modal-content button:hover {
-            background-color: #560bad;
+            background-color: #1d3557;
         }
 
         @media screen and (max-width: 768px) {
@@ -329,6 +330,36 @@
             <button class="add-button" id="addRoomButton">Add Room</button>
         </div>
 </div>
+
+<!-- edit Room modal  -->
+<div class="overlay" id="editRoomOverlay">
+    <div class="modal" id="editRoomModal">
+        <div class="modal-content">
+            <button class="close-button" id="closeEditRoomModal">&times;</button>
+            <h2>Edit Room</h2>
+            <form id="editRoomForm">
+                <div class="row">
+                <label> Room No <input type="text" id="editRoomNo" placeholder="Room Number" required></label>
+                <label> Room Type <select id="editRoomType" required>
+                    <option value="" disabled selected>Select Room Type</option>
+                    <option value="Tent">Tent</option>
+                    <option value="Function Hall">Function Hall</option>
+                    <option value="Cottage">Cottage</option>
+                </select></label>
+                <label> Room Rate <input type="editNumber" id="roomRate" placeholder="Room Rate" required></label>
+                <label> Room Status <select id="editRoomStatus" required>
+                    <option value="" disabled selected>Select Room Status</option>
+                    <option value="Available">Available</option>
+                    <option value="Occupied">Occupied</option>
+                </select></label>
+            </form>
+            <button type="submit" id="editRoom">Save Changes</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- add room modal -->
     <div class="modal" id="roomModal">
         <div class="modal-content">
             <button class="close-button" id="closeModalButton">&times;</button>
@@ -348,7 +379,7 @@
                     <option value="Occupied">Occupied</option>
                 </select></label>
             </form>
-            <button type="submit" id="createRoom">Add Room</button>
+            <button type="submit" id="createRoom">Edit Room</button>
         </div>
     </div>
 </div>
@@ -359,63 +390,65 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
     const addRoomButton = document.getElementById('addRoomButton');
     const roomModal = document.getElementById('roomModal');
     const closeModalButton = document.getElementById('closeModalButton');
     const createRoomButton = document.getElementById('createRoom');
-    
+    const editRoomOverlay = document.getElementById('editRoomOverlay');
+    const editRoomModal = document.getElementById('editRoomModal');
+    const closeEditRoomModal = document.getElementById('closeEditRoomModal');
+    const editRoomButton = document.getElementById('editRoom');
 
-    // Function to handle the search
-    function searchItems() {
-        const searchInput = document.getElementById('searchInput').value.toLowerCase();
-        const rows = document.querySelectorAll('#roomTable tbody tr'); // Get table rows
+    let selectedRow = null; // Store the row being edited
 
-        rows.forEach(row => {
-            const cells = row.getElementsByTagName('td'); // Get cells in each row
-            let matchFound = false;
+    // Function to open Edit Room Modal
+    function openEditRoomModal(row) {
+        selectedRow = row; // Store the selected row
+        const cells = selectedRow.getElementsByTagName('td');
 
-            // Check if any cell text matches the search input
-            for (let i = 0; i < cells.length; i++) {
-                const cellText = cells[i].textContent.toLowerCase();
-                if (cellText.includes(searchInput)) {
-                    matchFound = true;
-                    break; // Exit loop if a match is found
-                }
-            }
+        // Populate modal fields with existing values
+        document.getElementById('editRoomNo').value = cells[0].textContent;
+        document.getElementById('editRoomType').value = cells[1].textContent;
+        document.getElementById('roomRate').value = cells[2].textContent.replace('$', ''); // Remove dollar sign
+        document.getElementById('editRoomStatus').value = cells[3].textContent;
 
-            // Show or hide the row based on whether a match is found
-            if (matchFound) {
-                row.style.display = ''; // Show row
-            } else {
-                row.style.display = 'none'; // Hide row
-            }
+        // Show the edit modal
+        editRoomModal.style.display = 'block';
+        editRoomOverlay.style.display = 'block';
+    }
+
+    // Function to attach event listeners to edit buttons
+    function attachEditButtonListeners() {
+        document.querySelectorAll('.edit-button').forEach((button) => {
+            button.removeEventListener('click', editButtonHandler);
+            button.addEventListener('click', editButtonHandler);
         });
     }
 
-    // Add event listener to the search button
-    document.getElementById('searchButton').addEventListener('click', searchItems);
+    // Edit button event handler
+    function editButtonHandler(event) {
+        const row = event.target.closest('tr'); // Get the row
+        openEditRoomModal(row);
+    }
 
-
-  
-
-    // Open modal
+    // Open Add Room Modal
     addRoomButton.addEventListener('click', () => {
         roomModal.style.display = 'block';
     });
 
-    // Close modal
+    // Close Add Room Modal
     closeModalButton.addEventListener('click', () => {
         roomModal.style.display = 'none';
     });
 
-    // Close modal on clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target === roomModal) {
-            roomModal.style.display = 'none';
-        }
+    // Close Edit Room Modal
+    closeEditRoomModal.addEventListener('click', () => {
+        editRoomModal.style.display = 'none';
+        editRoomOverlay.style.display = 'none';
     });
 
-    // Add Room functionality
+    // Add Room Functionality
     createRoomButton.addEventListener('click', () => {
         // Get form values
         const roomNo = document.getElementById('roomNo').value;
@@ -425,7 +458,7 @@
 
         // Validate inputs
         if (!roomNo || !roomType || !roomRate || !roomStatus) {
-            alert('Please fill in all the fields.');
+            alert('Please fill in all fields.');
             return;
         }
 
@@ -434,23 +467,22 @@
         const newRow = roomTable.insertRow();
 
         // Insert new cells
-        const cell1 = newRow.insertCell(0); // Room No
-        const cell2 = newRow.insertCell(1); // Room Type
-        const cell3 = newRow.insertCell(2); // Room Rate
-        const cell4 = newRow.insertCell(3); // Room Status
-        const cell5 = newRow.insertCell(4); // Actions
+        newRow.insertCell(0).textContent = roomNo;  // Room No
+        newRow.insertCell(1).textContent = roomType;  // Room Type
+        newRow.insertCell(2).textContent = `$${roomRate}`;  // Room Rate
+        newRow.insertCell(3).textContent = roomStatus;  // Room Status
 
-        // Insert the data
-        cell1.textContent = roomNo;
-        cell2.textContent = roomType;
-        cell3.textContent = `$${roomRate}`;
-        cell4.textContent = roomStatus;
-
-        // Create and append edit button
+        // Create Edit Button
+        const cell5 = newRow.insertCell(4);
         const editButton = document.createElement('button');
         editButton.classList.add('edit-button');
         editButton.textContent = 'Edit';
         cell5.appendChild(editButton);
+
+        // Attach event listener to the newly created Edit button
+        editButton.addEventListener('click', function () {
+            openEditRoomModal(newRow);
+        });
 
         // Clear form inputs
         document.getElementById('createRoomForm').reset();
@@ -460,5 +492,28 @@
 
         alert('Room Added Successfully!');
     });
+
+    // Save Changes in Edit Modal
+    editRoomButton.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent any form submission
+
+        if (selectedRow) {
+            selectedRow.cells[0].textContent = document.getElementById('editRoomNo').value;
+            selectedRow.cells[1].textContent = document.getElementById('editRoomType').value;
+            selectedRow.cells[2].textContent = `$${document.getElementById('roomRate').value}`; // Add dollar sign
+            selectedRow.cells[3].textContent = document.getElementById('editRoomStatus').value;
+
+            // Hide the modal after updating
+            editRoomModal.style.display = 'none';
+            editRoomOverlay.style.display = 'none';
+
+            alert('Room Updated Successfully!');
+        }
+    });
+
+    // Attach event listeners to existing edit buttons at page load
+    attachEditButtonListeners();
+});
+
 </script>
 @endsection

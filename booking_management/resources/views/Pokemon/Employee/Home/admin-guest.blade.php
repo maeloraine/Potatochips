@@ -142,7 +142,7 @@
         }
 
         .modal-content {
-            background-color: #023e8a;
+            background-color: #caf0f8;
             color: white;
             width: 600px;
             margin: 5% auto;
@@ -214,8 +214,10 @@
             flex-direction: column;
             gap: 15px;
             padding: 20px;
-            background-color: #023e8a;
-            color: white;
+            background-color: #edede9;
+            color: black;
+            border-color: #3d5a80;
+            border-width: 2px;
             border-radius: 10px;
             max-width: 600px;
             width: 90%;
@@ -250,7 +252,7 @@
 
         .modal-content button {
             padding: 10px;
-            background-color: #800080;
+            background-color: #0096c7;
             color: white;
             border: none;
             border-radius: 5px;
@@ -260,7 +262,7 @@
         }
 
         .modal-content button:hover {
-            background-color: #560bad;
+            background-color: #1d3557;
         }
 
         @media screen and (max-width: 768px) {

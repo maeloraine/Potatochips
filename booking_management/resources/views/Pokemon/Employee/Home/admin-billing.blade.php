@@ -151,8 +151,9 @@
         }
 
         .modal-content {
-            background-color: #023e8a;
-            color: white;
+            background-color: #edede9;
+            border-color: #3d5a80;
+            color: black;
             width: 600px;
             margin: 5% auto;
             padding: 20px;
@@ -290,6 +291,31 @@
         <button class="generate-invoice-button" id="generateInvoiceButton">Add Billing</button>
     </div>
 
+    <!-- edit Billing  modal  -->
+<div class="overlay" id="editBillingOverlay">
+    <div class="modal" id="editBillingModal">
+        <div class="modal-content">
+            <button class="close-button" id="closeEditBillingModal">&times;</button>
+            <h2>Edit Billing</h2>
+            <form id="editBillingForm">
+                <div class="row">
+                <label>Guest Name <input type="text" id="editGuestName" placeholder="Guest Name" required></label>
+                <label>Invoice Number <input type="text" id="editInvoiceNumber" placeholder="Invoice Number" required></label>
+                <label>Date Issued <input type="date" id="editDateIssued" required></label>
+                <label>Due Date <input type="date" id="editDueDate" required></label>
+                <label>Payment Status
+                    <select id="editPaymentStatus" required>
+                        <option value="Paid">Paid</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </label>
+            </form>
+            <button type="submit" id="saveChangesButton">Save Changes</button>
+        </div>
+        </div>
+    </div>
+</div>
+
     <!-- Modal for Generating Invoice -->
     <div class="modal" id="invoiceModal">
         <div class="modal-content">
@@ -317,79 +343,138 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
-        // Filter functionality
-        const filterDropdown = document.getElementById('filterDropdown');
-        const tableRows = document.querySelectorAll('#billingTable tbody tr');
+document.addEventListener('DOMContentLoaded', function () {
+    const generateInvoiceButton = document.getElementById('generateInvoiceButton');
+    const invoiceModal = document.getElementById('invoiceModal');
+    const closeModalButton = document.getElementById('closeModalButton');
+    const createInvoiceButton = document.getElementById('createInvoiceButton');
+    const editBillingOverlay = document.getElementById('editBillingOverlay');
+    const editBillingModal = document.getElementById('editBillingModal');
+    const closeEditBillingModal = document.getElementById('closeEditBillingModal');
+    const editBillingForm = document.getElementById('editBillingForm');
+    const saveChangesButton = document.getElementById('saveChangesButton');
+    const filterDropdown = document.getElementById('filterDropdown');
+    const tableBody = document.querySelector('#billingTable tbody');
 
-        filterDropdown.addEventListener('change', () => {
-            const filterValue = filterDropdown.value.toLowerCase();
+    let selectedRow = null;
 
-            tableRows.forEach(row => {
-                const paymentStatus = row.querySelector('.payment-status').textContent.toLowerCase();
-                if (filterValue === 'all' || paymentStatus === filterValue) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+    // Function to open edit modal
+    function openEditBillingModal(row) {
+        selectedRow = row;
+        const cells = selectedRow.getElementsByTagName('td');
+
+        document.getElementById('editGuestName').value = cells[0].textContent;
+        document.getElementById('editInvoiceNumber').value = cells[1].textContent;
+        document.getElementById('editDateIssued').value = cells[2].textContent;
+        document.getElementById('editDueDate').value = cells[3].textContent;
+        document.getElementById('editPaymentStatus').value = cells[4].textContent;
+
+        editBillingModal.style.display = 'block';
+        editBillingOverlay.style.display = 'block';
+    }
+
+    // Function to attach event listeners to edit buttons
+    function attachEditButtonListeners() {
+        document.querySelectorAll('.edit-button').forEach((button) => {
+            button.removeEventListener('click', editButtonHandler);
+            button.addEventListener('click', editButtonHandler);
         });
-    </script>
-<script>
-            generateInvoiceButton.addEventListener('click', () => {
-                invoiceModal.style.display = 'block';
-            });
-            closeModalButton.addEventListener('click', () => {
-                invoiceModal.style.display = 'none';
-            });
+    }
 
-            window.addEventListener('click', (e) => {
-                if (e.target === invoiceModal) {
-                    invoiceModal.style.display = 'none';
-                }
-            });
+    // Edit button event handler
+    function editButtonHandler(event) {
+        const row = event.target.closest('tr');
+        openEditBillingModal(row);
+    }
 
-            document.getElementById('createInvoiceButton').addEventListener('click', () => {
+    // Open Add Invoice Modal
+    generateInvoiceButton.addEventListener('click', () => {
+        invoiceModal.style.display = 'block';
+    });
 
-                const guestName = document.getElementById('guestName').value;
-                const invoiceNumber = document.getElementById('invoiceNumber').value;
-                const dateIssued = document.getElementById('dateIssued').value;
-                const dueDate = document.getElementById('dueDate').value;
-                const paymentStatus = document.getElementById('paymentStatus').value;
+    // Close Add Invoice Modal
+    closeModalButton.addEventListener('click', () => {
+        invoiceModal.style.display = 'none';
+    });
 
-                if (!guestName || !invoiceNumber || !dateIssued || !dueDate || !paymentStatus) {
-                    alert('Please fill out all fields before submitting.');
-                    return;
-                }
+    // Close Edit Billing Modal
+    closeEditBillingModal.addEventListener('click', () => {
+        editBillingModal.style.display = 'none';
+        editBillingOverlay.style.display = 'none';
+    });
 
-                const tableBody = document.querySelector('#billingTable tbody');
-                const newRow = tableBody.insertRow();
+    // Add Invoice Form Submission
+    createInvoiceButton.addEventListener('click', (e) => {
+        e.preventDefault();
 
-                const cell1 = newRow.insertCell(0); // Guest Name
-                const cell2 = newRow.insertCell(1); // Invoice Number
-                const cell3 = newRow.insertCell(2); // Date Issued
-                const cell4 = newRow.insertCell(3); // Due Date
-                const cell5 = newRow.insertCell(4); // Payment Status
-                const cell6 = newRow.insertCell(5); // Actions
+        const guestName = document.getElementById('guestName').value;
+        const invoiceNumber = document.getElementById('invoiceNumber').value;
+        const dateIssued = document.getElementById('dateIssued').value;
+        const dueDate = document.getElementById('dueDate').value;
+        const paymentStatus = document.getElementById('paymentStatus').value;
 
-                cell1.textContent = guestName;
-                cell2.textContent = invoiceNumber;
-                cell3.textContent = dateIssued;
-                cell4.textContent = dueDate;
-                cell5.textContent = paymentStatus;
+        if (!guestName || !invoiceNumber || !dateIssued || !dueDate || !paymentStatus) {
+            alert('Please fill out all fields before submitting.');
+            return;
+        }
 
-                const editButton = document.createElement('button');
-                editButton.classList.add('edit-button');
-                editButton.textContent = 'Edit';
-                cell6.appendChild(editButton);
+        const newRow = tableBody.insertRow();
 
-                invoiceModal.style.display = 'none';
+        newRow.insertCell(0).textContent = guestName;
+        newRow.insertCell(1).textContent = invoiceNumber;
+        newRow.insertCell(2).textContent = dateIssued;
+        newRow.insertCell(3).textContent = dueDate;
+        newRow.insertCell(4).textContent = paymentStatus;
 
-                document.getElementById('invoiceForm').reset();
-            });
+        // Create Edit Button
+        const cell6 = newRow.insertCell(5);
+        const editButton = document.createElement('button');
+        editButton.classList.add('edit-button');
+        editButton.textContent = 'Edit';
+        cell6.appendChild(editButton);
 
-            document.getElementById('invoiceForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-            });
+        // Attach event listener to the new Edit button
+        editButton.addEventListener('click', function () {
+            openEditBillingModal(newRow);
+        });
 
+        // Reset the form
+        document.getElementById('invoiceForm').reset();
+
+        // Close the Add Invoice Modal
+        invoiceModal.style.display = 'none';
+
+        // Reattach event listeners to all edit buttons
+        attachEditButtonListeners();
+    });
+
+    // Update Billing Details
+    saveChangesButton.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (selectedRow) {
+            selectedRow.cells[0].textContent = document.getElementById('editGuestName').value;
+            selectedRow.cells[1].textContent = document.getElementById('editInvoiceNumber').value;
+            selectedRow.cells[2].textContent = document.getElementById('editDateIssued').value;
+            selectedRow.cells[3].textContent = document.getElementById('editDueDate').value;
+            selectedRow.cells[4].textContent = document.getElementById('editPaymentStatus').value;
+
+            editBillingModal.style.display = 'none';
+            editBillingOverlay.style.display = 'none';
+        }
+    });
+
+    // Attach event listeners to existing edit buttons at page load
+    attachEditButtonListeners();
+
+    // Filter functionality
+    filterDropdown.addEventListener('change', () => {
+        const filterValue = filterDropdown.value.toLowerCase();
+        document.querySelectorAll('#billingTable tbody tr').forEach(row => {
+            const paymentStatus = row.querySelector('.payment-status').textContent.toLowerCase();
+            row.style.display = (filterValue === 'all' || paymentStatus === filterValue) ? '' : 'none';
+        });
+    });
+});
     </script>
 @endsection

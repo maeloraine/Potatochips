@@ -165,8 +165,9 @@
             flex-direction: column;
             gap: 15px;
             padding: 20px;
-            background-color: #023e8a;
-            color: white;
+            background-color: #edede9;
+            border-color: #3d5a80;
+            color: black;
             border-radius: 10px;
             max-width: 600px;
             width: 90%;
@@ -191,7 +192,7 @@
             flex-direction: column;
             font-size: 14px;
             font-weight: bold;
-            color: white;
+            color: black;
         }
 
         .modal-content .row {
@@ -214,8 +215,8 @@
         }
 
         .modal-content button {
-            padding: 10px 20px;
-            background-color: #800080;
+            padding: 10px;
+            background-color: #0096c7;
             color: white;
             border: none;
             border-radius: 5px;
@@ -225,7 +226,7 @@
         }
 
         .modal-content button:hover {
-            background-color: #560bad;
+            background-color: #1d3557;
         }
         @media screen and (max-width: 768px) {
             .modal-content .row {
@@ -358,7 +359,7 @@
             <div class="col-6">
                 <div class="card small-widget">
                     <div class="card-body warning" onclick="openCheckOutModal()">
-                        <span class="f-light">A guest leaving? Check-Out!</span>
+                        <span class="f-light">A guest is leaving? Check-Out!</span>
                         <div class="d-flex align-items-end gap-1">
                             <h4>Check-Out</h4>
                         </div>
@@ -370,6 +371,48 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="editBookingOverlay">
+    <div class="modal" id="editBookingModal">
+        <div class="modal-content">
+            <button class="close-button" id="closeEditBookingModal">&times;</button>
+            <h2>Edit Booking</h2>
+            <form id="editGuestForm">
+                <div class="row">
+                    <label>
+                        Room No.
+                        <input type="text" id="editRoomNo" required>
+                    </label>
+                    <label>
+                        Guest Name
+                        <input type="text" id="editGuestName" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Check-In Date
+                        <input type="date" id="editCheckInDate" required>
+                    </label>
+                    <label>
+                        Check-In Time
+                        <input type="time" id="editCheckInTime" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>
+                        Check-Out Date
+                        <input type="date" id="editCheckOutDate" required>
+                    </label>
+                    <label>
+                        Check-Out Time
+                        <input type="time" id="editCheckOutTime" required>
+                    </label>
+                </div>
+                <button type="submit" id="saveEditGuest">Save Changes</button>
+            </form>
         </div>
     </div>
 </div>
@@ -488,11 +531,48 @@
 <script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const addBookingButton = document.getElementById('addBookingButton');
     const bookingModal = document.getElementById('bookingModal');
     const closeBookingModal = document.getElementById('closeBookingModal');
     const addBookingOverlay = document.getElementById('addBookingOverlay');
+    const editBookingOverlay = document.getElementById('editBookingOverlay');
+    const editBookingModal = document.getElementById('editBookingModal');
+    const closeEditBookingModal = document.getElementById('closeEditBookingModal');
+    const editBookingForm = document.getElementById('editGuestForm');
+    const saveEditGuestButton = document.getElementById('saveEditGuest');
+
+    let selectedRow = null;
+
+    // Function to open edit modal
+    function openEditBookingModal(row) {
+        selectedRow = row;
+        const cells = selectedRow.getElementsByTagName('td');
+
+        document.getElementById('editGuestName').value = cells[0].textContent;
+        document.getElementById('editRoomNo').value = cells[1].textContent;
+        document.getElementById('editCheckInDate').value = cells[2].textContent;
+        document.getElementById('editCheckInTime').value = cells[3].textContent;
+        document.getElementById('editCheckOutDate').value = cells[4].textContent;
+        document.getElementById('editCheckOutTime').value = cells[5].textContent;
+
+        editBookingModal.style.display = 'block';
+        editBookingOverlay.style.display = 'block';
+    }
+
+    // Function to attach event listeners to edit buttons
+    function attachEditButtonListeners() {
+        document.querySelectorAll('.edit-button').forEach((button) => {
+            button.removeEventListener('click', editButtonHandler);
+            button.addEventListener('click', editButtonHandler);
+        });
+    }
+
+    // Edit button event handler
+    function editButtonHandler(event) {
+        const row = event.target.closest('tr');
+        openEditBookingModal(row);
+    }
 
     // Open Add Booking Modal
     addBookingButton.addEventListener('click', () => {
@@ -506,12 +586,10 @@
         addBookingOverlay.style.display = 'none';
     });
 
-    // Close modal when clicking outside
-    addBookingOverlay.addEventListener('click', (e) => {
-        if (e.target === addBookingOverlay) {
-            bookingModal.style.display = 'none';
-            addBookingOverlay.style.display = 'none';
-        }
+    // Close Edit Booking Modal
+    closeEditBookingModal.addEventListener('click', () => {
+        editBookingModal.style.display = 'none';
+        editBookingOverlay.style.display = 'none';
     });
 
     // Add Booking Form Submission
@@ -535,16 +613,48 @@
         newRow.insertCell(4).textContent = checkOutDate;
         newRow.insertCell(5).textContent = checkOutTime;
 
+        // Create Edit Button
+        const cell6 = newRow.insertCell(6);
         const editButton = document.createElement('button');
         editButton.classList.add('edit-button');
         editButton.textContent = 'Edit';
-        newRow.insertCell(6).appendChild(editButton);
+        cell6.appendChild(editButton);
 
+        // Attach event listener to the new Edit button
+        editButton.addEventListener('click', function () {
+            openEditBookingModal(newRow);
+        });
+
+        // Reset the form
         document.getElementById('addBookingForm').reset();
 
+        // Close the Add Booking Modal
         bookingModal.style.display = 'none';
         addBookingOverlay.style.display = 'none';
+
+        // Reattach event listeners to all edit buttons
+        attachEditButtonListeners();
     });
+
+    // Update Booking Details
+    saveEditGuestButton.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (selectedRow) {
+            selectedRow.cells[0].textContent = document.getElementById('editGuestName').value;
+            selectedRow.cells[1].textContent = document.getElementById('editRoomNo').value;
+            selectedRow.cells[2].textContent = document.getElementById('editCheckInDate').value;
+            selectedRow.cells[3].textContent = document.getElementById('editCheckInTime').value;
+            selectedRow.cells[4].textContent = document.getElementById('editCheckOutDate').value;
+            selectedRow.cells[5].textContent = document.getElementById('editCheckOutTime').value;
+
+            editBookingModal.style.display = 'none';
+            editBookingOverlay.style.display = 'none';
+        }
+    });
+
+    // Attach event listeners to existing edit buttons at page load
+    attachEditButtonListeners();
 });
 
 // Check-In Modal Functions
@@ -600,5 +710,6 @@ function openQRCheckOutModal() {
 function closeQRCheckOutModal() {
     document.getElementById('qrCheckOutOverlay').style.display = 'none';
 }
+
 </script>
 @endsection
