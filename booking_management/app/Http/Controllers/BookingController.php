@@ -21,28 +21,14 @@ class BookingController extends Controller
 
         public function showBooking()
     {
-       // Fetch available rooms
-    $availableRooms = Room::where('Room_Status', 'Available')->get();
+        // Fetch available rooms
+        // Fetch available rooms
+        $availableRooms = Room::where('Room_Status', 'Available')->get();
+        // Call the stored procedure to fetch bookings
+        $bookings = DB::select('EXEC SP_GetBookings');
 
-    // Fetch all bookings with related guest and room details
-    $bookings = DB::table('bookings')
-        ->join('rooms', 'bookings.room_id', '=', 'rooms.room_id')
-        ->join('guests', 'bookings.guest_id', '=', 'guests.guest_id')
-        ->select(
-            'bookings.booking_reference',
-            'guests.firstName',
-            'guests.lastName',
-            'rooms.Room_Number',
-            'bookings.check_in_date',
-            'bookings.check_in_time',
-            'bookings.check_out_date',
-            'bookings.check_out_time',
-            'bookings.booking_status'
-        )
-        ->get();
-
-    // Pass both $availableRooms and $bookings to the view
-    return view('Pokemon.Employee.Home.admin-booking', compact('availableRooms', 'bookings'));
+        // Pass both $availableRooms and $bookings to the view
+        return view('Pokemon.Employee.Home.admin-booking', compact('availableRooms', 'bookings'));
     }
 
     public function availRooms()

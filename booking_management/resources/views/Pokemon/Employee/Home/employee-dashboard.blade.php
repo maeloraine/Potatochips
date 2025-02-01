@@ -29,7 +29,7 @@
                                     <div class="card-body"><span class="f-w-500 f-light">Total Bookings</span>
                                         <h4 class="mb-3 mt-1 f-w-500 mb-0 f-22"><span class="counter">102
                                             </span><span class="f-light f-14 f-w-400 ms-1">This month</span></h4><a
-                                            class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{ route('booking.index') }}">Book a Customer</a>
+                                            class="purchase-btn btn btn-primary btn-hover-effect f-w-500" href="{{ route('admin.bookings') }}">Book a Customer</a>
                                     </div>
                                 </div>
                             </div>

@@ -313,14 +313,13 @@
                 <tbody>
                     @foreach ($bookings as $booking)
                         <tr>
-                            <td>{{ $booking->firstName }} {{ $booking->lastName }}</td> <!-- Guest Name -->
-                            <td>{{ $booking->Room_Number }}</td>                          <!-- Room No -->
-                            <td>{{ $booking->check_in_date }}</td>                        <!-- Check-In Date -->
-                            <td>{{ $booking->check_in_time }}</td>                        <!-- Check-In Time -->
-                            <td>{{ $booking->check_out_date }}</td>                       <!-- Check-Out Date -->
-                            <td>{{ $booking->check_out_time }}</td>                       <!-- Check-Out Time -->
-                            <td>{{ ucfirst($booking->booking_status) }}</td>              <!-- Booking Status -->
-    
+                            <td>{{ $booking->GuestFirstName }} {{ $booking->GuestLastName }}</td> <!-- Guest Name -->
+                            <td>{{ $booking->Room_Number }}</td>                                  <!-- Room No -->
+                            <td>{{ $booking->check_in_date }}</td>                                <!-- Check-In Date -->
+                            <td>{{ $booking->check_in_time }}</td>                                <!-- Check-In Time -->
+                            <td>{{ $booking->check_out_date }}</td>                               <!-- Check-Out Date -->
+                            <td>{{ $booking->check_out_time }}</td>                               <!-- Check-Out Time -->
+                            <td>{{ ucfirst($booking->booking_status) }}</td>            <!-- Booking Status -->   
                             <td>
                                 <button class="edit-button">Edit</button>
                                 <button class="delete-button">Delete</button>
