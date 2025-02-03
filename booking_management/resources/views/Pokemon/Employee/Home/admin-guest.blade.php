@@ -528,9 +528,90 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Add New Guest
+        // Close modal and reset form
+        guestModal.style.display = "none";
+        addGuestForm.reset();
+    });
+
+    // Event delegation for Edit Button
+    guestTableBody.addEventListener("click", (e) => {
+        if (e.target.classList.contains("edit-button")) {
+            openEditModal(e.target.closest("tr"));
+        }
+    });
+</script>
+<script>
+   document.addEventListener("DOMContentLoaded", () => {
+    const addGuestForm = document.getElementById("addGuestForm");
+    const editGuestForm = document.getElementById("editGuestForm");
+    const addGuestSubmitButton = document.getElementById("addGuest");
+    const saveGuestButton = document.getElementById("saveGuest");
+    const guestTableBody = document.querySelector("#guestTable tbody");
+    let selectedRow = null;
+
+    // Function to validate input fields
+    function validateForm(form) {
+        let errors = [];
+
+        const lastName = form.querySelector("#lastName, #editLastName").value.trim();
+        const firstName = form.querySelector("#firstName, #editFirstName").value.trim();
+        const middleName = form.querySelector("#middleName, #editMiddleName").value.trim();
+        const gender = form.querySelector("#gender, #editGender").value;
+        const birthdate = form.querySelector("#birthdate, #editBirthdate").value;
+        const email = form.querySelector("#email, #editEmail").value.trim();
+        const contactNumber = form.querySelector("#contactNumber, #editContactNumber").value.trim();
+        const specialRequest = form.querySelector("#specialRequest, #editSpecialRequest").value.trim();
+
+        // Name validations
+        if (!lastName || lastName.length > 25) errors.push("Last Name must be 1-25 characters.");
+        if (!firstName || firstName.length > 50) errors.push("First Name must be 1-50 characters.");
+        if (middleName.length > 25) errors.push("Middle Name must not exceed 25 characters.");
+
+        // Gender validation
+        if (!gender) errors.push("Gender is required.");
+
+        // Birthdate validation (age range: 18 - 100 years old)
+        if (!birthdate) {
+            errors.push("Birth Date is required.");
+        } else {
+            const birthYear = new Date(birthdate).getFullYear();
+            const currentYear = new Date().getFullYear();
+            const age = currentYear - birthYear;
+
+            if (age < 18) {
+                errors.push("Guest must be at least 18 years old.");
+            } else if (age > 100) {
+                errors.push("Guest age cannot exceed 100 years.");
+            }
+        }
+
+        // Email validation
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailRegex.test(email)) errors.push("Invalid email format.");
+
+        // Contact number validation (11 digits only)
+        if (!/^\d{11}$/.test(contactNumber)) errors.push("Contact number must be exactly 11 digits.");
+
+        // Special request validation
+        if (specialRequest.length > 100) errors.push("Special request cannot exceed 100 characters.");
+
+        return errors;
+    }
+
+    // Function to show validation errors
+    function showErrors(errors) {
+        if (errors.length > 0) {
+            alert(errors.join("\n"));
+            return false;
+        }
+        return true;
+    }
+
+    // Add Guest Form Submission
     addGuestSubmitButton.addEventListener("click", (e) => {
         e.preventDefault();
+        const errors = validateForm(addGuestForm);
+        if (!showErrors(errors)) return; // Prevent adding if there are errors
 
         // Get form values
         const lastName = document.getElementById("lastName").value.trim();
@@ -541,27 +622,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById("email").value.trim();
         const contactNumber = document.getElementById("contactNumber").value.trim();
         const specialRequest = document.getElementById("specialRequest").value.trim();
-
-        // Validate inputs
-        let errors = [];
-        if (!lastName || lastName.length > 25) errors.push("Last Name must be 1-25 characters.");
-        if (!firstName || firstName.length > 50) errors.push("First Name must be 1-50 characters.");
-        if (middleName.length > 25) errors.push("Middle Name must not exceed 25 characters.");
-        if (!gender) errors.push("Gender is required.");
-        if (!birthdate) {
-            errors.push("Birth Date is required.");
-        } else {
-            const age = new Date().getFullYear() - new Date(birthdate).getFullYear();
-            if (age < 18) errors.push("Guest must be 18 or above.");
-        }
-        if (!/^\d{11}$/.test(contactNumber)) errors.push("Contact number must be exactly 11 digits.");
-        if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email)) errors.push("Invalid email format.");
-        if (specialRequest.length > 100) errors.push("Special request cannot exceed 100 characters.");
-
-        if (errors.length > 0) {
-            alert(errors.join("\n"));
-            return;
-        }
 
         // Add new row to the table
         const newRow = guestTableBody.insertRow();
@@ -578,16 +638,66 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         // Close modal and reset form
-        guestModal.style.display = "none";
+        document.getElementById("guestModal").style.display = "none";
         addGuestForm.reset();
+        alert("Guest successfully added!");
     });
 
-    // Event delegation for Edit Button
+    // Edit Guest Form Submission
+    saveGuestButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        const errors = validateForm(editGuestForm);
+        if (!showErrors(errors)) return; // Prevent saving if there are errors
+
+        // Update the selected row
+        if (selectedRow) {
+            selectedRow.cells[0].textContent = document.getElementById("editLastName").value;
+            selectedRow.cells[1].textContent = document.getElementById("editFirstName").value;
+            selectedRow.cells[2].textContent = document.getElementById("editMiddleName").value;
+            selectedRow.cells[3].textContent = document.getElementById("editGender").value;
+            selectedRow.cells[4].textContent = document.getElementById("editBirthdate").value;
+            selectedRow.cells[5].textContent = document.getElementById("editEmail").value;
+            selectedRow.cells[6].textContent = document.getElementById("editContactNumber").value;
+            selectedRow.cells[7].textContent = document.getElementById("editSpecialRequest").value;
+        }
+
+        // Close modal
+        document.getElementById("editGuestModal").style.display = "none";
+        alert("Guest information successfully updated!");
+    });
+
+    // Open Edit Modal
     guestTableBody.addEventListener("click", (e) => {
         if (e.target.classList.contains("edit-button")) {
-            openEditModal(e.target.closest("tr"));
+            selectedRow = e.target.closest("tr");
+            document.getElementById("editLastName").value = selectedRow.cells[0].textContent;
+            document.getElementById("editFirstName").value = selectedRow.cells[1].textContent;
+            document.getElementById("editMiddleName").value = selectedRow.cells[2].textContent;
+            document.getElementById("editGender").value = selectedRow.cells[3].textContent;
+            document.getElementById("editBirthdate").value = selectedRow.cells[4].textContent;
+            document.getElementById("editEmail").value = selectedRow.cells[5].textContent;
+            document.getElementById("editContactNumber").value = selectedRow.cells[6].textContent;
+            document.getElementById("editSpecialRequest").value = selectedRow.cells[7].textContent;
+
+            document.getElementById("editGuestModal").style.display = "block";
         }
     });
+
+    // Restrict numeric input fields
+    document.querySelectorAll("#contactNumber, #editContactNumber").forEach(input => {
+        input.addEventListener("keypress", (e) => {
+            if (!/\d/.test(e.key)) e.preventDefault();
+        });
+    });
+
+    // Automatically capitalize first letter of names
+    function capitalizeInput(e) {
+        e.target.value = e.target.value.replace(/\b\w/g, (char) => char.toUpperCase());
+    }
+
+    document.querySelectorAll("#lastName, #editLastName, #firstName, #editFirstName, #middleName, #editMiddleName")
+        .forEach((input) => input.addEventListener("input", capitalizeInput));
 });
+
 </script>
 @endsection

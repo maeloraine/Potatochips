@@ -379,7 +379,7 @@
                     <option value="Occupied">Occupied</option>
                 </select></label>
             </form>
-            <button type="submit" id="createRoom">Edit Room</button>
+            <button type="submit" id="createRoom">Add Room</button>
         </div>
     </div>
 </div>
@@ -399,37 +399,70 @@
     const editRoomModal = document.getElementById('editRoomModal');
     const closeEditRoomModal = document.getElementById('closeEditRoomModal');
     const editRoomButton = document.getElementById('editRoom');
+    const roomTableBody = document.querySelector("#roomTable tbody");
 
     let selectedRow = null; // Store the row being edited
 
-    // Function to open Edit Room Modal
+    // Function to validate room input
+    function validateRoomForm(form) {
+        let errors = [];
+
+        const roomNo = form.querySelector("#roomNo, #editRoomNo").value.trim();
+        const roomType = form.querySelector("#roomType, #editRoomType").value;
+        const roomRate = form.querySelector("#roomRate").value.trim();
+        const roomStatus = form.querySelector("#roomStatus, #editRoomStatus").value;
+
+        // Room No validation (must be numeric and unique)
+        if (!roomNo) {
+            errors.push("Room Number is required.");
+        } else if (!/^\d+$/.test(roomNo)) {
+            errors.push("Room Number must be numeric.");
+        } else {
+            const existingRooms = Array.from(roomTableBody.querySelectorAll("tr td:first-child")).map(td => td.textContent.trim());
+            if (existingRooms.includes(roomNo) && !selectedRow) {
+                errors.push("Room Number already exists.");
+            }
+        }
+
+        // Room Type validation
+        if (!roomType) errors.push("Room Type is required.");
+
+        // Room Rate validation (must be positive number)
+        if (!roomRate) {
+            errors.push("Room Rate is required.");
+        } else if (!/^\d+(\.\d{1,2})?$/.test(roomRate) || parseFloat(roomRate) <= 0) {
+            errors.push("Room Rate must be a positive number.");
+        }
+
+        // Room Status validation
+        if (!roomStatus) errors.push("Room Status is required.");
+
+        return errors;
+    }
+
+    // Function to display validation errors
+    function showErrors(errors) {
+        if (errors.length > 0) {
+            alert(errors.join("\n"));
+            return false;
+        }
+        return true;
+    }
+
+    // Open Edit Room Modal
     function openEditRoomModal(row) {
-        selectedRow = row; // Store the selected row
+        selectedRow = row;
         const cells = selectedRow.getElementsByTagName('td');
 
         // Populate modal fields with existing values
         document.getElementById('editRoomNo').value = cells[0].textContent;
         document.getElementById('editRoomType').value = cells[1].textContent;
-        document.getElementById('roomRate').value = cells[2].textContent.replace('$', ''); // Remove dollar sign
+        document.getElementById('roomRate').value = cells[2].textContent.replace('$', '');
         document.getElementById('editRoomStatus').value = cells[3].textContent;
 
         // Show the edit modal
         editRoomModal.style.display = 'block';
         editRoomOverlay.style.display = 'block';
-    }
-
-    // Function to attach event listeners to edit buttons
-    function attachEditButtonListeners() {
-        document.querySelectorAll('.edit-button').forEach((button) => {
-            button.removeEventListener('click', editButtonHandler);
-            button.addEventListener('click', editButtonHandler);
-        });
-    }
-
-    // Edit button event handler
-    function editButtonHandler(event) {
-        const row = event.target.closest('tr'); // Get the row
-        openEditRoomModal(row);
     }
 
     // Open Add Room Modal
@@ -449,58 +482,48 @@
     });
 
     // Add Room Functionality
-    createRoomButton.addEventListener('click', () => {
+    createRoomButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const errors = validateRoomForm(roomModal);
+        if (!showErrors(errors)) return; // Prevent adding if there are errors
+
         // Get form values
-        const roomNo = document.getElementById('roomNo').value;
+        const roomNo = document.getElementById('roomNo').value.trim();
         const roomType = document.getElementById('roomType').value;
-        const roomRate = document.getElementById('roomRate').value;
+        const roomRate = document.getElementById('roomRate').value.trim();
         const roomStatus = document.getElementById('roomStatus').value;
 
-        // Validate inputs
-        if (!roomNo || !roomType || !roomRate || !roomStatus) {
-            alert('Please fill in all fields.');
-            return;
-        }
+        // Add new row to the table
+        const newRow = roomTableBody.insertRow();
+        newRow.innerHTML = `
+            <td>${roomNo}</td>
+            <td>${roomType}</td>
+            <td>$${roomRate}</td>
+            <td>${roomStatus}</td>
+            <td><button class="edit-button">Edit</button></td>
+        `;
 
-        // Add the new room to the table
-        const roomTable = document.getElementById('roomTable').getElementsByTagName('tbody')[0];
-        const newRow = roomTable.insertRow();
-
-        // Insert new cells
-        newRow.insertCell(0).textContent = roomNo;  // Room No
-        newRow.insertCell(1).textContent = roomType;  // Room Type
-        newRow.insertCell(2).textContent = `$${roomRate}`;  // Room Rate
-        newRow.insertCell(3).textContent = roomStatus;  // Room Status
-
-        // Create Edit Button
-        const cell5 = newRow.insertCell(4);
-        const editButton = document.createElement('button');
-        editButton.classList.add('edit-button');
-        editButton.textContent = 'Edit';
-        cell5.appendChild(editButton);
-
-        // Attach event listener to the newly created Edit button
-        editButton.addEventListener('click', function () {
+        // Attach event listener to new Edit button
+        newRow.querySelector(".edit-button").addEventListener("click", function () {
             openEditRoomModal(newRow);
         });
 
-        // Clear form inputs
+        // Reset form and close modal
         document.getElementById('createRoomForm').reset();
-
-        // Close the modal
         roomModal.style.display = 'none';
-
         alert('Room Added Successfully!');
     });
 
     // Save Changes in Edit Modal
     editRoomButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent any form submission
+        e.preventDefault();
+        const errors = validateRoomForm(editRoomModal);
+        if (!showErrors(errors)) return; // Prevent saving if there are errors
 
         if (selectedRow) {
-            selectedRow.cells[0].textContent = document.getElementById('editRoomNo').value;
+            selectedRow.cells[0].textContent = document.getElementById('editRoomNo').value.trim();
             selectedRow.cells[1].textContent = document.getElementById('editRoomType').value;
-            selectedRow.cells[2].textContent = `$${document.getElementById('roomRate').value}`; // Add dollar sign
+            selectedRow.cells[2].textContent = `$${document.getElementById('roomRate').value.trim()}`;
             selectedRow.cells[3].textContent = document.getElementById('editRoomStatus').value;
 
             // Hide the modal after updating
@@ -511,8 +534,26 @@
         }
     });
 
+    // Restrict Room Number to Numeric Only
+    document.querySelectorAll("#roomNo, #editRoomNo").forEach(input => {
+        input.addEventListener("keypress", (e) => {
+            if (!/\d/.test(e.key)) e.preventDefault();
+        });
+    });
+
+    // Restrict Room Rate to Positive Numbers Only
+    document.querySelectorAll("#roomRate, #editRoomRate").forEach(input => {
+        input.addEventListener("input", (e) => {
+            e.target.value = e.target.value.replace(/[^0-9.]/g, ''); // Allow numbers and decimals
+        });
+    });
+
     // Attach event listeners to existing edit buttons at page load
-    attachEditButtonListeners();
+    document.querySelectorAll('.edit-button').forEach((button) => {
+        button.addEventListener('click', function () {
+            openEditRoomModal(button.closest('tr'));
+        });
+    });
 });
 
 </script>

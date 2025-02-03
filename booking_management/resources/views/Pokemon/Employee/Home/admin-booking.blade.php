@@ -539,12 +539,62 @@ document.addEventListener('DOMContentLoaded', function () {
     const editBookingOverlay = document.getElementById('editBookingOverlay');
     const editBookingModal = document.getElementById('editBookingModal');
     const closeEditBookingModal = document.getElementById('closeEditBookingModal');
-    const editBookingForm = document.getElementById('editGuestForm');
     const saveEditGuestButton = document.getElementById('saveEditGuest');
-
+    const addBookingForm = document.getElementById('addBookingForm');
+    const bookingTableBody = document.querySelector("#bookingTable tbody");
     let selectedRow = null;
 
-    // Function to open edit modal
+    // **Validation Function**
+    function validateBookingForm(form) {
+        let errors = [];
+
+        const guestName = form.querySelector("#GuestName, #editGuestName").value.trim();
+        const roomNo = form.querySelector("#roomNo, #editRoomNo").value.trim();
+        const checkInDate = form.querySelector("#checkInDate, #editCheckInDate").value;
+        const checkInTime = form.querySelector("#checkInTime, #editCheckInTime").value;
+        const checkOutDate = form.querySelector("#checkOutDate, #editCheckOutDate").value;
+        const checkOutTime = form.querySelector("#checkOutTime, #editCheckOutTime").value;
+
+        // Guest Name validation
+        if (!guestName || guestName.length < 3) {
+            errors.push("Guest Name must be at least 3 characters long.");
+        }
+
+        // Room Number validation
+        if (!roomNo || !/^\d+$/.test(roomNo)) {
+            errors.push("Room Number must be a numeric value.");
+        } else {
+            const existingRooms = Array.from(bookingTableBody.querySelectorAll("tr td:nth-child(2)")).map(td => td.textContent.trim());
+            if (existingRooms.includes(roomNo) && !selectedRow) {
+                errors.push("Room Number is already booked.");
+            }
+        }
+
+        // Check-In and Check-Out date validation
+        if (!checkInDate || !checkOutDate) {
+            errors.push("Check-In and Check-Out dates are required.");
+        } else {
+            const checkIn = new Date(`${checkInDate}T${checkInTime}`);
+            const checkOut = new Date(`${checkOutDate}T${checkOutTime}`);
+
+            if (checkOut <= checkIn) {
+                errors.push("Check-Out date/time must be later than Check-In date/time.");
+            }
+        }
+
+        return errors;
+    }
+
+    // **Show Validation Errors**
+    function showErrors(errors) {
+        if (errors.length > 0) {
+            alert(errors.join("\n"));
+            return false;
+        }
+        return true;
+    }
+
+    // **Open Edit Booking Modal**
     function openEditBookingModal(row) {
         selectedRow = row;
         const cells = selectedRow.getElementsByTagName('td');
@@ -560,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function () {
         editBookingOverlay.style.display = 'block';
     }
 
-    // Function to attach event listeners to edit buttons
+    // **Attach Edit Button Listeners**
     function attachEditButtonListeners() {
         document.querySelectorAll('.edit-button').forEach((button) => {
             button.removeEventListener('click', editButtonHandler);
@@ -568,81 +618,73 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Edit button event handler
+    // **Edit Button Handler**
     function editButtonHandler(event) {
         const row = event.target.closest('tr');
         openEditBookingModal(row);
     }
 
-    // Open Add Booking Modal
+    // **Open Add Booking Modal**
     addBookingButton.addEventListener('click', () => {
         bookingModal.style.display = 'block';
         addBookingOverlay.style.display = 'block';
     });
 
-    // Close Add Booking Modal
+    // **Close Add Booking Modal**
     closeBookingModal.addEventListener('click', () => {
         bookingModal.style.display = 'none';
         addBookingOverlay.style.display = 'none';
     });
 
-    // Close Edit Booking Modal
+    // **Close Edit Booking Modal**
     closeEditBookingModal.addEventListener('click', () => {
         editBookingModal.style.display = 'none';
         editBookingOverlay.style.display = 'none';
     });
 
-    // Add Booking Form Submission
-    document.getElementById('addBookingForm').addEventListener('submit', (e) => {
+    // **Add Booking Submission**
+    addBookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        const errors = validateBookingForm(bookingModal);
+        if (!showErrors(errors)) return;
 
-        const guestName = document.getElementById('GuestName').value;
-        const roomNo = document.getElementById('roomNo').value;
+        const guestName = document.getElementById('GuestName').value.trim();
+        const roomNo = document.getElementById('roomNo').value.trim();
         const checkInDate = document.getElementById('checkInDate').value;
         const checkInTime = document.getElementById('checkInTime').value;
         const checkOutDate = document.getElementById('checkOutDate').value;
         const checkOutTime = document.getElementById('checkOutTime').value;
 
-        const bookingTable = document.getElementById('bookingTable').getElementsByTagName('tbody')[0];
-        const newRow = bookingTable.insertRow();
+        const newRow = bookingTableBody.insertRow();
+        newRow.innerHTML = `
+            <td>${guestName}</td>
+            <td>${roomNo}</td>
+            <td>${checkInDate}</td>
+            <td>${checkInTime}</td>
+            <td>${checkOutDate}</td>
+            <td>${checkOutTime}</td>
+            <td><button class="edit-button">Edit</button></td>
+        `;
 
-        newRow.insertCell(0).textContent = guestName;
-        newRow.insertCell(1).textContent = roomNo;
-        newRow.insertCell(2).textContent = checkInDate;
-        newRow.insertCell(3).textContent = checkInTime;
-        newRow.insertCell(4).textContent = checkOutDate;
-        newRow.insertCell(5).textContent = checkOutTime;
-
-        // Create Edit Button
-        const cell6 = newRow.insertCell(6);
-        const editButton = document.createElement('button');
-        editButton.classList.add('edit-button');
-        editButton.textContent = 'Edit';
-        cell6.appendChild(editButton);
-
-        // Attach event listener to the new Edit button
-        editButton.addEventListener('click', function () {
+        newRow.querySelector(".edit-button").addEventListener("click", function () {
             openEditBookingModal(newRow);
         });
 
-        // Reset the form
-        document.getElementById('addBookingForm').reset();
-
-        // Close the Add Booking Modal
+        addBookingForm.reset();
         bookingModal.style.display = 'none';
         addBookingOverlay.style.display = 'none';
-
-        // Reattach event listeners to all edit buttons
-        attachEditButtonListeners();
+        alert('Booking Added Successfully!');
     });
 
-    // Update Booking Details
+    // **Save Edited Booking**
     saveEditGuestButton.addEventListener('click', (e) => {
         e.preventDefault();
+        const errors = validateBookingForm(editBookingModal);
+        if (!showErrors(errors)) return;
 
         if (selectedRow) {
-            selectedRow.cells[0].textContent = document.getElementById('editGuestName').value;
-            selectedRow.cells[1].textContent = document.getElementById('editRoomNo').value;
+            selectedRow.cells[0].textContent = document.getElementById('editGuestName').value.trim();
+            selectedRow.cells[1].textContent = document.getElementById('editRoomNo').value.trim();
             selectedRow.cells[2].textContent = document.getElementById('editCheckInDate').value;
             selectedRow.cells[3].textContent = document.getElementById('editCheckInTime').value;
             selectedRow.cells[4].textContent = document.getElementById('editCheckOutDate').value;
@@ -650,12 +692,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
             editBookingModal.style.display = 'none';
             editBookingOverlay.style.display = 'none';
+            alert('Booking Updated Successfully!');
         }
     });
 
-    // Attach event listeners to existing edit buttons at page load
+    // **Attach event listeners to edit buttons**
     attachEditButtonListeners();
 });
+
 
 // Check-In Modal Functions
 function openCheckInModal() {

@@ -351,14 +351,60 @@ document.addEventListener('DOMContentLoaded', function () {
     const editBillingOverlay = document.getElementById('editBillingOverlay');
     const editBillingModal = document.getElementById('editBillingModal');
     const closeEditBillingModal = document.getElementById('closeEditBillingModal');
-    const editBillingForm = document.getElementById('editBillingForm');
     const saveChangesButton = document.getElementById('saveChangesButton');
     const filterDropdown = document.getElementById('filterDropdown');
-    const tableBody = document.querySelector('#billingTable tbody');
-
+    const billingTableBody = document.querySelector("#billingTable tbody");
     let selectedRow = null;
 
-    // Function to open edit modal
+    // **Validation Function**
+    function validateBillingForm(form) {
+        let errors = [];
+
+        const guestName = form.querySelector("#guestName, #editGuestName").value.trim();
+        const invoiceNumber = form.querySelector("#invoiceNumber, #editInvoiceNumber").value.trim();
+        const dateIssued = form.querySelector("#dateIssued, #editDateIssued").value;
+        const dueDate = form.querySelector("#dueDate, #editDueDate").value;
+        const paymentStatus = form.querySelector("#paymentStatus, #editPaymentStatus").value;
+
+        // Guest Name validation
+        if (!guestName || guestName.length < 3) {
+            errors.push("Guest Name must be at least 3 characters long.");
+        }
+
+        // Invoice Number validation
+        if (!invoiceNumber || invoiceNumber.length < 3) {
+            errors.push("Invoice Number must be at least 3 characters long.");
+        }
+
+        // Date validations
+        if (!dateIssued || !dueDate) {
+            errors.push("Issued Date and Due Date are required.");
+        } else {
+            const issuedDateObj = new Date(dateIssued);
+            const dueDateObj = new Date(dueDate);
+            if (dueDateObj <= issuedDateObj) {
+                errors.push("Due Date must be later than Issued Date.");
+            }
+        }
+
+        // Payment Status validation
+        if (!paymentStatus) {
+            errors.push("Payment Status is required.");
+        }
+
+        return errors;
+    }
+
+    // **Show Validation Errors**
+    function showErrors(errors) {
+        if (errors.length > 0) {
+            alert(errors.join("\n"));
+            return false;
+        }
+        return true;
+    }
+
+    // **Open Edit Billing Modal**
     function openEditBillingModal(row) {
         selectedRow = row;
         const cells = selectedRow.getElementsByTagName('td');
@@ -373,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function () {
         editBillingOverlay.style.display = 'block';
     }
 
-    // Function to attach event listeners to edit buttons
+    // **Attach Edit Button Listeners**
     function attachEditButtonListeners() {
         document.querySelectorAll('.edit-button').forEach((button) => {
             button.removeEventListener('click', editButtonHandler);
@@ -381,93 +427,79 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Edit button event handler
+    // **Edit Button Handler**
     function editButtonHandler(event) {
         const row = event.target.closest('tr');
         openEditBillingModal(row);
     }
 
-    // Open Add Invoice Modal
+    // **Open Add Billing Modal**
     generateInvoiceButton.addEventListener('click', () => {
         invoiceModal.style.display = 'block';
     });
 
-    // Close Add Invoice Modal
+    // **Close Add Billing Modal**
     closeModalButton.addEventListener('click', () => {
         invoiceModal.style.display = 'none';
     });
 
-    // Close Edit Billing Modal
+    // **Close Edit Billing Modal**
     closeEditBillingModal.addEventListener('click', () => {
         editBillingModal.style.display = 'none';
         editBillingOverlay.style.display = 'none';
     });
 
-    // Add Invoice Form Submission
+    // **Add Billing Submission**
     createInvoiceButton.addEventListener('click', (e) => {
         e.preventDefault();
+        const errors = validateBillingForm(invoiceModal);
+        if (!showErrors(errors)) return;
 
-        const guestName = document.getElementById('guestName').value;
-        const invoiceNumber = document.getElementById('invoiceNumber').value;
+        const guestName = document.getElementById('guestName').value.trim();
+        const invoiceNumber = document.getElementById('invoiceNumber').value.trim();
         const dateIssued = document.getElementById('dateIssued').value;
         const dueDate = document.getElementById('dueDate').value;
         const paymentStatus = document.getElementById('paymentStatus').value;
 
-        if (!guestName || !invoiceNumber || !dateIssued || !dueDate || !paymentStatus) {
-            alert('Please fill out all fields before submitting.');
-            return;
-        }
+        const newRow = billingTableBody.insertRow();
+        newRow.innerHTML = `
+            <td>${guestName}</td>
+            <td>${invoiceNumber}</td>
+            <td>${dateIssued}</td>
+            <td>${dueDate}</td>
+            <td class="payment-status">${paymentStatus}</td>
+            <td><button class="edit-button">Edit</button></td>
+        `;
 
-        const newRow = tableBody.insertRow();
-
-        newRow.insertCell(0).textContent = guestName;
-        newRow.insertCell(1).textContent = invoiceNumber;
-        newRow.insertCell(2).textContent = dateIssued;
-        newRow.insertCell(3).textContent = dueDate;
-        newRow.insertCell(4).textContent = paymentStatus;
-
-        // Create Edit Button
-        const cell6 = newRow.insertCell(5);
-        const editButton = document.createElement('button');
-        editButton.classList.add('edit-button');
-        editButton.textContent = 'Edit';
-        cell6.appendChild(editButton);
-
-        // Attach event listener to the new Edit button
-        editButton.addEventListener('click', function () {
+        newRow.querySelector(".edit-button").addEventListener("click", function () {
             openEditBillingModal(newRow);
         });
 
-        // Reset the form
-        document.getElementById('invoiceForm').reset();
-
-        // Close the Add Invoice Modal
         invoiceModal.style.display = 'none';
-
-        // Reattach event listeners to all edit buttons
-        attachEditButtonListeners();
+        document.getElementById('invoiceForm').reset();
+        alert('Billing Added Successfully!');
     });
 
-    // Update Billing Details
+    // **Save Edited Billing**
     saveChangesButton.addEventListener('click', (e) => {
         e.preventDefault();
+        const errors = validateBillingForm(editBillingModal);
+        if (!showErrors(errors)) return;
 
         if (selectedRow) {
-            selectedRow.cells[0].textContent = document.getElementById('editGuestName').value;
-            selectedRow.cells[1].textContent = document.getElementById('editInvoiceNumber').value;
+            selectedRow.cells[0].textContent = document.getElementById('editGuestName').value.trim();
+            selectedRow.cells[1].textContent = document.getElementById('editInvoiceNumber').value.trim();
             selectedRow.cells[2].textContent = document.getElementById('editDateIssued').value;
             selectedRow.cells[3].textContent = document.getElementById('editDueDate').value;
             selectedRow.cells[4].textContent = document.getElementById('editPaymentStatus').value;
 
             editBillingModal.style.display = 'none';
             editBillingOverlay.style.display = 'none';
+            alert('Billing Updated Successfully!');
         }
     });
 
-    // Attach event listeners to existing edit buttons at page load
-    attachEditButtonListeners();
-
-    // Filter functionality
+    // **Filter Functionality**
     filterDropdown.addEventListener('change', () => {
         const filterValue = filterDropdown.value.toLowerCase();
         document.querySelectorAll('#billingTable tbody tr').forEach(row => {
@@ -475,6 +507,10 @@ document.addEventListener('DOMContentLoaded', function () {
             row.style.display = (filterValue === 'all' || paymentStatus === filterValue) ? '' : 'none';
         });
     });
+
+    // **Attach event listeners to edit buttons**
+    attachEditButtonListeners();
 });
+
     </script>
 @endsection
